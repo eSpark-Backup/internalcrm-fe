@@ -1,0 +1,29 @@
+.app_header {
+  background-color: #029e9c !important;
+}
+
+.app_header .app_header_toolbar {
+  padding-left: 40px;
+  padding-right: 40px;
+  height: 149px;
+  align-items: start;
+  padding-top: 25px;
+}
+
+.top_heading {
+  text-transform: uppercase !important;
+  padding-top: 13px;
+}
+
+.menu_popup .MuiPopover-paper {
+  top: 85px;
+}
+
+@media only screen and (max-width: 900px) {
+  .app_header .app_header_toolbar {
+    padding-left: 18px;
+    padding-right: 18px;
+    height: 100px;
+    padding-top: 25px;
+  }
+}
