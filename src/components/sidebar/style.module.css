@@ -1,0 +1,45 @@
+.sidebar_logo {
+  width: 160px;
+  margin: 17px auto 78px;
+}
+
+.sidebar_logo img {
+  width: 100%;
+}
+
+.item_button {
+  margin-bottom: 10px !important;
+  padding-top: 11px !important;
+  padding-bottom: 11px !important;
+}
+
+.item_button:hover {
+  background-color: #e6f5f4 !important;
+}
+
+.item_button:hover svg path {
+  filter: invert(10%) sepia(99%) saturate(678%) hue-rotate(139deg)
+    brightness(100%) contrast(98%);
+}
+
+.item_text span {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+}
+
+.item_button:hover .item_text {
+  color: #029e9c;
+}
+
+.active_link {
+  background-color: #e6f5f4 !important;
+}
+
+.active_link svg path {
+  filter: invert(10%) sepia(99%) saturate(678%) hue-rotate(139deg)
+    brightness(100%) contrast(98%);
+}
+
+.active_link .item_text {
+  color: #029e9c;
+}
