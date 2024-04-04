@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+
 import "react-circular-progressbar/dist/styles.css";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
@@ -17,7 +18,10 @@ const CircularProgressBar = ({ value }) => {
 
   return (
     <div
-      style={{ width: 150, height: "135px", padding: "10px 100px 15px 100px" }}
+      style={{
+        width: 150,
+        padding: "10px 0px 15px",
+      }}
     >
       <CircularProgressbar
         value={animatedValue}

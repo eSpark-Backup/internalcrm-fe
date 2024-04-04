@@ -1,11 +1,11 @@
-import "./App.css";
+import AppWrapper from "./router";
 
-import Dashboard from "./screens/dashboard";
+import "./styles/global.css";
 
 function App() {
   return (
     <>
-      <Dashboard />
+      <AppWrapper />
     </>
   );
 }
