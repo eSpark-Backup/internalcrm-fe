@@ -1,17 +1,13 @@
-import './App.css'
-import DynamicCard from './components/card'
-import CircularProgressBar from './components/circularProgressBar'
+import "./App.css";
+
+import Dashboard from "./screens/dashboard";
 
 function App() {
-
   return (
     <>
-    {/* <CircularProgressBar value={100} /> */}
-   <DynamicCard title="Ticket Status">
-      </DynamicCard>
-
+      <Dashboard />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
