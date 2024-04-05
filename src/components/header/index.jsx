@@ -16,13 +16,20 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
 
+import AppDialog from "../common/appDialog";
+
 import AccountCircle from "../../assets/logos/profile.svg?react";
 import NotificationsIcon from "../../assets/logos/notification.svg?react";
 import SearchIcon from "../../assets/logos/search.svg?react";
 import ChangePassword from "../../assets/logos/change-password.svg?react";
 import Logout from "../../assets/logos/logout.svg?react";
+import Delete from "../../assets/logos/delete.svg?react";
+import Checked from "../../assets/logos/check.svg?react";
+
+import { changePasswordFields } from "../../helper/changePassword";
 
 import styles from "./style.module.css";
+import { notifications } from "../../helper/notifications";
 
 const drawerWidth = 240;
 
@@ -66,14 +73,31 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function AppHeader({ handleDrawerToggle }) {
+  const [logoutModal, setLogoutModal] = React.useState(false);
+  const [changePasswordModal, setChangePasswordModal] = React.useState(false);
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [hoveredId, setHoveredId] = React.useState(null);
+
+  const [state, setState] = React.useState({
+    current_password: "",
+    new_password: "",
+    retype_new_password: "",
+  });
+
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [notificationAnchorEl, setNotificationAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
+  const isNotificationOpen = Boolean(notificationAnchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleNotificationOpen = (event) => {
+    setNotificationAnchorEl(event.currentTarget);
   };
 
   const handleMobileMenuClose = () => {
@@ -82,6 +106,7 @@ export default function AppHeader({ handleDrawerToggle }) {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+    setNotificationAnchorEl(null);
     handleMobileMenuClose();
   };
 
@@ -89,6 +114,11 @@ export default function AppHeader({ handleDrawerToggle }) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleInputChange = (key, value) => {
+    setState((state) => ({ ...state, [key]: value }));
+  };
+
+  // Menu Popup Styles
   const popup_styles = {
     "& .MuiPopover-paper": {
       top: "85px !important",
@@ -96,10 +126,13 @@ export default function AppHeader({ handleDrawerToggle }) {
       left: "unset !important",
       width: "200px",
       backgroundColor: "#F4F6F9",
-      border: "2px solid #E4E4E4",
+      border: "1px solid #E4E4E4",
+      boxShadow: "0px 20px 20px rgba(0, 0, 0, 0.25)",
+      borderRadius: "5px",
     },
   };
 
+  // Desktop Menu Section End
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -118,15 +151,27 @@ export default function AppHeader({ handleDrawerToggle }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose} className="menu_item password_item">
+      <MenuItem
+        onClick={() => {
+          setChangePasswordModal(true);
+          handleMenuClose();
+        }}
+        className="menu_item password_item"
+      >
         <span className="menu_item_icon">
           <ChangePassword />
         </span>
         <span className="inter-medium">Change password</span>
       </MenuItem>
       {/* <Divider /> */}
-      <MenuItem onClick={handleMenuClose} className="menu_item">
-        <Button className="inter-medium">
+      <MenuItem className="menu_item">
+        <Button
+          className="inter-medium"
+          onClick={() => {
+            setLogoutModal(true);
+            handleMenuClose();
+          }}
+        >
           <span className="menu_item_icon">
             <Logout />
           </span>
@@ -135,7 +180,9 @@ export default function AppHeader({ handleDrawerToggle }) {
       </MenuItem>
     </Menu>
   );
+  // Desktop Menu Section End
 
+  // Mobile Menu Section Start
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
@@ -154,41 +201,53 @@ export default function AppHeader({ handleDrawerToggle }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      <MenuItem className="mobile_menu_item">
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
+          className="mobile_icon_button"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge variant="dot" color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
 
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem className="mobile_menu_item" onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
+          className="mobile_icon_button"
         >
           <AccountCircle />
         </IconButton>
         <p>Profile</p>
       </MenuItem>
 
-      <MenuItem onClick={handleMenuClose} className="menu_item password_item">
+      <MenuItem
+        onClick={() => {
+          setChangePasswordModal(true);
+        }}
+        className="menu_item password_item"
+      >
         <span className="menu_item_icon">
           <ChangePassword />
         </span>
         <span className="inter-medium">Change password</span>
       </MenuItem>
-      {/* <Divider /> */}
-      <MenuItem onClick={handleMenuClose} className="menu_item">
-        <Button className="inter-medium">
+
+      <MenuItem className="menu_item">
+        <Button
+          className="inter-medium"
+          onClick={() => {
+            setLogoutModal(true);
+          }}
+        >
           <span className="menu_item_icon">
             <Logout />
           </span>
@@ -197,6 +256,107 @@ export default function AppHeader({ handleDrawerToggle }) {
       </MenuItem>
     </Menu>
   );
+  // Mobile Menu Section End
+
+  // Notifications Section Start
+  const notificationId = "primary-notification";
+  const renderNotification = (
+    <Menu
+      anchorEl={notificationAnchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={notificationId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      sx={[
+        popup_styles,
+        {
+          "& .MuiPopover-paper": {
+            right: "100px !important",
+            width: "455px",
+            scrollbarWidth: "none",
+          },
+          "& ul": {
+            padding: "0px",
+
+            "& li": {
+              cursor: "default",
+            },
+          },
+        },
+      ]}
+      open={isNotificationOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem className="notification_heading">
+        <span className="inter-semibold notify">Notifications</span>
+        <span className="inter-regular mark_read">Mark all as read</span>
+      </MenuItem>
+
+      <div className="all_notifications">
+        {notifications?.map((notification) => (
+          <div
+            key={notification.id}
+            className={`notification_box ${
+              notification.isRead ? "read" : "unread"
+            }`}
+            onMouseEnter={() => {
+              setHoveredId(notification.id);
+              setIsHovered(true);
+            }}
+            onMouseLeave={() => {
+              setHoveredId(null);
+              setIsHovered(false);
+            }}
+          >
+            <div className="action_button_parent flex-center">
+              <IconButton
+                className={`action_button checked ${
+                  !notification.isRead ||
+                  (isHovered && notification.id === hoveredId)
+                    ? "d-none"
+                    : ""
+                }`}
+              >
+                <Checked />
+              </IconButton>
+
+              <IconButton
+                className={`action_button delete ${
+                  notification.isRead ? "" : "d-block"
+                } ${
+                  isHovered && notification.id === hoveredId ? "d-block" : ""
+                }`}
+              >
+                <Delete />
+              </IconButton>
+            </div>
+
+            <div>
+              <Typography variant="h6" className="inter-regular">
+                New {notification.type} {notification.name} is successfully{" "}
+                {notification.action}
+              </Typography>
+
+              <Typography variant="body1" className="inter-light">
+                {notification.createdAt}
+              </Typography>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <MenuItem className="notification_footer">
+        <span className="inter-regular mark_read">View all notifications</span>
+      </MenuItem>
+    </Menu>
+  );
+  // Notifications Section End
 
   return (
     <Stack sx={{ flexGrow: 1, display: "block" }}>
@@ -248,9 +408,20 @@ export default function AppHeader({ handleDrawerToggle }) {
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              edge="end"
+              aria-controls={notificationId}
+              aria-haspopup="true"
               sx={{ marginRight: 1.25 }}
+              onClick={handleNotificationOpen}
             >
-              <Badge badgeContent={17} color="error">
+              <Badge
+                variant="dot"
+                sx={{
+                  "& .MuiBadge-badge": {
+                    backgroundColor: "#FF0000",
+                  },
+                }}
+              >
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -285,6 +456,34 @@ export default function AppHeader({ handleDrawerToggle }) {
 
       {renderMobileMenu}
       {renderMenu}
+      {renderNotification}
+
+      <AppDialog
+        open={changePasswordModal}
+        setOpen={setChangePasswordModal}
+        heading="Change Password"
+        multiInputs={true}
+        text="Are you sure you want to log out your account?"
+        doubleButton={true}
+        leftText="Cancel"
+        rightText="Save"
+        padding="30px 14px 30px 28px"
+        changePasswordFields={changePasswordFields}
+        muliStates={state}
+        onChange={handleInputChange}
+      />
+
+      <AppDialog
+        open={logoutModal}
+        setOpen={setLogoutModal}
+        heading="Log out"
+        textBox={true}
+        text="Are you sure you want to log out your account?"
+        doubleButton={true}
+        leftText="Cancel"
+        rightText="Log out"
+        padding="32px 38px"
+      />
     </Stack>
   );
 }

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 
 import Stack from "@mui/material/Stack";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -8,7 +9,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import Toolbar from "@mui/material/Toolbar";
 
 import AppHeader from "../header";
 
@@ -25,6 +25,7 @@ function ResponsiveDrawer(props) {
   const { window, children } = props;
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
@@ -52,7 +53,11 @@ function ResponsiveDrawer(props) {
 
       <List>
         {sidebar_links.map((Text) => (
-          <ListItem key={Text.id} disablePadding>
+          <ListItem
+            key={Text.id}
+            disablePadding
+            onClick={() => navigate(Text.route)}
+          >
             <ListItemButton
               className={`${styles.item_button} ${
                 Text.route === location?.pathname ? styles.active_link : ""
@@ -63,7 +68,7 @@ function ResponsiveDrawer(props) {
               </ListItemIcon>
               <ListItemText
                 primary={Text.heading}
-                className={`${styles.item_text} `}
+                className={`${styles.item_text} inter-medium`}
               />
             </ListItemButton>
           </ListItem>
@@ -77,7 +82,7 @@ function ResponsiveDrawer(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Stack sx={{ display: "flex" }}>
+    <Stack sx={{ display: "flex", height: "100%" }}>
       <CssBaseline />
 
       <AppHeader handleDrawerToggle={handleDrawerToggle} />
@@ -119,6 +124,7 @@ function ResponsiveDrawer(props) {
               boxSizing: "border-box",
               width: drawerWidth,
               border: "none",
+              boxShadow: "4px 0px 15px rgba(0, 0, 0, 0.1)",
             },
           }}
           open
@@ -129,19 +135,11 @@ function ResponsiveDrawer(props) {
 
       <Stack
         component="main"
+        className={styles.main_comp}
         sx={{
-          flexGrow: 1,
-          padding: { xs: "0px 18px", md: "0px 40px" },
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          display: "block",
-          marginLeft: { xs: "0px", sm: "auto" },
         }}
       >
-        <Toolbar
-          sx={{
-            height: { xs: "100px", md: "149px" },
-          }}
-        />
         {children}
       </Stack>
     </Stack>
