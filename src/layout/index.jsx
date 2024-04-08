@@ -1,9 +1,18 @@
+import { Stack } from "@mui/material";
+
+import Footer from "../components/footer";
 import Sidebar from "../components/sidebar";
 
 const AppLayout = ({ children }) => {
   return (
     <Sidebar>
-      <div>{children}</div>
+      <Stack
+        sx={{ display: "block", padding: { xs: "0px 18px", md: "0px 40px" } }}
+      >
+        {children}
+      </Stack>
+
+      <Footer />
     </Sidebar>
   );
 };

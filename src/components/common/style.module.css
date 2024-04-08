@@ -1,0 +1,74 @@
+/* .box_style {
+  position: absolute;
+  top: 50% !important;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 450px !important;
+  background-color: #fff;
+  border-radius: 5px;
+  border: none;
+}
+
+.box_style:focus-visible {
+  outline: none !important;
+} */
+
+.dialog_title {
+  color: #068987 !important;
+  text-align: center;
+  padding: 0px !important;
+}
+
+.dialog_content {
+  padding: 0px !important;
+}
+
+.dialog_description {
+  font-size: 14px !important;
+  text-align: center;
+  margin: 43px 0px 50px !important;
+}
+
+.form {
+  margin: 24px 0px 40px;
+}
+
+.form_control {
+  width: 100%;
+}
+
+.input_label {
+  font-size: 14px !important;
+  color: #595959 !important;
+}
+
+.double_button_box {
+  text-align: center !important;
+}
+
+.dialog_actions button {
+  width: 120px;
+  /* padding: 10px 0px; */
+  text-transform: capitalize;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.outlined_button {
+  border: 1px solid #029894 !important;
+  color: #029894 !important;
+  margin-right: 13px !important;
+}
+
+.filled_button {
+  background-color: #029894 !important;
+  color: #ffffff !important;
+}
+
+.dialog_actions {
+  justify-content: center !important;
+  padding: 0px !important;
+}
