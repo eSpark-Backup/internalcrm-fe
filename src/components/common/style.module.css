@@ -28,8 +28,6 @@
 
 .dialog_description {
   font-size: 14px !important;
-  text-align: center;
-  margin: 43px 0px 50px !important;
 }
 
 .form {
@@ -38,6 +36,7 @@
 
 .form_control {
   width: 100%;
+  position: relative;
 }
 
 .input_label {
@@ -71,4 +70,79 @@
 .dialog_actions {
   justify-content: center !important;
   padding: 0px !important;
+}
+
+.inner_header {
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 31px 0px 33px 40px;
+  margin: 0px auto 0px;
+  width: 82.5%;
+  height: 96px;
+  top: -49px;
+  position: relative;
+  z-index: 1100;
+}
+
+.inner_header_heading {
+  color: #068987 !important;
+  font-size: 26px !important;
+  line-height: 31px !important;
+  text-transform: uppercase;
+}
+
+.eye_icon {
+  position: absolute;
+  top: 32px;
+  right: 13px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .inner_header {
+    padding: 27px 0px 29px 35px;
+    width: 92.5%;
+    height: 86px;
+  }
+
+  .inner_header_heading {
+    font-size: 24px !important;
+    line-height: 29px !important;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .inner_header {
+    top: 0px;
+    margin: 20px auto 30px;
+  }
+
+  .dialog_actions button {
+    width: 100px;
+    padding: 4px 6px !important;
+  }
+
+  .form {
+    margin: 20px 0px 30px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .inner_header {
+    width: 100%;
+  }
+
+  .dialog_actions button {
+    width: 95px;
+    padding: 3px 6px !important;
+  }
+
+  .app_input input {
+    padding: 6px 10px !important;
+  }
+
+  .form {
+    margin: 15px 0px 20px;
+  }
 }

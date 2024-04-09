@@ -1,7 +1,5 @@
 import * as React from "react";
 
-import { styled } from "@mui/material/styles";
-
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,37 +7,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Stack from "@mui/material/Stack";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import InputBase from "@mui/material/InputBase";
+
+import AppInput from "./appInput";
 
 import styles from "./style.module.css";
-
-const BootstrapInput = styled(InputBase)(({ theme }) => ({
-  "label + &": {
-    marginTop: theme.spacing(2.5),
-  },
-  "& .MuiInputBase-input": {
-    borderRadius: 5,
-    position: "relative",
-    backgroundColor: "#ffffff",
-    border: "1px solid",
-    borderColor: "#E4E4E4",
-    fontSize: 16,
-    width: "100%",
-    padding: "10px 12px",
-    transition: theme.transitions.create([
-      "border-color",
-      "background-color",
-      "box-shadow",
-    ]),
-  },
-}));
 
 export default function AppDialog(props) {
   const {
     open,
-    setOpen,
     heading,
     textBox,
     text,
@@ -52,11 +27,17 @@ export default function AppDialog(props) {
     changePasswordFields,
     onChange,
     muliStates,
+    singleInput,
+    label,
+    placeholder,
+    value,
+    textClass,
+    weight,
+    margin,
+    handleClose,
+    onClick,
+    dialog_content_custom,
   } = props;
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <React.Fragment>
@@ -76,46 +57,45 @@ export default function AppDialog(props) {
           {heading}
         </DialogTitle>
 
-        <DialogContent className={styles.dialog_content}>
+        <DialogContent
+          className={`${styles.dialog_content} ${dialog_content_custom}`}
+          sx={{ margin }}
+        >
           {textBox ? (
             <DialogContentText
               id="alert-dialog-slide-description"
-              className={`inter-regular ${styles.dialog_description}`}
+              className={`inter-${weight} ${styles.dialog_description} ${textClass}`}
             >
               {text}
             </DialogContentText>
           ) : null}
 
-          {multiInputs ? (
+          {multiInputs && (
             <form noValidate autoComplete="off" className={styles.form}>
               {changePasswordFields?.map((field) => {
                 return (
-                  <FormControl
-                    variant="standard"
-                    className={styles.form_control}
+                  <AppInput
+                    onChange={(e) => onChange(field.name, e.target.value)}
                     key={field.id}
+                    id={field.id}
                     sx={{ marginTop: field.id !== 0 ? "15px" : "0px" }}
-                  >
-                    <InputLabel
-                      shrink
-                      htmlFor="bootstrap-input"
-                      className={`inter-medium ${styles.input_label}`}
-                    >
-                      {field.label}
-                    </InputLabel>
-
-                    <BootstrapInput
-                      placeholder={field.placeholder}
-                      value={muliStates[field.name]}
-                      id="bootstrap-input"
-                      className="inter-regular"
-                      onChange={(e) => onChange(field.name, e.target.value)}
-                    />
-                  </FormControl>
+                    label={field.label}
+                    placeholder={field.placeholder}
+                    value={muliStates[field.name]}
+                  />
                 );
               })}
             </form>
-          ) : null}
+          )}
+
+          {singleInput && (
+            <AppInput
+              onChange={onChange}
+              label={label}
+              placeholder={placeholder}
+              value={value}
+            />
+          )}
         </DialogContent>
 
         <DialogActions className={styles.dialog_actions}>
@@ -124,11 +104,17 @@ export default function AppDialog(props) {
               sx={{ display: "block" }}
               className={styles.double_button_box}
             >
-              <Button className={`inter-semibold ${styles.outlined_button}`}>
+              <Button
+                className={`inter-semibold ${styles.outlined_button}`}
+                onClick={handleClose}
+              >
                 {leftText}
               </Button>
 
-              <Button className={`inter-semibold ${styles.filled_button}`}>
+              <Button
+                className={`inter-semibold ${styles.filled_button}`}
+                onClick={onClick}
+              >
                 {rightText}
               </Button>
             </Stack>
