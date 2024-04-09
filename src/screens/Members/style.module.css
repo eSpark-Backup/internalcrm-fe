@@ -1,0 +1,74 @@
+.container_style {
+  margin-top: 8px !important;
+  width: 100% !important;
+}
+
+.card_style {
+  border: 1px solid #e4e4e4 !important;
+  border-radius: 10px !important;
+  border-top-width: 8px !important;
+}
+
+.card_style:hover {
+  border-top-color: #029e9c !important;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.card_content {
+  padding: 17px 19px 18px 17px !important;
+}
+
+.user_image {
+  width: 30px;
+  height: 30px;
+  background-color: #d9d9d9;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.name_heading {
+  font-size: 16px !important;
+  color: #595959 !important;
+  line-height: 19px !important;
+}
+
+.member_detail {
+  line-height: 19px !important;
+  color: #595959;
+}
+
+.title {
+  font-size: 25px !important;
+  line-height: 30px !important;
+  color: #595959 !important;
+  margin-top: 8px !important;
+}
+
+.footer_buttons button {
+  background: #e6f5f4 !important;
+  border: 1px solid #068987;
+  border-radius: 50px;
+  padding: 8px 0px !important;
+  width: 120px;
+  font-size: 12px;
+  line-height: 15px;
+  color: #068987;
+  text-transform: capitalize;
+  cursor: default;
+}
+
+.projects {
+  margin-right: 10px !important;
+}
+
+.edit {
+  width: 35px;
+  height: 35px;
+  border-radius: 50% !important;
+  background-color: #068987 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 0 !important;
+  padding: 0px !important;
+}

@@ -2,7 +2,6 @@ import { Stack } from "@mui/material";
 
 import Footer from "../components/footer";
 import Sidebar from "../components/sidebar";
-import InnerHeader from "../components/common/innerHeader";
 
 const AppLayout = ({ children }) => {
   return (
@@ -14,7 +13,6 @@ const AppLayout = ({ children }) => {
           position: "relative",
         }}
       >
-        <InnerHeader />
         {children}
       </Stack>
 

@@ -76,6 +76,14 @@ body,
   display: none !important;
 }
 
+.opacity-1 {
+  opacity: 1 !important;
+}
+
+.opacity-0 {
+  opacity: 0 !important;
+}
+
 /* Menu Items Styles Start */
 .menu_item {
   padding-left: 10px !important;
