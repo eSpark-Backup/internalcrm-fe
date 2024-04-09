@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { styled } from "@mui/material/styles";
 
@@ -25,11 +26,12 @@ import ChangePassword from "../../assets/logos/change-password.svg?react";
 import Logout from "../../assets/logos/logout.svg?react";
 import Delete from "../../assets/logos/delete.svg?react";
 import Checked from "../../assets/logos/check.svg?react";
+import Logo from "../../assets/logos/login-logo.svg?react";
 
 import { changePasswordFields } from "../../helper/changePassword";
+import { notifications } from "../../helper/notifications";
 
 import styles from "./style.module.css";
-import { notifications } from "../../helper/notifications";
 
 const drawerWidth = 240;
 
@@ -73,6 +75,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function AppHeader({ handleDrawerToggle }) {
+  // const token = localStorage.getItem("token");
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [logoutModal, setLogoutModal] = React.useState(false);
   const [changePasswordModal, setChangePasswordModal] = React.useState(false);
   const [isHovered, setIsHovered] = React.useState(false);
@@ -215,7 +222,10 @@ export default function AppHeader({ handleDrawerToggle }) {
         <p>Notifications</p>
       </MenuItem>
 
-      <MenuItem className="mobile_menu_item" onClick={handleProfileMenuOpen}>
+      <MenuItem
+        className="mobile_menu_item"
+        // onClick={handleProfileMenuOpen}
+      >
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -358,99 +368,155 @@ export default function AppHeader({ handleDrawerToggle }) {
   );
   // Notifications Section End
 
+  const handleClose = () => {
+    setChangePasswordModal(false);
+    setLogoutModal(false);
+  };
+
+  const onClick = () => {
+    handleClose();
+    navigate("/");
+  };
+
   return (
     <Stack sx={{ flexGrow: 1, display: "block" }}>
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          // width: { sm: token ? `calc(100% - ${drawerWidth}px)` : "100%" },
+          // ml: { sm: token ? `calc(100% - ${drawerWidth}px)` : "0px" },
+          width: {
+            md:
+              location.pathname !== "/"
+                ? `calc(100% - ${drawerWidth}px)`
+                : "100%",
+          },
+          ml: {
+            md:
+              location.pathname !== "/"
+                ? `calc(100% - ${drawerWidth}px)`
+                : "0px",
+          },
         }}
         className={styles.app_header}
       >
-        <Toolbar className={styles.app_header_toolbar}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: { xs: 1, sm: 2 }, display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
+        <Toolbar
+          className={`${styles.app_header_toolbar} ${
+            location.pathname === "/" && styles.login_header
+          }`}
+        >
+          {location.pathname !== "/" && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: { xs: 1, sm: 2 }, display: { sm: "none" } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
 
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
-            className={styles.top_heading}
-          >
-            Welcome, Admin
-          </Typography>
-
-          <Stack sx={{ flexGrow: 1, display: "block" }} />
-
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder=""
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
+          {location.pathname !== "/" ? (
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: "none", sm: "block" } }}
+              className={`${styles.top_heading} inter-medium`}
+            >
+              Welcome, Admin
+            </Typography>
+          ) : (
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              className={`${styles.top_heading} inter-bold ${styles.login_heading}`}
+            >
+              WELCOME TO <span>eSpark-Fusion</span>
+            </Typography>
+          )}
 
           <Stack
-            sx={{ display: { xs: "none", md: "flex" }, flexDirection: "row" }}
-          >
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-              edge="end"
-              aria-controls={notificationId}
-              aria-haspopup="true"
-              sx={{ marginRight: 1.25 }}
-              onClick={handleNotificationOpen}
+            sx={{
+              flexGrow: 1,
+              display: { xs: location.pathname === "/" && "none", sm: "block" },
+            }}
+          />
+
+          {location.pathname !== "/" && (
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder=""
+                inputProps={{ "aria-label": "search" }}
+              />
+            </Search>
+          )}
+
+          {location.pathname !== "/" && (
+            <Stack
+              sx={{ display: { xs: "none", md: "flex" }, flexDirection: "row" }}
             >
-              <Badge
-                variant="dot"
-                sx={{
-                  "& .MuiBadge-badge": {
-                    backgroundColor: "#FF0000",
-                  },
-                }}
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+                edge="end"
+                aria-controls={notificationId}
+                aria-haspopup="true"
+                sx={{ marginRight: 1.25 }}
+                onClick={handleNotificationOpen}
               >
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+                <Badge
+                  variant="dot"
+                  sx={{
+                    "& .MuiBadge-badge": {
+                      backgroundColor: "#FF0000",
+                    },
+                  }}
+                >
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
 
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Stack>
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </Stack>
+          )}
 
-          <Stack sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Stack>
+          {location.pathname !== "/" && (
+            <Stack sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="show more"
+                aria-controls={mobileMenuId}
+                aria-haspopup="true"
+                onClick={handleMobileMenuOpen}
+                color="inherit"
+              >
+                <MoreIcon />
+              </IconButton>
+            </Stack>
+          )}
+
+          {location.pathname === "/" && (
+            <Stack className={styles.logo}>
+              <Logo />
+            </Stack>
+          )}
         </Toolbar>
       </AppBar>
 
@@ -471,18 +537,24 @@ export default function AppHeader({ handleDrawerToggle }) {
         changePasswordFields={changePasswordFields}
         muliStates={state}
         onChange={handleInputChange}
+        handleClose={handleClose}
       />
 
       <AppDialog
         open={logoutModal}
-        setOpen={setLogoutModal}
+        padding="32px 38px"
         heading="Log out"
         textBox={true}
         text="Are you sure you want to log out your account?"
         doubleButton={true}
         leftText="Cancel"
         rightText="Log out"
-        padding="32px 38px"
+        textClass={styles.text_class}
+        weight="regular"
+        margin="43px 0px 50px"
+        handleClose={handleClose}
+        onClick={onClick}
+        dialog_content_custom={styles.dialog_content_custom}
       />
     </Stack>
   );

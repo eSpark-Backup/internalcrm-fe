@@ -230,3 +230,14 @@ body,
   background-color: rgba(0, 0, 0, 0.3);
 }
 /* Dialog Styles End */
+
+@media only screen and (max-width: 600px) {
+  /* Dialog Styles Start */
+  .box_style .MuiDialog-paper {
+    width: 90% !important;
+    margin: 0px !important;
+    padding: 21px 15px !important;
+  }
+
+  /* Dialog Styles End */
+}

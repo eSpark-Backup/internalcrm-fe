@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import Stack from "@mui/material/Stack";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,11 +17,12 @@ import Logo from "../../assets/logos/eSpark-logo.svg?react";
 import { sidebar_links } from "../../helper/sidebar";
 
 import styles from "./style.module.css";
-import { useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
+  // const token = localStorage.getItem("token");
+
   const { window, children } = props;
 
   const location = useLocation();
@@ -87,57 +88,66 @@ function ResponsiveDrawer(props) {
 
       <AppHeader handleDrawerToggle={handleDrawerToggle} />
 
-      <Stack
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onTransitionEnd={handleDrawerTransitionEnd}
-          onClose={handleDrawerClose}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-              border: "none",
-            },
-          }}
+      {location.pathname !== "/" && (
+        <Stack
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
         >
-          {drawer}
-        </Drawer>
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
 
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onTransitionEnd={handleDrawerTransitionEnd}
+            onClose={handleDrawerClose}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { xs: "block", md: "none" },
 
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-              border: "none",
-              boxShadow: "4px 0px 15px rgba(0, 0, 0, 0.1)",
-            },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Stack>
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+                border: "none",
+              },
+            }}
+          >
+            {drawer}
+          </Drawer>
+
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: "none", md: "block" },
+
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+                border: "none",
+                boxShadow: "4px 0px 15px rgba(0, 0, 0, 0.1)",
+              },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Stack>
+      )}
 
       <Stack
         component="main"
         className={styles.main_comp}
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: {
+            sm: "100%",
+            md:
+              location.pathname !== "/"
+                ? `calc(100% - ${drawerWidth}px)`
+                : "100%",
+          },
         }}
       >
         {children}
