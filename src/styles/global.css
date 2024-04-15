@@ -230,3 +230,26 @@ body,
   background-color: rgba(0, 0, 0, 0.3);
 }
 /* Dialog Styles End */
+
+.card_style {
+  flex: 1;
+  border-top: 9px solid #e4e4e4;
+  border-radius: 15px;
+  margin-right: 10px;
+  width: 30%;
+}
+
+.card_style:hover {
+  flex: 1;
+  border-top: 9px solid #029e9c;
+  border-radius: 15px;
+  margin-right: 10px;
+  box-shadow: 0px 0px 15px 5px rgba(128, 128, 128, 0.5);
+}
+
+.card_style:hover .view_button {
+  opacity: 1;
+  background-color: #e6f5f4;
+  border: 2px solid #068987;
+  color: #068987;
+}

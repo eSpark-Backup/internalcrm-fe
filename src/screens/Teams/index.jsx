@@ -10,6 +10,7 @@ import {
 import DynamicCard from "../../components/card";
 import styles from "./style.module.css";
 import { Search } from "@mui/icons-material";
+import SearchBar from "../../components/search";
 
 const Teams = () => {
   const [searchTeam, setSearchTeam] = useState("");
@@ -36,12 +37,12 @@ const Teams = () => {
     transition: "opacity 0.3s ease",
   };
 
-  const handleSearchTeam = (event) => {
-    setSearchTeam(event.target.value);
+  const handleSearchTeam = (value) => {
+    setSearchTeam(value);
   };
 
-  const handleSearchJobTitle = (event) => {
-    setSearchJobTitle(event.target.value);
+  const handleSearchJobTitle = (value) => {
+    setSearchJobTitle(value);
   };
 
   const filteredTeams = teams.filter((team) => {
@@ -63,47 +64,17 @@ const Teams = () => {
   return (
     <div>
       <div style={{ display: "flex", marginTop: "20px" }}>
-        <TextField
+        {/* Render the SearchBar component for team name */}
+        <SearchBar
           placeholder="Search by team name"
-          variant="outlined"
-          onChange={handleSearchTeam}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <IconButton>
-                  <Search />
-                </IconButton>
-              </InputAdornment>
-            ),
-            sx: {
-              marginRight: "40px",
-              "& .MuiOutlinedInput-input": {
-                padding: "10px", // Adjust the input padding as needed
-              },
-            },
-          }}
+          onSearch={handleSearchTeam}
         />
-        <TextField
+        {/* Render the SearchBar component for job title */}
+        <SearchBar
           placeholder="Search by job title"
-          variant="outlined"
-          onChange={handleSearchJobTitle}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <IconButton>
-                  <Search />
-                </IconButton>
-              </InputAdornment>
-            ),
-            sx: {
-              marginRight: "40px",
-              "& .MuiOutlinedInput-input": {
-                padding: "10px", // Adjust the input padding as needed
-              },
-            },
-          }}
+          onSearch={handleSearchJobTitle}
         />
-        <Box 
+        <Box
           display="flex"
           alignItems="center"
           borderRadius="4px"
@@ -112,14 +83,14 @@ const Teams = () => {
           backgroundColor="#029894"
         >
           <IconButton>
-            <Search style={{ color: 'white' }} />
+            <Search style={{ color: "white" }} />
           </IconButton>
         </Box>
       </div>
       {teamsChunks.map((chunk, index) => (
         <div key={index} className={styles.container_style}>
           {chunk.map((team, idx) => (
-            <div key={idx} className={styles.card_style}>
+            <div key={idx} className="card_style">
               <DynamicCard hideTitleAndHr>
                 <Typography
                   sx={{
@@ -141,7 +112,7 @@ const Teams = () => {
                 </Typography>
                 <div className={styles.button_container}>
                   <Button
-                    className={styles.view_button}
+                    className="view_button"
                     variant="contained"
                     sx={buttonStyles}
                   >

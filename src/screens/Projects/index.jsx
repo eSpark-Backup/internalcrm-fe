@@ -1,11 +1,65 @@
-import { useState } from "react";
-import { Typography } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  IconButton,
+  Typography,
+  TextField,
+  Modal,
+} from "@mui/material";
 import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
 import DynamicCard from "../../components/card";
 import styles from "./style.module.css";
+import SearchBar from "../../components/search";
+import { Search } from "@mui/icons-material";
+
+
 
 const Projects = () => {
   const [hoveredCards, setHoveredCards] = useState([]);
+  const [searchNameValue, setSearchNameValue] = useState(""); 
+  const [searchMonthValue, setSearchMonthValue] = useState(""); 
+  const [isAddProjectOpen, setIsAddProjectOpen] = useState(false); 
+
+  const handleNameSearch = (value) => {
+    setSearchNameValue(value); 
+  };
+
+  const handleMonthSearch = (value) => {
+    setSearchMonthValue(value); 
+  };
+
+  const projectData = [
+    { name: "ABC Project", date: "12 September, 23" },
+    { name: "ABC Project", date: "12 September, 23" },
+    { name: "ABC Project", date: "12 September, 23" },
+    { name: "XYZ Project", date: "15 October, 23" },
+    { name: "XYZ Project", date: "15 October, 23" },
+    { name: "XYZ Project", date: "15 October, 23" },
+  ];
+
+  const chunkArray = (array, chunkSize) => {
+    return Array(Math.ceil(array.length / chunkSize))
+      .fill()
+      .map((_, index) => index * chunkSize)
+      .map((begin) => array.slice(begin, begin + chunkSize));
+  };
+
+  const filteredByNameProjects = projectData.filter((project) =>
+    project.name.toLowerCase().includes(searchNameValue.toLowerCase())
+  );
+
+  const filteredByMonthProjects = projectData.filter((project) =>
+    project.date.toLowerCase().includes(searchMonthValue.toLowerCase())
+  );
+
+  const filteredProjects = projectData.filter(
+    (project) =>
+      project.name.toLowerCase().includes(searchNameValue.toLowerCase()) &&
+      project.date.toLowerCase().includes(searchMonthValue.toLowerCase())
+  );
+
+  const teamsChunks = chunkArray(filteredProjects, 3);
 
   const handleMouseEnter = (index) => {
     setHoveredCards((prev) => {
@@ -23,32 +77,165 @@ const Projects = () => {
     });
   };
 
-  const projectData = [
-    { name: "ABC Project", date: "12 September, 23" },
-    { name: "ABC Project", date: "12 September, 23" },
-    { name: "ABC Project", date: "12 September, 23" },
-    { name: "ABC Project", date: "12 September, 23" },
-    { name: "ABC Project", date: "12 September, 23" },
-    { name: "ABC Project", date: "12 September, 23" },
-  ];
-
-  const chunkArray = (array, chunkSize) => {
-    return Array(Math.ceil(array.length / chunkSize))
-      .fill()
-      .map((_, index) => index * chunkSize)
-      .map((begin) => array.slice(begin, begin + chunkSize));
+  const openAddProjectPopup = () => {
+    setIsAddProjectOpen(true);
   };
 
-  const teamsChunks = chunkArray(projectData, 3);
+  const closeAddProjectPopup = () => {
+    setIsAddProjectOpen(false);
+  };
 
   return (
     <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "20px",
+          marginBottom: "20px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+          }}
+        >
+          <SearchBar
+            placeholder="Search projects by name"
+            onSearch={handleNameSearch}
+          />
+          <SearchBar
+            placeholder="Search projects by month"
+            onSearch={handleMonthSearch}
+          />
+          <Box
+            display="flex"
+            alignItems="center"
+            borderRadius="4px"
+            padding="8px"
+            height="43px"
+            backgroundColor="#029894"
+          >
+            <IconButton>
+              <Search style={{ color: "white" }} />
+            </IconButton>
+          </Box>
+        </div>
+        <Button
+          onClick={openAddProjectPopup}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            borderRadius: "4px",
+            padding: "20px 40px",
+            height: "43px",
+            backgroundColor: "#029894",
+          }}
+        >
+          <span style={{ color: "#fff", textTransform: "capitalize" }}>
+            Add Project
+          </span>
+        </Button>
+      </div>
+
+      <Modal
+        open={isAddProjectOpen}
+        onClose={closeAddProjectPopup}
+        aria-labelledby="add-project-modal-title"
+        aria-describedby="add-project-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 450,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: "10px",
+          }}
+        >
+          <Typography
+            id="add-project-modal-title"
+            variant="h6"
+            component="h2"
+            gutterBottom
+            sx={{
+              textAlign: "center",
+              fontWeight: "bold",
+              color: "#068987",
+              marginBottom: "15px",
+            }}
+          >
+            Create Project
+          </Typography>
+          <TextField
+            label="Enter project name"
+            fullWidth
+            sx={{
+              marginBottom: "10px",
+              "& .MuiInputLabel-root": {
+                color: "#888888",
+                fontSize: "14px",
+                marginTop: "-6px",
+              },
+              "& .MuiOutlinedInput-input": {
+                padding: "8px",
+              },
+            }}
+          />
+          <TextField
+            label="Enter starting date (DD/MM/YYYY)"
+            fullWidth
+            sx={{
+              marginBottom: "10px",
+              "& .MuiInputLabel-root": {
+                color: "#888888",
+                fontSize: "14px",
+                marginTop: "-6px",
+              },
+              "& .MuiOutlinedInput-input": {
+                padding: "8px",
+              },
+            }}
+          />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              onClick={closeAddProjectPopup}
+              sx={{
+                padding: "6px 35px",
+                color: "#068987",
+                border: "1px solid #068987",
+                textTransform: "capitalize",
+                marginRight: "10px",
+                marginTop: "20px",
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{
+                padding: "6px 35px",
+                color: "#fff",
+                background: "#068987",
+                textTransform: "capitalize",
+                marginTop: "20px",
+              }}
+            >
+              Create
+            </Button>
+          </div>
+        </Box>
+      </Modal>
+
       {teamsChunks.map((chunk, chunkIndex) => (
         <div key={chunkIndex} style={{ display: "flex", marginBottom: "20px" }}>
           {chunk.map((project, index) => (
             <div
               key={index}
-              className={styles.card_style}
+              className="card_style"
               onMouseEnter={() => handleMouseEnter(index + chunkIndex * 3)}
               onMouseLeave={() => handleMouseLeave(index + chunkIndex * 3)}
             >
