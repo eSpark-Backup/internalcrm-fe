@@ -11,6 +11,8 @@ const AppLayout = ({ children }) => {
           display: "block",
           padding: { xs: "0px 18px", md: "0px 40px" },
           position: "relative",
+          overflow: "hidden",
+          height: "100%",
         }}
       >
         {children}

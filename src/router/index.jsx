@@ -7,6 +7,7 @@ import AppLayout from "../layout";
 import Login from "../screens/auth/login";
 import Dashboard from "../screens/dashboard";
 import Members from "../screens/Members";
+import AddEditMember from "../screens/Members/addEditMember";
 import Teams from "../screens/Teams";
 import Projects from "../screens/Projects";
 // import PublicRoute from "./publicRoute";
@@ -24,6 +25,10 @@ const AppRoutes = () => {
     {
       path: "/members",
       element: <Members />,
+    },
+    {
+      path: "/members/addMember",
+      element: <AddEditMember />,
     },
     {
       path: "/teams",

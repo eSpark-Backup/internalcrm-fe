@@ -11,6 +11,9 @@ const WithHeader = (props) => {
     dualButtonText1,
     dualButtonText2,
     handleInactive,
+    singleButton,
+    singleButtonText,
+    handleClick,
     children,
   } = props;
 
@@ -26,6 +29,9 @@ const WithHeader = (props) => {
         dualButtonText1={dualButtonText1}
         dualButtonText2={dualButtonText2}
         handleInactive={handleInactive}
+        singleButton={singleButton}
+        singleButtonText={singleButtonText}
+        handleClick={handleClick}
       />
       {children}
     </>
