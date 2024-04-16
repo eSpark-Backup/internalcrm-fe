@@ -1,12 +1,26 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import { Typography } from "@mui/material";
 
-import WithHeader from "../../layout/withHeader";
+import { storeChildData } from "../../redux/reducers/headerSlice";
 
 const Teams = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      storeChildData({
+        title: "Teams",
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <WithHeader title="Teams">
+    <>
       <Typography variant="h1">Teams</Typography>
-    </WithHeader>
+    </>
   );
 };
 

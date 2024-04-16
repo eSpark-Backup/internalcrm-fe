@@ -7,16 +7,12 @@ import InputBase from "@mui/material/InputBase";
 import styles from "./style.module.css";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
-  "label + &": {
-    marginTop: theme.spacing(2.5),
-  },
   "& .MuiInputBase-input": {
     borderRadius: 5,
     position: "relative",
     backgroundColor: "#ffffff",
     border: "1px solid",
     borderColor: "#E4E4E4",
-    fontSize: 16,
     width: "100%",
     padding: "10px 12px",
     transition: theme.transitions.create([

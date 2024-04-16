@@ -1,22 +1,30 @@
+import { useState } from "react";
+import { useSelector } from "react-redux";
+
 import { Stack, Typography, Button } from "@mui/material";
 
 import styles from "./style.module.css";
 
-const InnerHeader = (props) => {
-  const {
-    login,
-    dualButton,
-    title,
-    isActive,
-    handleActive,
-    dualButtonText1,
-    dualButtonText2,
-    handleInactive,
-  } = props;
+const InnerHeader = () => {
+  const childData = useSelector((state) => state.header.childData);
+
+  const [filledButton, setFilledButton] = useState(true);
+
+  const handleActive = () => {
+    setFilledButton(true);
+    childData?.handleActive();
+  };
+
+  const handleInactive = () => {
+    setFilledButton(false);
+    childData?.handleInactive();
+  };
 
   return (
     <Stack
-      className={`${styles.inner_header} ${login ? styles.header_login : ""}`}
+      className={`${styles.inner_header} ${
+        childData?.login ? styles.header_login : ""
+      }`}
       flexDirection="row"
       justifyContent="space-between"
     >
@@ -24,26 +32,37 @@ const InnerHeader = (props) => {
         className={`inter-bold ${styles.inner_header_heading}`}
         variant="h5"
       >
-        {title}
+        {childData?.title}
       </Typography>
 
-      {dualButton && (
+      {childData?.dualButton && (
         <div className={styles.dual_buttons}>
           <Button
-            className={`${isActive ? styles.active : ""} inter-semibold ${
+            className={`${filledButton ? styles.active : ""} inter-semibold ${
               styles.active_button
             }`}
             onClick={handleActive}
           >
-            {dualButtonText1}
+            {childData?.dualButtonText1}
           </Button>
           <Button
-            className={`${isActive ? "" : styles.active} inter-semibold ${
+            className={`${filledButton ? "" : styles.active} inter-semibold ${
               styles.inactive_button
             }`}
             onClick={handleInactive}
           >
-            {dualButtonText2}
+            {childData?.dualButtonText2}
+          </Button>
+        </div>
+      )}
+
+      {childData?.singleButton && (
+        <div className={styles.single_button}>
+          <Button
+            className={`inter-semibold ${styles.back}`}
+            onClick={childData?.handleClick}
+          >
+            {childData?.singleButtonText}
           </Button>
         </div>
       )}

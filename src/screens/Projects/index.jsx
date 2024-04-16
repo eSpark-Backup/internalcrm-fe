@@ -1,12 +1,26 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import { Typography } from "@mui/material";
 
-import WithHeader from "../../layout/withHeader";
+import { storeChildData } from "../../redux/reducers/headerSlice";
 
 const Projects = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      storeChildData({
+        title: "Projects",
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <WithHeader title="Projects">
+    <>
       <Typography variant="h1">Projects</Typography>
-    </WithHeader>
+    </>
   );
 };
 
