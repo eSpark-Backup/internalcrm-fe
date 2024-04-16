@@ -19,6 +19,7 @@ const SearchBar = (props) => {
     btnText,
     handleSearchName,
     handleSearchJobTitle,
+    onClick,
   } = props;
 
   return (
@@ -67,7 +68,10 @@ const SearchBar = (props) => {
       </Stack>
 
       {btn && (
-        <Button className={`${styles.action_btn} inter-semibold`}>
+        <Button
+          className={`${styles.action_btn} inter-semibold`}
+          onClick={onClick}
+        >
           {btnText}
         </Button>
       )}

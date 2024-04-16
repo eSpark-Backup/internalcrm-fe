@@ -14,9 +14,10 @@ import AppHeader from "../header";
 
 import Logo from "../../assets/logos/eSpark-logo.svg?react";
 
-import { sidebar_links } from "../../helper/sidebar";
+import { sidebar_links } from "../../constants/sidebar";
 
 import styles from "./style.module.css";
+import InnerHeader from "../common/innerHeader";
 
 const drawerWidth = 240;
 
@@ -61,7 +62,9 @@ function ResponsiveDrawer(props) {
           >
             <ListItemButton
               className={`${styles.item_button} ${
-                Text.route === location?.pathname ? styles.active_link : ""
+                location?.pathname.includes(Text.route)
+                  ? styles.active_link
+                  : ""
               }`}
             >
               <ListItemIcon>
@@ -83,10 +86,18 @@ function ResponsiveDrawer(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Stack sx={{ display: "flex", height: "100%" }}>
+    <Stack sx={{ display: "flex", height: "100%", overflow: "hidden" }}>
       <CssBaseline />
 
       <AppHeader handleDrawerToggle={handleDrawerToggle} />
+      <Stack
+        className={styles.inner_header_container}
+        sx={{
+          marginLeft: `${drawerWidth}px`,
+        }}
+      >
+        <InnerHeader />
+      </Stack>
 
       {location.pathname !== "/" && (
         <Stack

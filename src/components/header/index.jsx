@@ -28,8 +28,8 @@ import Delete from "../../assets/logos/delete.svg?react";
 import Checked from "../../assets/logos/check.svg?react";
 import Logo from "../../assets/logos/login-logo.svg?react";
 
-import { changePasswordFields } from "../../helper/changePassword";
-import { notifications } from "../../helper/notifications";
+import { changePasswordFields } from "../../constants/changePassword";
+import { notifications } from "../../constants/notifications";
 
 import styles from "./style.module.css";
 
