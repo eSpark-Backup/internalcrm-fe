@@ -7,3 +7,10 @@
   margin-top: 40px;
   padding: 20px;
 }
+
+.card_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}

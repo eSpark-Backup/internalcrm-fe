@@ -4,7 +4,7 @@ const DynamicCard = ({ title, children, hideTitleAndHr }) => {
   return (
     <Card
       variant="outlined"
-      sx={{ width: "100%", boxShadow: 3, borderRadius: "8px" }}
+      sx={{ width: "100%", boxShadow: 3, borderRadius: "8px", boxShadow:"none" }}
     >
       <CardContent>
       {!hideTitleAndHr && (
