@@ -1,0 +1,25 @@
+.add_member_form {
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  padding: 0px 47px 0px 95px;
+  height: 100%;
+}
+
+.action_button {
+  text-transform: capitalize !important;
+  padding: 10px 0px !important;
+  width: 120px !important;
+  border-radius: 5px !important;
+}
+
+.next_btn {
+  background-color: #029894 !important;
+  color: #ffffff !important;
+}
+
+.back {
+  background: #ffffff !important;
+  border: 1px solid #029894 !important;
+  color: #029e9c !important;
+}

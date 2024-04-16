@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import {
   Stack,
@@ -9,24 +11,27 @@ import {
   FormGroup,
   FormControlLabel,
   Switch,
+  Avatar,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import DynamicCard from "../../components/card";
 import SearchBar from "../../components/search";
 
-import WithHeader from "../../layout/withHeader";
-
 import Edit from "../../assets/logos/edit.svg?react";
 
-import { allMembers } from "../../helper/members";
+import { allMembers } from "../../constants/members";
+
+import { storeChildData } from "../../redux/reducers/headerSlice";
 
 import styles from "./style.module.css";
 
 const Members = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [isActive, setIsActive] = React.useState(true);
-  const [hovered, setHovered] = React.useState(false);
-  const [hoveredItemId, setHoveredItemId] = React.useState(null);
 
   const [name, setName] = React.useState("");
   const [joTitle, setJobTitle] = React.useState("");
@@ -47,6 +52,27 @@ const Members = () => {
     setJobTitle(event.target.value);
   };
 
+  useEffect(() => {
+    dispatch(
+      storeChildData({
+        title: "Members",
+        isActive,
+        setIsActive,
+        dualButton: true,
+        handleActive,
+        handleInactive,
+        dualButtonText1: "Active",
+        dualButtonText2: "Inactive",
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onClick = () => {
+    const url = location.pathname;
+    navigate(`${url}/addMember`);
+  };
+
   const IOSSwitch = styled((props) => (
     <Switch
       focusVisibleClassName=".Mui-focusVisible"
@@ -61,7 +87,7 @@ const Members = () => {
     "& .MuiSwitch-switchBase": {
       padding: 0,
       margin: 2,
-      transitionDuration: "300ms",
+      transitionDuration: "500ms",
       color: "#029E9C",
 
       "&.Mui-checked": {
@@ -97,129 +123,132 @@ const Members = () => {
       border: "1px solid #E4E4E4",
       backgroundColor: theme.palette.mode === "light" ? "#E6F5F4" : "#E6F5F4",
       opacity: 1,
-      transition: theme.transitions.create(["background-color"], {
+      transition: theme.transitions.create(["all"], {
         duration: 500,
       }),
     },
   }));
 
   return (
-    <WithHeader
-      title="Members"
-      isActive={isActive}
-      setIsActive={setIsActive}
-      dualButton={true}
-      handleActive={handleActive}
-      handleInactive={handleInactive}
-      dualButtonText1="Active"
-      dualButtonText2="Inactive"
-    >
+    <>
       <SearchBar
-        btn={true}
+        btn={!!isActive}
         btnText="Add Member"
         name={name}
         setName={setName}
         joTitle={joTitle}
         handleSearchName={handleSearchName}
         handleSearchJobTitle={handleSearchJobTitle}
+        onClick={onClick}
       />
 
-      <Grid container spacing={4} className={styles.container_style}>
-        {allMembers.map((member) => {
-          return (
-            <Grid item md={6} lg={4} xl={3} key={member.id}>
-              <DynamicCard
-                member={true}
-                card={{ boxShadow: "none" }}
-                card_style={styles.card_style}
-                card_content={styles.card_content}
-                onMouseEnter={() => {
-                  setHoveredItemId(member.id);
-                  setHovered(true);
-                }}
-                onMouseLeave={() => {
-                  setHoveredItemId(null);
-                  setHovered(false);
+      <Stack className={styles.container_style}>
+        <Grid container spacing={4}>
+          {allMembers.map((member) => {
+            return (
+              <Grid
+                item
+                md={6}
+                lg={4}
+                xl={3}
+                key={member.id}
+                sx={{
+                  paddingTop: "0px !important",
+                  marginBottom: "35px",
+                  height: "auto",
                 }}
               >
-                <Stack
-                  flexDirection="row"
-                  justifyContent="space-between"
-                  className={styles.header}
+                <DynamicCard
+                  member={true}
+                  card={{ boxShadow: "none" }}
+                  card_style={styles.card_style}
+                  card_content={styles.card_content}
                 >
                   <Stack
                     flexDirection="row"
-                    alignItems="center"
-                    className={styles.member}
+                    justifyContent="space-between"
+                    className={styles.header}
                   >
-                    <div className={styles.user_image}></div>
-                    <Typography
-                      variant="h6"
-                      className={`${styles.name_heading} inter-semibold`}
+                    <Stack
+                      flexDirection="row"
+                      alignItems="center"
+                      className={styles.member}
                     >
-                      {member.name}
-                    </Typography>
+                      <Avatar className={styles.user_image} />
+                      <Typography
+                        variant="h6"
+                        className={`${styles.name_heading} inter-semibold`}
+                      >
+                        {member.name}
+                      </Typography>
+                    </Stack>
+
+                    {member.id === 1 && !isActive && (
+                      <Button className={`inter-medium ${styles.request}`}>
+                        Request
+                      </Button>
+                    )}
+
+                    {((member.id !== 1 && !isActive) || isActive) && (
+                      <FormGroup>
+                        <FormControlLabel
+                          control={<IOSSwitch defaultChecked={!isActive} />}
+                          label=""
+                          sx={{
+                            "&.MuiFormControlLabel-root": {
+                              marginRight: "0px !important",
+                            },
+                          }}
+                        />
+                      </FormGroup>
+                    )}
                   </Stack>
 
-                  <FormGroup>
-                    <FormControlLabel
-                      control={<IOSSwitch defaultChecked />}
-                      label=""
-                      sx={{
-                        "&.MuiFormControlLabel-root": {
-                          marginRight: "0px !important",
-                        },
-                      }}
-                    />
-                  </FormGroup>
-                </Stack>
-
-                <Typography
-                  my="8px"
-                  className={`${styles.member_detail} inter-regular`}
-                >
-                  Id: {member.memberId}
-                </Typography>
-
-                <Typography className={`${styles.member_detail} inter-regular`}>
-                  Email: {member.memberEmail}
-                </Typography>
-
-                <Typography
-                  variant="h2"
-                  className={`${styles.title} inter-semibold`}
-                >
-                  {member.jobTitle}
-                </Typography>
-
-                <Stack
-                  flexDirection="row"
-                  justifyContent="space-between"
-                  mt="7px"
-                >
-                  <div className={styles.footer_buttons}>
-                    <Button className={`inter-medium ${styles.projects}`}>
-                      {member.projectsLength} Projects
-                    </Button>
-                    <Button className="inter-medium">View as Areeba</Button>
-                  </div>
-
-                  <IconButton
-                    className={`${styles.edit} ${
-                      hovered && member.id === hoveredItemId
-                        ? "opacity-1"
-                        : "opacity-0"
-                    }`}
+                  <Typography
+                    my="8px"
+                    className={`${styles.member_detail} inter-regular`}
                   >
-                    <Edit />
-                  </IconButton>
-                </Stack>
-              </DynamicCard>
-            </Grid>
-          );
-        })}
-      </Grid>
-    </WithHeader>
+                    Id: {member.memberId}
+                  </Typography>
+
+                  <Typography
+                    className={`${styles.member_detail} inter-regular`}
+                  >
+                    Email: {member.memberEmail}
+                  </Typography>
+
+                  <Typography
+                    variant="h2"
+                    className={`${styles.title} inter-semibold`}
+                  >
+                    {member.jobTitle}
+                  </Typography>
+
+                  <Stack
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    mt="7px"
+                  >
+                    <div className={styles.footer_buttons}>
+                      <Button className={`inter-medium ${styles.projects}`}>
+                        {member.projectsLength} Projects
+                      </Button>
+                      {member.id !== 1 && (
+                        <Button className="inter-medium">View as Areeba</Button>
+                      )}
+                    </div>
+
+                    <IconButton className={`${styles.edit} opacity-0`}>
+                      <Edit />
+                    </IconButton>
+                  </Stack>
+                </DynamicCard>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Stack>
+    </>
   );
 };
 

@@ -1,6 +1,14 @@
 .container_style {
-  margin-top: 8px !important;
+  margin-top: 40px !important;
   width: 100% !important;
+  height: 100%;
+  overflow: scroll;
+  padding-bottom: 70px;
+  padding-top: 40px;
+}
+
+.container_style::-webkit-scrollbar {
+  width: 0px;
 }
 
 .card_style {
@@ -14,15 +22,18 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
+.card_style:hover .edit {
+  opacity: 1 !important;
+}
+
 .card_content {
   padding: 17px 19px 18px 17px !important;
 }
 
 .user_image {
-  width: 30px;
-  height: 30px;
-  background-color: #d9d9d9;
-  border-radius: 50%;
+  width: 30px !important;
+  height: 30px !important;
+  background-color: #d9d9d9 !important;
   margin-right: 5px;
 }
 
@@ -44,17 +55,18 @@
   margin-top: 8px !important;
 }
 
-.footer_buttons button {
+.footer_buttons button,
+.request {
   background: #e6f5f4 !important;
-  border: 1px solid #068987;
-  border-radius: 50px;
+  border: 1px solid #068987 !important;
+  border-radius: 50px !important;
   padding: 8px 0px !important;
-  width: 120px;
-  font-size: 12px;
-  line-height: 15px;
-  color: #068987;
-  text-transform: capitalize;
-  cursor: default;
+  width: 120px !important;
+  font-size: 12px !important;
+  line-height: 15px !important;
+  color: #068987 !important;
+  text-transform: capitalize !important;
+  cursor: default !important;
 }
 
 .projects {
