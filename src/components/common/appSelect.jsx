@@ -15,6 +15,7 @@ const selectStyles = (isMenuOpen, normalFont) => {
       filter:
         state.selectProps.menuIsOpen &&
         "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25))",
+      zIndex: 2,
     }),
     control: (baseStyles) => ({
       ...baseStyles,
@@ -35,11 +36,16 @@ const selectStyles = (isMenuOpen, normalFont) => {
     }),
     menu: (provided) => ({
       ...provided,
-      // transition: "height 1s ease-in-out",
-      // height: state.selectProps.menuIsOpen ? "200px" : "0px",
-      overflow: "hidden",
       marginTop: "0px",
+      paddingTop: "0px",
+      marginBottom: "0px",
       borderRadius: "0px 0px 5px 5px",
+    }),
+    menuList: (provided) => ({
+      ...provided,
+      scrollbarWidth: "none",
+      zIndex: "100",
+      padding: "0px",
     }),
     option: (provided, { isSelected }) => ({
       ...provided,

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import Stack from "@mui/material/Stack";
@@ -22,6 +23,7 @@ import InnerHeader from "../common/innerHeader";
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
+  const childData = useSelector((state) => state.header.childData);
   // const token = localStorage.getItem("token");
 
   const { window, children } = props;
@@ -89,15 +91,16 @@ function ResponsiveDrawer(props) {
     <Stack sx={{ display: "flex", height: "100%", overflow: "hidden" }}>
       <CssBaseline />
 
-      <AppHeader handleDrawerToggle={handleDrawerToggle} />
       <Stack
         className={styles.inner_header_container}
         sx={{
-          marginLeft: `${drawerWidth}px`,
+          marginLeft: childData?.login ? "0px" : `${drawerWidth}px`,
         }}
       >
         <InnerHeader />
       </Stack>
+
+      <AppHeader handleDrawerToggle={handleDrawerToggle} />
 
       {location.pathname !== "/" && (
         <Stack
