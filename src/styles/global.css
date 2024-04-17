@@ -164,6 +164,11 @@ body,
   padding-right: 10px !important;
   border-bottom: 1px solid #e4e4e4 !important;
 }
+
+.MuiMenu-root,
+.MuiDialog-root {
+  z-index: 99999 !important;
+}
 /* Menu Items Styles End */
 
 /* Notification Styles Start */

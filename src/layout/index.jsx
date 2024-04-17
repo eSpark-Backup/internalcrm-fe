@@ -9,10 +9,12 @@ const AppLayout = ({ children }) => {
       <Stack
         sx={{
           display: "block",
-          padding: { xs: "0px 18px", md: "0px 40px" },
+          padding: { xs: "0px 18px", md: "0px 40px 40px" },
           position: "relative",
-          overflow: "hidden",
+          overflowX: "hidden",
+          overflowY: "auto",
           height: "100%",
+          scrollbarWidth: "none",
         }}
       >
         {children}
