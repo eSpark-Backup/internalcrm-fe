@@ -1,0 +1,74 @@
+import React from "react";
+import { Modal, Box, Typography, Button } from "@mui/material";
+
+const DeleteConfirmationPopup = ({ open, handleClose, handleDelete }) => {
+  return (
+    <Modal open={open} onClose={handleClose}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 450,
+          height: 240,
+          bgcolor: "background.paper",
+          boxShadow: 24,
+          p: "30px 20px",
+          borderRadius: "7px",
+        }}
+      >
+        <Typography
+          variant="h6"
+          component="h2"
+          gutterBottom
+          sx={{
+            textAlign: "center",
+            fontWeight: "semi",
+            color: "#029E9C",
+            marginBottom: "40px",
+          }}
+        >
+          Delete Card
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{ marginBottom: "30px", fontSize: "14px", textAlign: "center" }}
+        >
+          Are you sure you want to delete this card?
+        </Typography>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            onClick={handleClose}
+            sx={{
+              padding: "7px 45px",
+              color: "#068987",
+              border: "1px solid #068987",
+              textTransform: "capitalize",
+              marginRight: "10px",
+              marginTop: "20px",
+              fontWeight: "bold",
+            }}
+          >
+            No
+          </Button>
+          <Button
+            onClick={handleDelete}
+            sx={{
+              padding: "7px 45px",
+              color: "#fff",
+              background: "#068987",
+              textTransform: "capitalize",
+              marginTop: "20px",
+              fontWeight: "bold",
+            }}
+          >
+            Yes
+          </Button>
+        </div>
+      </Box>
+    </Modal>
+  );
+};
+
+export default DeleteConfirmationPopup;

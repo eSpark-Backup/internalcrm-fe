@@ -4,10 +4,16 @@ const DynamicCard = ({ title, children, hideTitleAndHr }) => {
   return (
     <Card
       variant="outlined"
-      sx={{ width: "100%", boxShadow: 3, borderRadius: "8px", boxShadow:"none" }}
+      sx={{
+        width: "100%",
+        boxShadow: 3,
+        borderRadius: "8px",
+        boxShadow: "none",
+        "&:hover": { boxShadow: "0px 0px 15px 5px rgba(128, 128, 128, 0.5)" },
+      }}
     >
       <CardContent>
-      {!hideTitleAndHr && (
+        {!hideTitleAndHr && (
           <>
             <Typography
               variant="h6"

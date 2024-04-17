@@ -1,36 +1,100 @@
 import React, { useState } from "react";
-import { Typography, TextField, Button, Modal, Box } from "@mui/material";
+import {
+  Typography,
+  TextField,
+  Button,
+  Modal,
+  Box,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import DynamicCard from "../../components/card";
 import styles from "./style.module.css";
 import AddIcon from "@mui/icons-material/Add";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteConfirmationPopup from "../../components/deletePopup";
+import AddTaskPopup from "../../components/addTaskPopup";
 
 const Cards = () => {
   const [open, setOpen] = useState(false);
   const [cardName, setCardName] = useState("");
   const [cards, setCards] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+  const [addTaskPopupOpen, setAddTaskPopupOpen] = useState(false);
+  const [selectedCardIndexForTask, setSelectedCardIndexForTask] =
+    useState(null);
+
+  const handleAddTaskClick = (index) => {
+    setSelectedCardIndexForTask(index);
+    setAddTaskPopupOpen(true);
+  };
 
   const handleOpen = () => {
     setOpen(true);
+    setEditMode(false);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setDeletePopupOpen(false); // Close delete confirmation popup when closing modal
   };
 
   const handleCreateCard = () => {
-    if (cardName.trim() !== "") {
+    if (editMode && cardName.trim() !== "") {
+      const updatedCards = [...cards];
+      updatedCards[selectedCardIndex].name = cardName;
+      setCards(updatedCards);
+      setEditMode(false);
+    } else if (!editMode && cardName.trim() !== "") {
       const newCard = { name: cardName, tasks: [] };
       setCards([...cards, newCard]);
-      setCardName("");
-      setOpen(false);
     }
+    setCardName("");
+    setOpen(false);
+  };
+
+  const handleMenuOpen = (event, index) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedCardIndex(index);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleEdit = () => {
+    setEditMode(true);
+    setCardName(cards[selectedCardIndex].name);
+    handleOpen();
+    handleMenuClose();
+  };
+
+  const handleDelete = () => {
+    setDeletePopupOpen(true); // Open delete confirmation popup
+    handleMenuClose();
+  };
+
+  const confirmDelete = () => {
+    const updatedCards = cards.filter(
+      (_, index) => index !== selectedCardIndex
+    );
+    setCards(updatedCards);
+    setDeletePopupOpen(false); // Close delete confirmation popup after deletion
   };
 
   return (
     <div>
       <div className={styles.cards_container}>
-        <div style={{ display: "flex" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: "10px",
+          }}
+        >
           <div className="card_style">
             <DynamicCard hideTitleAndHr>
               <div className={styles.card_content}>
@@ -58,7 +122,17 @@ const Cards = () => {
                   >
                     {card.name}
                   </Typography>
-                  <MoreVertIcon/>
+                  <MoreVertIcon
+                    onClick={(event) => handleMenuOpen(event, index)}
+                  />
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl && selectedCardIndex === index)}
+                    onClose={handleMenuClose}
+                  >
+                    <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                    <MenuItem onClick={handleDelete}>Delete</MenuItem>
+                  </Menu>
                 </div>
                 <div>
                   <div
@@ -81,19 +155,22 @@ const Cards = () => {
                       ))
                     )}
                   </div>
-                  <div style={{padding:"20px"}}>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      backgroundColor: "#029E9C",
-                      color: "#fff",
-                      width:"100%"
-                    }}
-                  >
-                    Add Task
-                  </Button>
+                  <div style={{ padding: "20px" }}>
+                    <Button
+                      onClick={() => handleAddTaskClick(index)}
+                      variant="outlined"
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        backgroundColor: "#029E9C",
+                        color: "#fff",
+                        width: "100%",
+                        marginTop: "15px",
+                        marginBottom: "-20px",
+                      }}
+                    >
+                      Add Task
+                    </Button>
                   </div>
                 </div>
               </DynamicCard>
@@ -126,7 +203,8 @@ const Cards = () => {
                 marginBottom: "15px",
               }}
             >
-              Create Card
+              {editMode ? "Edit Card" : "Create Card"}{" "}
+              {/* Display edit mode title */}
             </Typography>
             <TextField
               label="Enter card name"
@@ -171,11 +249,25 @@ const Cards = () => {
                   marginTop: "20px",
                 }}
               >
-                Create
+                {editMode ? "Save" : "Create"}{" "}
               </Button>
             </div>
           </Box>
         </Modal>
+        <DeleteConfirmationPopup
+          open={deletePopupOpen}
+          handleClose={() => setDeletePopupOpen(false)}
+          handleDelete={confirmDelete}
+        />
+        <AddTaskPopup
+          open={addTaskPopupOpen}
+          handleClose={() => setAddTaskPopupOpen(false)}
+          handleAddTask={(task) => {
+            const updatedCards = [...cards];
+            updatedCards[selectedCardIndexForTask].tasks.push(task);
+            setCards(updatedCards);
+          }}
+        />
       </div>
     </div>
   );
