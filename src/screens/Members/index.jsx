@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -31,10 +31,18 @@ const Members = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const locationUrl = location.pathname;
+
   const [isActive, setIsActive] = React.useState(true);
 
   const [name, setName] = React.useState("");
   const [joTitle, setJobTitle] = React.useState("");
+  const [state, setState] = React.useState({
+    request: true,
+    cancelRequest: false,
+    requested: false,
+  });
+  const [requestText, setRequestText] = useState("Request");
 
   const handleActive = () => {
     setIsActive(true);
@@ -69,8 +77,27 @@ const Members = () => {
   }, []);
 
   const onClick = () => {
-    const url = location.pathname;
-    navigate(`${url}/addMember`);
+    navigate(`${locationUrl}/addMember`);
+  };
+
+  const requestHandler = () => {
+    if (state.request) {
+      setRequestText("Requested");
+      setState({ request: false, requested: true });
+    }
+
+    if (state.requested) {
+      setRequestText("Cancelled");
+
+      setTimeout(() => {
+        setRequestText("Request");
+        setState({ request: true, requested: false });
+      }, 1000);
+    }
+  };
+
+  const onEdit = (data) => {
+    navigate(`${locationUrl}/addMember`, { state: { data, edit: true } });
   };
 
   const IOSSwitch = styled((props) => (
@@ -179,13 +206,17 @@ const Members = () => {
                         variant="h6"
                         className={`${styles.name_heading} inter-semibold`}
                       >
-                        {member.name}
+                        {`${member.first_name} ${member.last_name}`}
                       </Typography>
                     </Stack>
 
                     {member.id === 1 && !isActive && (
-                      <Button className={`inter-medium ${styles.request}`}>
-                        Request
+                      <Button
+                        className={`inter-medium ${styles.request}`}
+                        onClick={requestHandler}
+                        sx={{ cursor: "pointer !important" }}
+                      >
+                        {requestText}
                       </Button>
                     )}
 
@@ -208,20 +239,20 @@ const Members = () => {
                     my="8px"
                     className={`${styles.member_detail} inter-regular`}
                   >
-                    Id: {member.memberId}
+                    Id: {member.employee_id}
                   </Typography>
 
                   <Typography
                     className={`${styles.member_detail} inter-regular`}
                   >
-                    Email: {member.memberEmail}
+                    Email: {member.email}
                   </Typography>
 
                   <Typography
                     variant="h2"
                     className={`${styles.title} inter-semibold`}
                   >
-                    {member.jobTitle}
+                    {member.job_title}
                   </Typography>
 
                   <Stack
@@ -238,7 +269,10 @@ const Members = () => {
                       )}
                     </div>
 
-                    <IconButton className={`${styles.edit} opacity-0`}>
+                    <IconButton
+                      className={`${styles.edit} opacity-0`}
+                      onClick={() => onEdit(member)}
+                    >
                       <Edit />
                     </IconButton>
                   </Stack>
