@@ -4,6 +4,7 @@ export const addMemberBasicInfo = [
     label: "First name",
     name: "first_name",
     placeholder: "Enter first name",
+    fieldType: "text",
     type: "text",
   },
   {
@@ -11,6 +12,7 @@ export const addMemberBasicInfo = [
     label: "Last name",
     name: "last_name",
     placeholder: "Enter last name",
+    fieldType: "text",
     type: "text",
   },
   {
@@ -18,6 +20,7 @@ export const addMemberBasicInfo = [
     label: "Gender",
     name: "gender",
     placeholder: "Select",
+    fieldType: "dropdown",
     type: "dropdown",
     list: [
       {
@@ -35,6 +38,7 @@ export const addMemberBasicInfo = [
     label: "Date of birth",
     name: "dob",
     placeholder: "DD-MM-YYYY",
+    fieldType: "date",
     type: "date",
   },
   {
@@ -42,6 +46,7 @@ export const addMemberBasicInfo = [
     label: "Phone number",
     name: "phone_number",
     placeholder: "Enter phone number",
+    fieldType: "text",
     type: "text",
   },
   {
@@ -49,6 +54,7 @@ export const addMemberBasicInfo = [
     label: "Job title",
     name: "job_title",
     placeholder: "Select job",
+    fieldType: "multidropdown",
     type: "dropdown",
     list: [
       {
@@ -204,6 +210,7 @@ export const addMemberBasicInfo = [
     label: "Employee ID",
     name: "employee_id",
     placeholder: "Enter employee id",
+    fieldType: "text",
     type: "text",
   },
   {
@@ -211,6 +218,7 @@ export const addMemberBasicInfo = [
     label: "Role",
     name: "role",
     placeholder: "Select role",
+    fieldType: "dropdown",
     type: "dropdown",
     list: [
       {
@@ -236,7 +244,8 @@ export const addMemberBasicInfo = [
     label: "Image",
     name: "image",
     placeholder: "Upload image",
-    type: "image",
+    fieldType: "image",
+    type: "file",
   },
 ];
 
@@ -246,20 +255,42 @@ export const addMemberCredentials = [
     label: "Email",
     name: "email",
     placeholder: "Enter email",
-    type: "text",
+    fieldType: "text",
+    type: "email",
   },
   {
     id: 10,
     label: "Password",
     name: "password",
     placeholder: "Enter Password",
-    type: "text",
+    fieldType: "text",
+    type: "password",
   },
   {
     id: 11,
     label: "Confirm password",
     name: "confirm_password",
     placeholder: "Confirm password",
-    type: "text",
+    fieldType: "text",
+    type: "password",
+  },
+];
+
+export const permissions = [
+  {
+    id: 12,
+    label: "Can edit card",
+  },
+  {
+    id: 13,
+    label: "Change the status of task",
+  },
+  {
+    id: 14,
+    label: "Can move a task to another card",
+  },
+  {
+    id: 15,
+    label: "Can add an assist to the task",
   },
 ];
