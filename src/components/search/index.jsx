@@ -23,7 +23,11 @@ const SearchBar = (props) => {
   } = props;
 
   return (
-    <Stack flexDirection="row" justifyContent="space-between">
+    <Stack
+      flexDirection="row"
+      justifyContent="space-between"
+      sx={{ display: { xs: "block", lg: "flex" } }}
+    >
       <Stack flexDirection="row">
         <div>
           <TextField
@@ -48,7 +52,7 @@ const SearchBar = (props) => {
             variant="outlined"
             onChange={handleSearchJobTitle}
             value={jobTitle}
-            className={styles.textfield}
+            className={`${styles.textfield} ${styles.right_textfield}`}
             sx={{ marginLeft: "35px" }}
             InputProps={{
               startAdornment: (
@@ -68,12 +72,14 @@ const SearchBar = (props) => {
       </Stack>
 
       {btn && (
-        <Button
-          className={`${styles.action_btn} inter-semibold`}
-          onClick={onClick}
-        >
-          {btnText}
-        </Button>
+        <div className={styles.btn_container}>
+          <Button
+            className={`${styles.action_btn} inter-semibold`}
+            onClick={onClick}
+          >
+            {btnText}
+          </Button>
+        </div>
       )}
     </Stack>
   );

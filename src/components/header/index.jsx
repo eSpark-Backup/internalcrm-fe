@@ -57,6 +57,14 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+
+  "@media only screen and (max-width: 1366px)": {
+    padding: "0px 0px 0px 28px",
+
+    "& svg": {
+      width: "22px",
+    },
+  },
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -71,6 +79,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: "100%",
     border: "1px solid #E4E4E4",
     borderRadius: "5px",
+  },
+
+  "@media only screen and (max-width: 1366px)": {
+    "& .MuiInputBase-input": {
+      padding: "11px 8px 11px 58px",
+    },
+  },
+
+  "@media only screen and (max-width: 1199px)": {
+    "& .MuiInputBase-input": {
+      padding: "10px 8px 10px 58px",
+    },
   },
 }));
 
@@ -470,6 +490,7 @@ export default function AppHeader({ handleDrawerToggle }) {
                 aria-haspopup="true"
                 sx={{ marginRight: 1.25 }}
                 onClick={handleNotificationOpen}
+                className={styles.icon_button}
               >
                 <Badge
                   variant="dot"
@@ -479,7 +500,7 @@ export default function AppHeader({ handleDrawerToggle }) {
                     },
                   }}
                 >
-                  <NotificationsIcon />
+                  <NotificationsIcon className={styles.notification} />
                 </Badge>
               </IconButton>
 
@@ -491,8 +512,9 @@ export default function AppHeader({ handleDrawerToggle }) {
                 aria-haspopup="true"
                 onClick={handleProfileMenuOpen}
                 color="inherit"
+                className={styles.icon_button}
               >
-                <AccountCircle />
+                <AccountCircle className={styles.account} />
               </IconButton>
             </Stack>
           )}

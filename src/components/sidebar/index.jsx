@@ -94,7 +94,10 @@ function ResponsiveDrawer(props) {
       <Stack
         className={styles.inner_header_container}
         sx={{
-          marginLeft: childData?.login ? "0px" : `${drawerWidth}px`,
+          marginLeft: {
+            xs: 0,
+            lg: childData?.login ? "0px" : `${drawerWidth}px`,
+          },
         }}
       >
         <InnerHeader />
@@ -120,7 +123,7 @@ function ResponsiveDrawer(props) {
               keepMounted: true, // Better open performance on mobile.
             }}
             sx={{
-              display: { xs: "block", md: "none" },
+              display: { xs: "block", md: "none", zIndex: "900000" },
 
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",

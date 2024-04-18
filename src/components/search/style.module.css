@@ -39,3 +39,78 @@
   color: #ffffff !important;
   text-transform: capitalize !important;
 }
+
+@media only screen and (max-width: 1366px) {
+  .textfield {
+    width: 280px;
+  }
+
+  .textfield input {
+    padding: 11.5px 9px 11.5px 0px;
+  }
+
+  .search_container {
+    margin-left: 30px !important;
+    width: 50px;
+    height: 40px;
+  }
+
+  .action_btn {
+    width: 150px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .textfield {
+    width: 250px;
+  }
+
+  .textfield input {
+    padding: 10px 9px 10px 0px;
+  }
+
+  .right_textfield {
+    margin-left: 30px !important;
+  }
+
+  .search_container {
+    margin-left: 25px !important;
+    width: 45px;
+    height: 38px;
+  }
+
+  .action_btn {
+    width: 140px;
+    padding: 10px 0px !important;
+  }
+
+  .btn_container {
+    text-align: end;
+    margin-top: 12px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .textfield {
+    width: 140px;
+  }
+
+  .textfield input {
+    padding: 9px 9px 9px 0px;
+  }
+
+  .right_textfield {
+    margin-left: 10px !important;
+  }
+
+  .search_container {
+    margin-left: 10px !important;
+    width: 40px;
+    height: 35px;
+  }
+
+  .action_btn {
+    width: 130px;
+    padding: 9px 0px !important;
+  }
+}
