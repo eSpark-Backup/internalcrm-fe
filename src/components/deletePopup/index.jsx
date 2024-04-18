@@ -1,7 +1,13 @@
 import React from "react";
 import { Modal, Box, Typography, Button } from "@mui/material";
 
-const DeleteConfirmationPopup = ({ open, handleClose, handleDelete }) => {
+const DeleteConfirmationPopup = ({
+  open,
+  handleClose,
+  handleDelete,
+  heading,
+  sentence,
+}) => {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box
@@ -29,13 +35,13 @@ const DeleteConfirmationPopup = ({ open, handleClose, handleDelete }) => {
             marginBottom: "40px",
           }}
         >
-          Delete Card
+          {heading}
         </Typography>
         <Typography
           variant="body1"
           sx={{ marginBottom: "30px", fontSize: "14px", textAlign: "center" }}
         >
-          Are you sure you want to delete this card?
+          {sentence}
         </Typography>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Button
@@ -43,7 +49,7 @@ const DeleteConfirmationPopup = ({ open, handleClose, handleDelete }) => {
             sx={{
               padding: "7px 45px",
               color: "#068987",
-              border: "1px solid #068987",
+              border: "1px solid #029894",
               textTransform: "capitalize",
               marginRight: "10px",
               marginTop: "20px",
@@ -57,7 +63,7 @@ const DeleteConfirmationPopup = ({ open, handleClose, handleDelete }) => {
             sx={{
               padding: "7px 45px",
               color: "#fff",
-              background: "#068987",
+              background: "#029894",
               textTransform: "capitalize",
               marginTop: "20px",
               fontWeight: "bold",

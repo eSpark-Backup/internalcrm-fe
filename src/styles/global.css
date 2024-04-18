@@ -269,3 +269,20 @@ body,
 .plus_icon {
   opacity: 0;
 }
+
+.css-1ex1afd-MuiTableCell-root.customTableCell {
+  padding: 16px; /* Adjust the padding value as needed */
+}
+
+
+.card_style:hover .manage_members {
+  opacity: 1;
+  background-color: #e6f5f4;
+  border: 2px solid #068987;
+  color: #068987;
+}
+
+
+
+
+

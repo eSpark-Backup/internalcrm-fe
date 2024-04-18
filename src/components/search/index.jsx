@@ -26,6 +26,9 @@ const SearchBar = ({ placeholder, onSearch }) => {
         ),
         sx: {
           marginRight: "40px",
+          height:"35px",
+          backgroundColor:"#fff",
+          fontSize:"14px",
           "& .MuiOutlinedInput-input": {
             padding: "10px", // Adjust the input padding as needed
           },

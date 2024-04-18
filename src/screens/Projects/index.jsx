@@ -12,21 +12,20 @@ import DynamicCard from "../../components/card";
 import styles from "./style.module.css";
 import SearchBar from "../../components/search";
 import { Search } from "@mui/icons-material";
-
-
+import { Link } from "react-router-dom";
 
 const Projects = () => {
   const [hoveredCards, setHoveredCards] = useState([]);
-  const [searchNameValue, setSearchNameValue] = useState(""); 
-  const [searchMonthValue, setSearchMonthValue] = useState(""); 
-  const [isAddProjectOpen, setIsAddProjectOpen] = useState(false); 
+  const [searchNameValue, setSearchNameValue] = useState("");
+  const [searchMonthValue, setSearchMonthValue] = useState("");
+  const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
 
   const handleNameSearch = (value) => {
-    setSearchNameValue(value); 
+    setSearchNameValue(value);
   };
 
   const handleMonthSearch = (value) => {
-    setSearchMonthValue(value); 
+    setSearchMonthValue(value);
   };
 
   const projectData = [
@@ -267,14 +266,16 @@ const Projects = () => {
                         : ""
                     }`}
                   >
-                    <LaunchRoundedIcon
-                      style={{
-                        fontSize: "50px",
-                        marginLeft: "4px",
-                        marginTop: "5px",
-                        color: "#3BB4B2",
-                      }}
-                    />
+                    <Link to="/cards">
+                      <LaunchRoundedIcon
+                        style={{
+                          fontSize: "50px",
+                          marginLeft: "4px",
+                          marginTop: "5px",
+                          color: "#3BB4B2",
+                        }}
+                      />
+                    </Link>
                   </div>
                 </div>
               </DynamicCard>
