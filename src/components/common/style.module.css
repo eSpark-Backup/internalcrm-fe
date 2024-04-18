@@ -158,10 +158,34 @@
   animation: rotateArrowBack 0.3s ease forwards;
 }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1366px) {
   .inner_header {
-    padding: 27px 0px 29px 35px;
-    height: 86px;
+    padding: 26px 32px 28px 40px;
+  }
+
+  .inner_header_heading {
+    font-size: 24px !important;
+    line-height: 29px !important;
+  }
+
+  .dual_buttons button,
+  .single_button button {
+    padding: 9px 0px !important;
+    width: 90px;
+    line-height: 17px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .inner_header {
+    padding: 22px 26px;
+  }
+
+  .dual_buttons button,
+  .single_button button {
+    padding: 8px 0px !important;
+    width: 90px;
+    line-height: 15px;
   }
 
   .header_login {
@@ -169,8 +193,8 @@
   }
 
   .inner_header_heading {
-    font-size: 24px !important;
-    line-height: 29px !important;
+    font-size: 22px !important;
+    line-height: 27px !important;
   }
 }
 
@@ -193,6 +217,12 @@
 @media only screen and (max-width: 600px) {
   .inner_header {
     width: 100%;
+    padding: 18px;
+  }
+
+  .inner_header_heading {
+    font-size: 20px !important;
+    line-height: 24px !important;
   }
 
   .dialog_actions button {
@@ -206,5 +236,22 @@
 
   .form {
     margin: 15px 0px 20px;
+  }
+}
+
+@media only screen and (max-width: 374px) {
+  .auth_inner_header {
+    flex-direction: column !important;
+    align-items: start !important;
+  }
+
+  .inner_header_heading {
+    margin-bottom: 5px !important;
+  }
+
+  .dual_buttons,
+  .single_button {
+    width: 100%;
+    text-align: end;
   }
 }

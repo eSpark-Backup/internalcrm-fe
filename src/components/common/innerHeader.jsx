@@ -23,10 +23,11 @@ const InnerHeader = () => {
   return (
     <Stack
       className={`${styles.inner_header} ${
-        childData?.login ? styles.header_login : ""
+        childData?.login ? styles.header_login : styles.auth_inner_header
       }`}
       flexDirection="row"
       justifyContent="space-between"
+      alignItems="center"
     >
       <Typography
         className={`inter-bold ${styles.inner_header_heading}`}
