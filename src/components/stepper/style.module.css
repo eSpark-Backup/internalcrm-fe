@@ -1,0 +1,13 @@
+.stepper_stack {
+  width: 272px;
+  margin: 19px auto 67px;
+}
+
+.step_label span:nth-child(2) span {
+  font-family: Inter, sans-serif;
+  font-weight: 500 !important;
+  font-size: 10px;
+  line-height: 12px;
+  color: #029e9c !important;
+  margin-top: 6px;
+}

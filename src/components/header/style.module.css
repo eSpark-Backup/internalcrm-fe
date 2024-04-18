@@ -13,17 +13,114 @@
 .top_heading {
   text-transform: uppercase !important;
   padding-top: 13px;
+  line-height: 24px !important;
+}
+
+.top_heading span {
+  text-transform: none;
 }
 
 .menu_popup .MuiPopover-paper {
   top: 85px;
 }
 
+.logo {
+  width: 94px;
+}
+
+.logo svg {
+  width: 100%;
+}
+
+.login_header {
+  padding-top: 14px !important;
+}
+
+.text_class {
+  color: #595959 !important;
+  line-height: 17px !important;
+  text-align: center;
+}
+
+@media only screen and (max-width: 1366px) {
+  .app_header .app_header_toolbar {
+    padding-left: 30px;
+    padding-right: 30px;
+    height: 129px;
+    padding-top: 20px;
+  }
+
+  .icon_button {
+    padding: 8px !important;
+  }
+
+  .notification {
+    width: 20px;
+  }
+
+  .account {
+    width: 24px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .logo {
+    width: 84px;
+  }
+
+  .top_heading {
+    font-size: 18px !important;
+    line-height: 22px !important;
+  }
+}
+
 @media only screen and (max-width: 900px) {
   .app_header .app_header_toolbar {
-    padding-left: 18px;
-    padding-right: 18px;
-    height: 100px;
-    padding-top: 25px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 85px;
+    padding-top: 0px !important;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .top_heading {
+    font-size: 16px !important;
+    padding-top: 10px;
+    line-height: 20px !important;
+  }
+
+  .login_heading {
+    display: flex !important;
+    padding: 0px !important;
+    align-items: center;
+    height: 100%;
+  }
+
+  .login_heading span {
+    margin-left: 4px !important;
+  }
+
+  .logo {
+    width: 74px;
+  }
+
+  .dialog_content_custom {
+    margin: 33px 0px 30px !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .app_header .app_header_toolbar {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .logo {
+    display: none !important;
+  }
+
+  .dialog_content_custom {
+    margin: 23px 0px 23px !important;
   }
 }
