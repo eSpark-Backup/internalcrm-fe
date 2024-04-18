@@ -154,6 +154,16 @@ const Members = () => {
         duration: 500,
       }),
     },
+
+    "@media only screen and (max-width: 1199px)": {
+      width: 43,
+      height: 22,
+
+      "& .MuiSwitch-thumb": {
+        width: 18,
+        height: 18,
+      },
+    },
   }));
 
   return (
@@ -170,20 +180,26 @@ const Members = () => {
       />
 
       <Stack className={styles.container_style}>
-        <Grid container spacing={4}>
+        <Grid
+          container
+          spacing={4}
+          sx={{
+            justifyContent: {
+              xs: "center",
+              sm: "space-between",
+              md: "flex-start",
+            },
+          }}
+        >
           {allMembers.map((member) => {
             return (
               <Grid
                 item
                 md={6}
                 lg={4}
-                xl={3}
+                xxl={3}
                 key={member.id}
-                sx={{
-                  paddingTop: "0px !important",
-                  marginBottom: "35px",
-                  height: "auto",
-                }}
+                className={styles.grid_item}
               >
                 <DynamicCard
                   member={true}
@@ -237,7 +253,7 @@ const Members = () => {
 
                   <Typography
                     my="8px"
-                    className={`${styles.member_detail} inter-regular`}
+                    className={`${styles.member_detail} inter-regular ${styles.member_id}`}
                   >
                     Id: {member.employee_id}
                   </Typography>
