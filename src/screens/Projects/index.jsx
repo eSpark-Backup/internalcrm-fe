@@ -106,8 +106,7 @@ const Projects = () => {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          marginTop: "20px",
-          marginBottom: "20px",
+          marginBottom: "40px",
         }}
       >
         <div
@@ -230,7 +229,7 @@ const Projects = () => {
       </Modal>
 
       {teamsChunks.map((chunk, chunkIndex) => (
-        <div key={chunkIndex} style={{ display: "flex", marginBottom: "20px" }}>
+        <div key={chunkIndex} style={{ display: "flex", marginBottom: "40px" }}>
           {chunk.map((project, index) => (
             <div
               key={index}
@@ -244,7 +243,7 @@ const Projects = () => {
                 >
                   <div>
                     <Typography
-                      variant="h4"
+                      variant="h5"
                       sx={{ color: "#595959", fontWeight: "bold" }}
                     >
                       {project.name}

@@ -79,14 +79,11 @@ const Teams = () => {
 
   return (
     <div>
-      <div style={{ display: "flex", marginTop: "20px" }}>
-        {/* Render the SearchBar component for team name */}
-        <SearchBar
-          placeholder="Search by team name"
-          onSearch={handleSearchTeam}
-        />
-       
-      </div>
+      <SearchBar
+        placeholder="Search by team name"
+        onSearch={handleSearchTeam}
+      />
+
       {teamsChunks.map((chunk, index) => (
         <div key={index} className={styles.container_style}>
           {chunk.map((team, idx) => (

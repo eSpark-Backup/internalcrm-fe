@@ -20,6 +20,7 @@ const DynamicCard = (props) => {
         width: "100%",
         boxShadow: 3,
         borderRadius: "8px",
+        boxShadow:"none",
         "&.MuiCard-root": card,
       }}
       className={card_style}
