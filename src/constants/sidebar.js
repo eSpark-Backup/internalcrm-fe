@@ -16,7 +16,7 @@ export const sidebar_links = [
     heading: "Dashboard",
     icon: Dashboard,
     iconActive: DashboardActive,
-    route: "/",
+    route: "/dashboard",
   },
   {
     id: 2,

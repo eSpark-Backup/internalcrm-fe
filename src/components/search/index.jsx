@@ -1,40 +1,91 @@
-import React, { useState } from "react";
-import { TextField, InputAdornment, IconButton } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import React from "react";
+import {
+  Stack,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Button,
+} from "@mui/material";
 
-const SearchBar = ({ placeholder, onSearch }) => {
-  const [searchValue, setSearchValue] = useState("");
+import Search from "../../assets/logos/small-search.svg?react";
+import SearchDark from "../../assets/logos/search-dark.svg?react";
 
-  const handleSearch = (event) => {
-    const value = event.target.value;
-    setSearchValue(value);
-    onSearch(value);
-  };
+import styles from "./style.module.css";
+
+const SearchBar = (props) => {
+  const {
+    name,
+    jobTitle,
+    btn,
+    btnText,
+    handleSearchName,
+    handleSearchJobTitle,
+    onClick,
+    hideJobTitleSearch, // New prop to conditionally hide the job title search bar
+  } = props;
 
   return (
-    <TextField
-      placeholder={placeholder}
-      variant="outlined"
-      onChange={handleSearch}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <IconButton>
-              <Search />
-            </IconButton>
-          </InputAdornment>
-        ),
-        sx: {
-          marginRight: "40px",
-          height:"35px",
-          backgroundColor:"#fff",
-          fontSize:"14px",
-          "& .MuiOutlinedInput-input": {
-            padding: "10px", // Adjust the input padding as needed
-          },
-        },
-      }}
-    />
+    <Stack
+      flexDirection="row"
+      justifyContent="space-between"
+      sx={{ display: { xs: "block", lg: "flex" } }}
+    >
+      <Stack flexDirection="row">
+        <div>
+          <TextField
+            placeholder="Search by team name"
+            variant="outlined"
+            onChange={handleSearchName}
+            value={name}
+            className={styles.textfield}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton>
+                    <SearchDark />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          {!hideJobTitleSearch && ( 
+            <TextField
+              placeholder="Search by job title"
+              variant="outlined"
+              onChange={handleSearchJobTitle}
+              value={jobTitle}
+              className={`${styles.textfield} ${styles.right_textfield}`}
+              sx={{ marginLeft: "35px" }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton>
+                      <SearchDark />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          )}
+        </div>
+
+        <IconButton className={styles.search_container}>
+          <Search style={{ color: "white" }} />
+        </IconButton>
+      </Stack>
+
+      {btn && (
+        <div className={styles.btn_container}>
+          <Button
+            className={`${styles.action_btn} inter-semibold`}
+            onClick={onClick}
+          >
+            {btnText}
+          </Button>
+        </div>
+      )}
+    </Stack>
   );
 };
 

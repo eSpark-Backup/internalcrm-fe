@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import React, { useState } from "react";
 import {
   Box,
@@ -7,12 +10,25 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+
+import { storeChildData } from "../../redux/reducers/headerSlice";
 import DynamicCard from "../../components/card";
 import styles from "./style.module.css";
 import { Search } from "@mui/icons-material";
 import SearchBar from "../../components/search";
 
 const Teams = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      storeChildData({
+        title: "Teams",
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [searchTeam, setSearchTeam] = useState("");
   const [searchJobTitle, setSearchJobTitle] = useState("");
 
@@ -69,29 +85,13 @@ const Teams = () => {
           placeholder="Search by team name"
           onSearch={handleSearchTeam}
         />
-        {/* Render the SearchBar component for job title */}
-        <SearchBar
-          placeholder="Search by job title"
-          onSearch={handleSearchJobTitle}
-        />
-        <Box
-          display="flex"
-          alignItems="center"
-          borderRadius="4px"
-          padding="8px"
-          height="43px"
-          backgroundColor="#029894"
-        >
-          <IconButton>
-            <Search style={{ color: "white" }} />
-          </IconButton>
-        </Box>
+       
       </div>
       {teamsChunks.map((chunk, index) => (
         <div key={index} className={styles.container_style}>
           {chunk.map((team, idx) => (
             <div key={idx} className="card_style">
-              <DynamicCard hideTitleAndHr>
+              <DynamicCard member>
                 <Typography
                   sx={{
                     color: "#595959",

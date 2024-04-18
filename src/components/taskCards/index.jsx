@@ -94,7 +94,7 @@ const Tasks = () => {
         }}
       >
         <div className="card_style">
-          <DynamicCard hideTitleAndHr>
+          <DynamicCard member>
             <div className={styles.card_content}>
               <Typography
                 variant="h5"

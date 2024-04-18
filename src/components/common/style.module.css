@@ -1,21 +1,3 @@
-/* .box_style {
-  position: absolute;
-  top: 50% !important;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  width: 450px !important;
-  background-color: #fff;
-  border-radius: 5px;
-  border: none;
-}
-
-.box_style:focus-visible {
-  outline: none !important;
-} */
-
 .dialog_title {
   color: #068987 !important;
   text-align: center;
@@ -28,8 +10,6 @@
 
 .dialog_description {
   font-size: 14px !important;
-  text-align: center;
-  margin: 43px 0px 50px !important;
 }
 
 .form {
@@ -38,11 +18,15 @@
 
 .form_control {
   width: 100%;
+  position: relative;
 }
 
 .input_label {
   font-size: 14px !important;
   color: #595959 !important;
+  transform: none !important;
+  position: relative !important;
+  margin-bottom: 10px;
 }
 
 .double_button_box {
@@ -71,4 +55,203 @@
 .dialog_actions {
   justify-content: center !important;
   padding: 0px !important;
+}
+
+.inner_header {
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 31px 32px 33px 40px;
+  margin: 0px auto 0px;
+  width: 100%;
+  height: 100%;
+}
+
+.header_login {
+  width: 82.5%;
+}
+
+.inner_header_heading {
+  color: #068987 !important;
+  font-size: 26px !important;
+  line-height: 31px !important;
+  text-transform: uppercase;
+}
+
+.eye_icon {
+  position: absolute;
+  bottom: 6px;
+  right: 13px;
+}
+
+.dual_buttons button,
+.single_button button {
+  padding: 11px 0px !important;
+  text-transform: capitalize !important;
+  width: 100px;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  line-height: 19px;
+  color: #029e9c;
+  border-radius: 5px;
+}
+
+.dual_buttons .active {
+  color: #ffffff !important;
+  background-color: #029e9c !important;
+}
+
+.single_button .back {
+  width: 120px;
+  background: #ffffff;
+  border: 1px solid #029894;
+  border-radius: 5px;
+}
+
+.active_button {
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+
+.inactive_button {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
+.placeholder {
+  font-size: 14px;
+}
+
+.menu_item {
+  padding: 14px 20px !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.menu_item:not(:last-child) {
+  border-bottom: 1px solid #e4e4e4 !important;
+}
+
+@keyframes rotateArrow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-180deg);
+  }
+}
+
+@keyframes rotateArrowBack {
+  from {
+    transform: rotate(-180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.custom_dropdown_button.open .arrow {
+  animation: rotateArrow 0.3s ease forwards;
+}
+
+.custom_dropdown_button .arrow {
+  animation: rotateArrowBack 0.3s ease forwards;
+}
+
+@media only screen and (max-width: 1366px) {
+  .inner_header {
+    padding: 26px 32px 28px 40px;
+  }
+
+  .inner_header_heading {
+    font-size: 24px !important;
+    line-height: 29px !important;
+  }
+
+  .dual_buttons button,
+  .single_button button {
+    padding: 9px 0px !important;
+    width: 90px;
+    line-height: 17px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .inner_header {
+    padding: 22px 26px;
+  }
+
+  .dual_buttons button,
+  .single_button button {
+    padding: 8px 0px !important;
+    width: 90px;
+    line-height: 15px;
+  }
+
+  .header_login {
+    width: 92.5%;
+  }
+
+  .inner_header_heading {
+    font-size: 22px !important;
+    line-height: 27px !important;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .inner_header {
+    top: 0px;
+    margin: 20px auto 30px;
+  }
+
+  .dialog_actions button {
+    width: 100px;
+    padding: 4px 6px !important;
+  }
+
+  .form {
+    margin: 20px 0px 30px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .inner_header {
+    width: 100%;
+    padding: 18px;
+  }
+
+  .inner_header_heading {
+    font-size: 20px !important;
+    line-height: 24px !important;
+  }
+
+  .dialog_actions button {
+    width: 95px;
+    padding: 3px 6px !important;
+  }
+
+  .app_input input {
+    padding: 6px 10px !important;
+  }
+
+  .form {
+    margin: 15px 0px 20px;
+  }
+}
+
+@media only screen and (max-width: 374px) {
+  .auth_inner_header {
+    flex-direction: column !important;
+    align-items: start !important;
+  }
+
+  .inner_header_heading {
+    margin-bottom: 5px !important;
+  }
+
+  .dual_buttons,
+  .single_button {
+    width: 100%;
+    text-align: end;
+  }
 }

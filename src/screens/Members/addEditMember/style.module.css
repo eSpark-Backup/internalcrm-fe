@@ -1,0 +1,91 @@
+.container {
+  height: -webkit-fill-available;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  /* overflow-y: auto; */
+  background-color: #ffffff;
+  padding-bottom: 112px;
+}
+
+.add_member_form {
+  padding: 0px 47px 0px 95px;
+  height: inherit;
+  justify-content: space-between;
+  position: relative;
+}
+
+.delete_member {
+  text-transform: capitalize !important;
+  padding: 10px 0px !important;
+  width: 160px !important;
+  border-radius: 5px !important;
+  position: absolute !important;
+  right: 48px !important;
+  top: 19px !important;
+  background-color: #ffffff !important;
+  border: 1px solid #029894 !important;
+  font-size: 16px !important;
+  line-height: 19px !important;
+  color: #029894 !important;
+}
+
+.form {
+  flex: 1;
+  margin-bottom: 85px;
+}
+
+.permission_container {
+  background: #f6f6f6;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.permission_item {
+  padding: 5px 112px 5px 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.permission_item h5 {
+  font-size: 12px;
+  line-height: 15px;
+  color: #595959;
+}
+
+.check {
+  padding: 0px !important;
+}
+
+.action_button {
+  display: flex;
+}
+
+.button {
+  text-transform: capitalize;
+  padding: 10px 0px;
+  width: 120px;
+  border-radius: 5px;
+  position: unset;
+}
+
+.next_btn {
+  background-color: #029894 !important;
+  color: #ffffff !important;
+}
+
+.back {
+  background-color: #ffffff !important;
+  border: 1px solid #029894 !important;
+  color: #029e9c !important;
+}
+
+.back:active {
+  background-color: #ffffff !important;
+}
+
+.text_class {
+  color: #595959 !important;
+  line-height: 17px !important;
+  text-align: center;
+}

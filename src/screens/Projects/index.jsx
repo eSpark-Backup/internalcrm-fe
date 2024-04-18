@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import React, { useState } from "react";
 import {
   Box,
@@ -7,6 +10,8 @@ import {
   TextField,
   Modal,
 } from "@mui/material";
+
+import { storeChildData } from "../../redux/reducers/headerSlice";
 import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
 import DynamicCard from "../../components/card";
 import styles from "./style.module.css";
@@ -15,6 +20,17 @@ import { Search } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 
 const Projects = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      storeChildData({
+        title: "Projects",
+      })
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [hoveredCards, setHoveredCards] = useState([]);
   const [searchNameValue, setSearchNameValue] = useState("");
   const [searchMonthValue, setSearchMonthValue] = useState("");
@@ -103,22 +119,6 @@ const Projects = () => {
             placeholder="Search projects by name"
             onSearch={handleNameSearch}
           />
-          <SearchBar
-            placeholder="Search projects by month"
-            onSearch={handleMonthSearch}
-          />
-          <Box
-            display="flex"
-            alignItems="center"
-            borderRadius="4px"
-            padding="8px"
-            height="43px"
-            backgroundColor="#029894"
-          >
-            <IconButton>
-              <Search style={{ color: "white" }} />
-            </IconButton>
-          </Box>
         </div>
         <Button
           onClick={openAddProjectPopup}
@@ -238,7 +238,7 @@ const Projects = () => {
               onMouseEnter={() => handleMouseEnter(index + chunkIndex * 3)}
               onMouseLeave={() => handleMouseLeave(index + chunkIndex * 3)}
             >
-              <DynamicCard hideTitleAndHr>
+              <DynamicCard member>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >

@@ -185,19 +185,9 @@ const Assets = () => {
           >
             <SearchBar
               placeholder="Search by name"
+              hideJobTitleSearch
             />
-            <Box
-              display="flex"
-              alignItems="center"
-              borderRadius="4px"
-              padding="8px"
-              height="43px"
-              backgroundColor="#029894"
-            >
-              <IconButton>
-                <Search style={{ color: "white" }} />
-              </IconButton>
-            </Box>
+            
           </div>
         </div>
         <Button
