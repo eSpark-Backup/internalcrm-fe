@@ -1,0 +1,15 @@
+.status_style {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .card_container {
+    display: flex;
+    flex: 1; /* Stretch the container to fill available space */
+  }
+  
+  .card_item {
+    flex: 1; /* Each card takes equal space */
+    margin-right: 20px;
+  }
+  

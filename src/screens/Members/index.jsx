@@ -168,15 +168,26 @@ const Members = () => {
 
   return (
     <>
-      <SearchBar
+      {/* <SearchBar
         btn={!!isActive}
         btnText="Add Member"
         name={name}
         setName={setName}
         joTitle={joTitle}
-        handleSearchName={handleSearchName}
-        handleSearchJobTitle={handleSearchJobTitle}
+        searchTextOne={handleSearchName}
+        searchTextTwo={handleSearchJobTitle}
         onClick={onClick}
+      /> */}
+
+      <SearchBar
+        onNameSearch={handleSearchName}
+        onMonthSearch={handleSearchJobTitle}
+        searchTextOne="Search by name"
+        searchTextTwo="Search by job title"
+        btn={!!isActive}
+        btnText="Add Member"
+        onClick={onClick}
+
       />
 
       <Stack className={styles.container_style}>

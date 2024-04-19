@@ -19,8 +19,10 @@ const CircularProgressBar = ({ value }) => {
   return (
     <div
       style={{
-        width: 150,
+        width: 180,
         padding: "10px 0px 15px",
+        height: 180,
+        margin: "auto",
       }}
     >
       <CircularProgressbar

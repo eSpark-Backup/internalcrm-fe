@@ -19,7 +19,9 @@ const DynamicCard = (props) => {
         width: "100%",
         boxShadow: 3,
         borderRadius: "8px",
+        boxShadow: "none",
         "&.MuiCard-root": card,
+        "&:hover": { boxShadow: "0px 0px 15px 5px rgba(128, 128, 128, 0.5)" },
       }}
       className={card_style}
       onMouseEnter={onMouseEnter}

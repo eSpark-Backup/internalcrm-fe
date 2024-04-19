@@ -6,7 +6,7 @@ import CircularProgressBar from "../../components/circularProgressBar";
 
 import { storeChildData } from "../../redux/reducers/headerSlice";
 
-import "./style.css";
+import styles from "./style.module.css";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -21,19 +21,21 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <>
-      <div className="status-style">
-        <div style={{ marginRight: "20px" }}>
+    <div className={styles.status_style}>
+      <div className={styles.card_container}>
+        <div className={styles.card_item}>
           <DynamicCard title="Ticket Status">
             <CircularProgressBar value={90} />
           </DynamicCard>
         </div>
 
-        <DynamicCard title="Ticket Status">
-          <CircularProgressBar value={90} />
-        </DynamicCard>
+        <div className={styles.card_item}>
+          <DynamicCard title="Project status">
+            <CircularProgressBar value={90} />
+          </DynamicCard>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
