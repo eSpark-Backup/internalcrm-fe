@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Stack, InputLabel } from "@mui/material";
+import { Stack } from "@mui/material";
+
+import Label from "../common/inputLabel";
 
 import ArrowDropdown from "../../assets/logos/arrow-dropdown.svg?react";
 
 import styles from "./style.module.css";
 
 const MultiLevelSelect = (props) => {
-  const { label, placeholder, normalFont, options } = props;
+  const { label, placeholder, options } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedParent, setSelectedParent] = useState("");
@@ -44,12 +46,7 @@ const MultiLevelSelect = (props) => {
 
   return (
     <Stack className={styles.container}>
-      <InputLabel
-        className={`inter-medium ${styles.input_label}`}
-        sx={{ fontSize: normalFont ? "16px !important" : "14px !important" }}
-      >
-        {label}
-      </InputLabel>
+      <Label label={label} />
 
       <div
         className={`${styles.custom_dropdown} ${isOpen ? styles.active : ""}`}

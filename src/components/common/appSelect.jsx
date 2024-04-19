@@ -23,6 +23,14 @@ const selectStyles = (isMenuOpen, normalFont) => {
       borderColor: isMenuOpen ? "#068987 !important" : "#E4E4E4 !important",
       boxShadow: "none",
       borderRadius: isMenuOpen ? "5px 5px 0px 0px" : "5px",
+
+      "@media only screen and (max-width: 1536px)": {
+        padding: "4.5px 15px 4.5px 14px",
+      },
+
+      "@media only screen and (max-width: 1366px)": {
+        padding: "2.5px 13px 2.5px 8px",
+      },
     }),
     valueContainer: (baseStyles) => ({
       ...baseStyles,

@@ -158,6 +158,12 @@
   animation: rotateArrowBack 0.3s ease forwards;
 }
 
+@media only screen and (max-width: 1536px) {
+  .input_label {
+    margin-bottom: 9px;
+  }
+}
+
 @media only screen and (max-width: 1366px) {
   .inner_header {
     padding: 26px 32px 28px 40px;
@@ -173,6 +179,10 @@
     padding: 9px 0px !important;
     width: 90px;
     line-height: 17px;
+  }
+
+  .input_label {
+    margin-bottom: 7px;
   }
 }
 
