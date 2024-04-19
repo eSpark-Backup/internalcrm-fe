@@ -8,13 +8,14 @@ import {
   Autocomplete,
 } from "@mui/material";
 import EventIcon from "@mui/icons-material/Event";
-import CalenderIcon from "../../assets/svg/constants";
+import  CalenderIcon  from "../svg/calenderIcon";
 
 const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
   const [task, setTask] = useState("");
   const [assignedTo, setAssignedTo] = useState(null); // State for selected employee
   const [fromDate, setFromDate] = useState(""); // State for From date
   const [toDate, setToDate] = useState(""); // State for To date
+  const [description, setDescription] = useState("");
 
   const employees = [
     { name: "Employee 1" },
@@ -24,20 +25,31 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
   ];
 
   const handleAdd = () => {
-    if (task.trim() !== "" && assignedTo && fromDate && toDate) {
+    console.log("Task:", task);
+  console.log("Assigned To:", assignedTo);
+  console.log("From Date:", fromDate);
+  console.log("To Date:", toDate);
+  console.log("Description:", description);
+    if (task.trim() !== "" && assignedTo && fromDate && toDate && description.trim() !== "") {
       handleAddTask({
-        task,
-        assignedTo: assignedTo.name,
-        fromDate,
-        toDate,
+        task: task,
+        description: description,
+        assignedTo: assignedTo,
+        fromDate: fromDate,
+        toDate: toDate
       });
-      setTask(""); // Clear input field after adding task
-      setAssignedTo(null); // Clear selected employee
-      setFromDate(""); // Clear From date
-      setToDate(""); // Clear To date
-      handleClose(); // Close the popup
+      setTask("");
+      setDescription("");
+      setAssignedTo(null);
+      setFromDate("");
+      setToDate("");
+      handleClose();
+    } else {
+      // Handle case where all fields are not filled
+      console.log("Please fill all fields");
     }
   };
+  
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -216,15 +228,17 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
           Description
         </Typography>
         <TextField
-          sx={{ width:"670px" }}
+          sx={{ width: "670px" }}
           variant="outlined"
           margin="normal"
           fullWidth
           id="description"
           label="Description"
           placeholder="Enter description..."
-          // Add any additional props or styling as needed
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
+
         <div
           style={{
             display: "flex",

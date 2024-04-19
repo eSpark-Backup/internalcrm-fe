@@ -84,6 +84,7 @@ const Tasks = () => {
     setCards(updatedCards);
     setDeletePopupOpen(false); // Close delete confirmation popup after deletion
   };
+
   return (
     <div className={styles.cards_container}>
       <div
@@ -266,6 +267,7 @@ const Tasks = () => {
           const updatedCards = [...cards];
           updatedCards[selectedCardIndexForTask].tasks.push(task);
           setCards(updatedCards);
+          setAddTaskPopupOpen(false); // Close the popup after adding task
         }}
       />
     </div>
