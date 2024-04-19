@@ -11,3 +11,15 @@
   color: #029e9c !important;
   margin-top: 6px;
 }
+
+@media only screen and (max-width: 1536px) {
+  .stepper_stack {
+    margin: 19px auto 52px;
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .stepper_stack {
+    margin: 17px auto 36px;
+  }
+}

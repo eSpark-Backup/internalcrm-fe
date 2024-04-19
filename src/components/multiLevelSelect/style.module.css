@@ -106,3 +106,13 @@
 .dropdown_submenu:hover .submenu {
   display: block;
 }
+
+@media only screen and (max-width: 1536px) {
+  .dropdown_toggle {
+    padding: 12px 14px;
+  }
+
+  .dropdown_item {
+    padding: 14px 20px;
+  }
+}
