@@ -115,9 +115,12 @@ const Projects = () => {
           }}
         >
           <SearchBar
-            placeholder="Search projects by name"
-            onSearch={handleNameSearch}
+            onNameSearch={handleNameSearch}
+            onMonthSearch={handleMonthSearch}
+            searchTextOne="Search by name"
+            searchTextTwo="Search by month"
           />
+          
         </div>
         <Button
           onClick={openAddProjectPopup}
@@ -268,7 +271,7 @@ const Projects = () => {
                     <Link to="/cards">
                       <LaunchRoundedIcon
                         style={{
-                          fontSize: "50px",
+                          fontSize: "40px",
                           marginLeft: "4px",
                           marginTop: "5px",
                           color: "#3BB4B2",

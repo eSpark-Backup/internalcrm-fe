@@ -108,7 +108,7 @@ const Tasks = () => {
         </div>
         {cards.map((card, index) => (
           <div key={index} className="card_style">
-            <DynamicCard hideTitleAndHr>
+            <DynamicCard member>
               <div className={styles.card_content}>
                 <Typography
                   variant="h5"

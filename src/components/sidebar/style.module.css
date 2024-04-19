@@ -46,7 +46,8 @@
 }
 
 .inner_header_container {
-  z-index: 99999;
+  /* z-index: 99999; */
+  z-index: 1120;
   padding-left: 40px;
   padding-right: 40px;
   margin-top: 102px;

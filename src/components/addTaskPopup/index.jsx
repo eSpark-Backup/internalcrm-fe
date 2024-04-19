@@ -8,6 +8,7 @@ import {
   Autocomplete,
 } from "@mui/material";
 import EventIcon from "@mui/icons-material/Event";
+import CalenderIcon from "../../assets/svg/constants";
 
 const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
   const [task, setTask] = useState("");
@@ -62,6 +63,7 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
             fontWeight: "bold",
             color: "#068987",
             marginBottom: "15px",
+            fontFamily: "Inter",
           }}
         >
           Create Task
@@ -76,7 +78,12 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
         >
           <div>
             <Typography
-              sx={{ fontSize: "14px", fontWeight: "bold", color: "#636363" }}
+              sx={{
+                fontSize: "14px",
+                fontWeight: "500",
+                color: "#636363",
+                fontFamily: "Inter",
+              }}
             >
               Task name:
             </Typography>
@@ -102,7 +109,7 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
           </div>
           <div>
             <Typography
-              sx={{ fontSize: "14px", fontWeight: "bold", color: "#636363" }}
+              sx={{ fontSize: "14px", fontWeight: "500", color: "#636363" }}
             >
               Assign To:
             </Typography>
@@ -139,14 +146,18 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
           style={{
             display: "flex",
             justifyContent: "left",
-            gap: "20px",
+            gap: "85px",
             alignItems: "center",
-            marginTop: "20px",
           }}
         >
           <div>
             <Typography
-              sx={{ fontSize: "14px", fontWeight: "bold", color: "#636363" }}
+              sx={{
+                fontSize: "14px",
+                fontWeight: "500",
+                color: "#636363",
+                marginBottom: "10px",
+              }}
             >
               From Date:
             </Typography>
@@ -158,15 +169,22 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
                 style={{
                   padding: "8px",
                   borderRadius: "4px",
-                  border: "1px solid #888888",
+                  border: "1px solid #C5C5C5",
+                  width: "295px",
+                  color: "#9E9E9E",
                 }}
               />
-              <EventIcon sx={{ color: "#888888", marginLeft: "-30px" }} />
+              <CalenderIcon />
             </div>
           </div>
           <div>
             <Typography
-              sx={{ fontSize: "14px", fontWeight: "bold", color: "#636363" }}
+              sx={{
+                fontSize: "14px",
+                fontWeight: "500",
+                color: "#636363",
+                marginBottom: "10px",
+              }}
             >
               To Date:
             </Typography>
@@ -178,14 +196,42 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
                 style={{
                   padding: "8px",
                   borderRadius: "4px",
-                  border: "1px solid #888888",
+                  border: "1px solid #C5C5C5",
+                  width: "295px",
+                  color: "#9E9E9E",
                 }}
               />
-              <EventIcon sx={{ color: "#888888", marginLeft: "-30px" }} />
+              <CalenderIcon />
             </div>
           </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+        <Typography
+          sx={{
+            fontSize: "14px",
+            fontWeight: "500",
+            color: "#636363",
+            marginTop: "30px",
+          }}
+        >
+          Description
+        </Typography>
+        <TextField
+          // sx={{ "&.MuiOutlinedInput-root": { padding: "25px 0" } }}
+          variant="outlined"
+          margin="normal"
+          fullWidth
+          id="description"
+          label="Description"
+          placeholder="Enter description..."
+          // Add any additional props or styling as needed
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
           <Button
             onClick={handleClose}
             sx={{

@@ -111,7 +111,7 @@ const AddMembersPopup = ({ isOpen, onClose }) => {
         width: "100%",
         height: "100%",
         backgroundColor: "rgba(0, 0, 0, 0.5)",
-        zIndex: 1130,
+        zIndex: 1200,
       }}
     >
       <div
@@ -429,37 +429,7 @@ const AddMembersPopup = ({ isOpen, onClose }) => {
         aria-labelledby="popup-ok-modal"
         aria-describedby="modal-to-confirm-addition"
       >
-        {/* <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            backgroundColor: "#fff",
-            borderRadius: "10px",
-            padding: "20px",
-            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          <Typography variant="h6" align="center" gutterBottom>
-            Popup Heading
-          </Typography>
-          <Button
-            onClick={() => {
-              setShowPopup(false);
-              onClose();
-            }}
-            variant="contained"
-            color="primary"
-            style={{
-              marginLeft: "auto",
-              marginRight: "auto",
-              display: "block",
-            }}
-          >
-            OK
-          </Button>
-        </Box> */}
+       
         <Box
           sx={{
             position: "absolute",

@@ -13,6 +13,7 @@ import Projects from "../screens/Projects";
 // import PublicRoute from "./publicRoute";
 import Cards from "../screens/cards";
 import Assets from "../screens/assets";
+import TeamDetail from "../screens/teamDetail";
 
 const AppRoutes = () => {
   let routes = useRoutes([
@@ -44,6 +45,8 @@ const AppRoutes = () => {
     // },
     { path: "/cards", element: <Cards /> },
     { path: "/assets", element: <Assets /> },
+    { path: "/team-details", element: <TeamDetail /> },
+
   ]);
 
   return routes;

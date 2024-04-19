@@ -16,6 +16,7 @@ import DynamicCard from "../../components/card";
 import styles from "./style.module.css";
 import { Search } from "@mui/icons-material";
 import SearchBar from "../../components/search";
+import { Link } from "react-router-dom";
 
 const Teams = () => {
   const dispatch = useDispatch();
@@ -80,8 +81,10 @@ const Teams = () => {
   return (
     <div>
       <SearchBar
-        placeholder="Search by team name"
-        onSearch={handleSearchTeam}
+        onNameSearch={handleSearchTeam}
+        onMonthSearch={handleSearchJobTitle}
+        searchTextOne="Search by name"
+        searchTextTwo="Search by job title"
       />
 
       {teamsChunks.map((chunk, index) => (
@@ -109,6 +112,8 @@ const Teams = () => {
                 </Typography>
                 <div className={styles.button_container}>
                   <Button
+                    component={Link}
+                    to="/team-details"
                     className="view_button"
                     variant="contained"
                     sx={buttonStyles}

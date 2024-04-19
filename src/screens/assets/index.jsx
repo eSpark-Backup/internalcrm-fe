@@ -98,7 +98,7 @@ const Assets = () => {
           marginBottom: "40px",
         }}
       >
-        <div style={{ display: "flex", gap:"40px" }}>
+        <div style={{ display: "flex", gap: "40px", marginLeft: "20px" }}>
           <div>
             <Grid
               container
@@ -116,8 +116,8 @@ const Assets = () => {
                     display: "flex",
                     alignItems: "center",
                     borderRadius: "4px",
-                    padding: "15px 30px",
-                    height: "35px",
+                    padding: "15px 25px",
+                    height: "40px",
                     backgroundColor:
                       activeButton === "Links" ? "#029894" : "transparent",
                     color: "#fff",
@@ -127,7 +127,7 @@ const Assets = () => {
                     border: `2px solid ${
                       activeButton === "Links" ? "#029894" : "#E4E4E4"
                     }`,
-                    borderRadius: "8px 0px 0px 8px",
+                    borderRadius: "5px 0px 0px 5px",
                     boxShadow: "none",
                     color: activeButton === "Links" ? "#fff" : "#029894",
                     "&:hover": {
@@ -149,7 +149,7 @@ const Assets = () => {
                     alignItems: "center",
                     borderRadius: "4px",
                     padding: "15px 15px",
-                    height: "35px",
+                    height: "40px",
                     backgroundColor:
                       activeButton === "Documents" ? "#029894" : "transparent",
                     color: "#fff",
@@ -159,7 +159,7 @@ const Assets = () => {
                     border: `2px solid ${
                       activeButton === "Documents" ? "#029894" : "#E4E4E4"
                     }`,
-                    borderRadius: "0px 8px 8px 0px",
+                    borderRadius: "0px 5px 5px 0px",
                     boxShadow: "none",
                     color: activeButton === "Documents" ? "#fff" : "#029894",
                     "&:hover": {
@@ -183,11 +183,7 @@ const Assets = () => {
               display: "flex",
             }}
           >
-            <SearchBar
-              placeholder="Search by name"
-              hideJobTitleSearch
-            />
-            
+            <SearchBar searchTextOne="Search by name" hideJobTitleSearch />
           </div>
         </div>
         <Button
