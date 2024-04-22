@@ -15,6 +15,7 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
     borderColor: "#E4E4E4",
     width: "100%",
     padding: "10px 12px",
+    color: "#595959",
     transition: theme.transitions.create([
       "border-color",
       "background-color",
@@ -74,7 +75,15 @@ const AppInput = (props) => {
         type={type}
         sx={{
           "& input": {
-            paddingRight: `${input_sx} !important`,
+            paddingRight: input_sx && `${input_sx} !important`,
+            fontSize: normalFont ? "16px !important" : "14px !important",
+            height: "auto",
+
+            "&::placeholder": {
+              color: "#838383",
+              fontFamily: "Inter, sans-serif",
+              fontSize: normalFont ? "16px !important" : "14px !important",
+            },
           },
         }}
       />
