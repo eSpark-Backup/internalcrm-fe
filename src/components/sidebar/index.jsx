@@ -96,7 +96,7 @@ function ResponsiveDrawer(props) {
         sx={{
           marginLeft: {
             xs: 0,
-            lg: childData?.login ? "0px" : `${drawerWidth}px`,
+            md: childData?.login ? "0px" : `${drawerWidth}px`,
           },
         }}
       >
