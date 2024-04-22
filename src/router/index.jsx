@@ -46,7 +46,6 @@ const AppRoutes = () => {
     { path: "/cards", element: <Cards /> },
     { path: "/assets", element: <Assets /> },
     { path: "/team-details", element: <TeamDetail /> },
-
   ]);
 
   return routes;
