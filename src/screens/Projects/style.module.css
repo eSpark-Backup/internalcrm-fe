@@ -12,3 +12,8 @@
 .show_icon {
   opacity: 1;
 }
+
+.grid_style{
+  padding-left: 32px !important;
+  margin-bottom: 32px !important;
+}

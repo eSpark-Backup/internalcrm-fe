@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
+  Grid,
   IconButton,
   InputAdornment,
   TextField,
@@ -76,22 +77,23 @@ const Teams = () => {
       .map((begin) => array.slice(begin, begin + chunkSize));
   };
 
-  const teamsChunks = chunkArray(filteredTeams, 3);
+  const allTeams = chunkArray(filteredTeams, 3);
 
   return (
-    <div>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
       <SearchBar
         onNameSearch={handleSearchTeam}
         onMonthSearch={handleSearchJobTitle}
         searchTextOne="Search by name"
         searchTextTwo="Search by job title"
       />
-
-      {teamsChunks.map((chunk, index) => (
-        <div key={index} className={styles.container_style}>
+</Grid>
+      {allTeams.map((chunk, index) => (
+        <Grid key={index} container item xs={12} spacing={2}>
           {chunk.map((team, idx) => (
-            <div key={idx} className="card_style">
-              <DynamicCard member>
+            <Grid item xs={12} sm={6} md={4} className={styles.grid_style}>
+              <DynamicCard member={true} card_style="card_style">
                 <Typography
                   sx={{
                     color: "#595959",
@@ -122,11 +124,11 @@ const Teams = () => {
                   </Button>
                 </div>
               </DynamicCard>
-            </div>
+            </Grid>
           ))}
-        </div>
+        </Grid>
       ))}
-    </div>
+    </Grid>
   );
 };
 

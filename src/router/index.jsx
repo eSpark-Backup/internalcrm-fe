@@ -14,6 +14,7 @@ import Projects from "../screens/Projects";
 import Cards from "../screens/cards";
 import Assets from "../screens/assets";
 import TeamDetail from "../screens/teamDetail";
+import Sources from "../screens/sources";
 
 const AppRoutes = () => {
   let routes = useRoutes([
@@ -46,6 +47,8 @@ const AppRoutes = () => {
     { path: "/cards", element: <Cards /> },
     { path: "/assets", element: <Assets /> },
     { path: "/team-details", element: <TeamDetail /> },
+    { path: "/sources", element: <Sources /> },
+
 
   ]);
 
