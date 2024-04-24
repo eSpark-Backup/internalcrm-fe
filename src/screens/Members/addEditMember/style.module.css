@@ -1,5 +1,5 @@
 .container {
-  height: -webkit-fill-available;
+  height: calc(100% + 112px);
   border: 1px solid #e4e4e4;
   border-radius: 10px;
   /* overflow-y: auto; */
@@ -62,11 +62,11 @@
 }
 
 .button {
-  text-transform: capitalize;
-  padding: 10px 0px;
-  width: 120px;
-  border-radius: 5px;
-  position: unset;
+  text-transform: capitalize !important;
+  padding: 10px 0px !important;
+  width: 120px !important;
+  border-radius: 5px !important;
+  position: unset !important;
 }
 
 .next_btn {
@@ -88,4 +88,30 @@
   color: #595959 !important;
   line-height: 17px !important;
   text-align: center;
+}
+
+@media only screen and (max-width: 1536px) {
+  .form {
+    margin-bottom: 55px;
+  }
+
+  .grid_child {
+    padding-top: 30px !important;
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .container {
+    height: calc(100% + 142px);
+    padding-bottom: 42px;
+  }
+
+  .add_member_form {
+    padding: 0px 42px 0px 75px;
+  }
+
+  .button {
+    line-height: 22px !important;
+    padding: 8px 0px !important;
+  }
 }

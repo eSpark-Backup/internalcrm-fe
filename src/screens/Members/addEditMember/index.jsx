@@ -104,7 +104,12 @@ const AddEditMember = () => {
             {activeStep === 0 &&
               addMemberBasicInfo?.map((field) => {
                 return (
-                  <Grid item md={4} key={field.id}>
+                  <Grid
+                    item
+                    md={4}
+                    key={field.id}
+                    className={styles.grid_child}
+                  >
                     {field.fieldType === "text" && (
                       <AppInput
                         key={field.id}

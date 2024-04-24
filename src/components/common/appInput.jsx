@@ -20,6 +20,14 @@ const BootstrapInput = styled(InputBase)(({ theme }) => ({
       "background-color",
       "box-shadow",
     ]),
+
+    "@media only screen and (max-width: 1536px)": {
+      padding: "9px 12px",
+    },
+
+    "@media only screen and (max-width: 1366px)": {
+      padding: "7px 10px",
+    },
   },
 }));
 

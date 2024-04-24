@@ -187,7 +187,6 @@ const Members = () => {
         btn={!!isActive}
         btnText="Add Member"
         onClick={onClick}
-
       />
 
       <Stack className={styles.container_style}>
@@ -208,7 +207,6 @@ const Members = () => {
                 item
                 md={6}
                 lg={4}
-                xxl={3}
                 key={member.id}
                 className={styles.grid_item}
               >

@@ -1,14 +1,13 @@
-import { InputLabel } from "@mui/material";
-
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import Calender from "../../assets/logos/calender.svg?react";
 import { useRef } from "react";
+import Label from "../common/inputLabel";
 
 const Picker = (props) => {
-  const { normalFont, label, placeholder } = props;
+  const { label, placeholder } = props;
   const datePickerRef = useRef(null);
 
   const handleInputClick = () => {
@@ -17,12 +16,7 @@ const Picker = (props) => {
 
   return (
     <>
-      <InputLabel
-        className={`inter-medium`}
-        sx={{ fontSize: normalFont ? "16px !important" : "14px !important" }}
-      >
-        {label}
-      </InputLabel>
+      <Label label={label} />
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
@@ -57,18 +51,6 @@ const Picker = (props) => {
                   color: "#171717",
                   fontWeight: 600,
                 },
-
-                // "& .MuiDateCalendar-root": {
-                //   width: "100%",
-                // },
-
-                // "& .MuiDayCalendar-header": {
-                //   justifyContent: "space-evenly",
-                // },
-
-                // "& .MuiDayCalendar-weekContainer": {
-                //   justifyContent: "space-evenly",
-                // },
               },
             },
 

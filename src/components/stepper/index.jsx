@@ -46,6 +46,11 @@ const ColorlibStepIconRoot = styled("div")(({ ownerState }) => ({
     backgroundColor: "#068987",
     color: "#ffffff",
   }),
+
+  "@media only screen and (max-width: 1366px)": {
+    width: 45,
+    height: 45,
+  },
 }));
 
 function ColorlibStepIcon(props) {

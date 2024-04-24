@@ -293,6 +293,10 @@ body,
   border-radius: 5px;
 }
 
+.MuiOutlinedInput-input {
+  padding: 11.5px 14px !important;
+}
+
 .date_picker fieldset {
   border-color: #e4e4e4 !important;
   border-width: 1px !important;
@@ -316,6 +320,18 @@ body,
 }
 
 /* Date Picker Styles End */
+
+@media only screen and (max-width: 1536px) {
+  .MuiOutlinedInput-input {
+    padding: 10px 14px !important;
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .MuiOutlinedInput-input {
+    padding: 8px 14px !important;
+  }
+}
 
 @media only screen and (max-width: 600px) {
   /* Dialog Styles Start */
