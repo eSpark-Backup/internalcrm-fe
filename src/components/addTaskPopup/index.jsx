@@ -8,7 +8,8 @@ import {
   Autocomplete,
 } from "@mui/material";
 import EventIcon from "@mui/icons-material/Event";
-import  CalenderIcon  from "../svg/calenderIcon";
+import CalenderIcon from "../svg/calenderIcon";
+import Picker from "../datePicker/index";
 
 const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
   const [task, setTask] = useState("");
@@ -26,17 +27,23 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
 
   const handleAdd = () => {
     console.log("Task:", task);
-  console.log("Assigned To:", assignedTo);
-  console.log("From Date:", fromDate);
-  console.log("To Date:", toDate);
-  console.log("Description:", description);
-    if (task.trim() !== "" && assignedTo && fromDate && toDate && description.trim() !== "") {
+    console.log("Assigned To:", assignedTo);
+    console.log("From Date:", fromDate);
+    console.log("To Date:", toDate);
+    console.log("Description:", description);
+    if (
+      task.trim() !== "" &&
+      assignedTo &&
+      fromDate &&
+      toDate &&
+      description.trim() !== ""
+    ) {
       handleAddTask({
         task: task,
         description: description,
         assignedTo: assignedTo,
         fromDate: fromDate,
-        toDate: toDate
+        toDate: toDate,
       });
       setTask("");
       setDescription("");
@@ -49,7 +56,6 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
       console.log("Please fill all fields");
     }
   };
-  
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -84,7 +90,7 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
           style={{
             display: "flex",
             justifyContent: "left",
-            gap: "165px",
+            gap: "90px",
             alignItems: "center",
           }}
         >
@@ -107,7 +113,7 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
               sx={{
                 marginBottom: "25px",
                 marginTop: "10px",
-                width: "140%",
+                width: "23vw",
                 "& .MuiInputLabel-root": {
                   color: "#888888",
                   fontSize: "14px",
@@ -140,7 +146,7 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
               sx={{
                 marginBottom: "25px",
                 marginTop: "10px",
-                width: "370%",
+                width: "23vw",
                 padding: "0 !important",
                 "& .MuiInputLabel-root": {
                   color: "#888888",
@@ -173,20 +179,8 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
             >
               From Date:
             </Typography>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <input
-                type="date"
-                value={fromDate}
-                onChange={(e) => setFromDate(e.target.value)}
-                style={{
-                  padding: "8px",
-                  borderRadius: "4px",
-                  border: "1px solid #C5C5C5",
-                  width: "295px",
-                  color: "#9E9E9E",
-                }}
-              />
-              <CalenderIcon />
+            <div className="calender_field">
+              <Picker />
             </div>
           </div>
           <div>
@@ -200,20 +194,9 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
             >
               To Date:
             </Typography>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <input
-                type="date"
-                value={toDate}
-                onChange={(e) => setToDate(e.target.value)}
-                style={{
-                  padding: "8px",
-                  borderRadius: "4px",
-                  border: "1px solid #C5C5C5",
-                  width: "295px",
-                  color: "#9E9E9E",
-                }}
-              />
-              <CalenderIcon />
+            <div className="calender_field">
+             
+              <Picker />
             </div>
           </div>
         </div>

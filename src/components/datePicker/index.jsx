@@ -62,7 +62,7 @@ const Picker = (props) => {
                 backgroundColor: "transparent !important",
                 margin: "0px 5px",
                 width: 30,
-                height: 30,
+                height: 20,
 
                 "&.Mui-selected": {
                   color: "#e4e4e4",

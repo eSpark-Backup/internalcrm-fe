@@ -286,6 +286,10 @@ body,
   width: 100%;
 }
 
+.calender_field .date_picker {
+  width: 24.5vw;
+}
+
 .date_picker .MuiOutlinedInput-root {
   font-family: Inter, sans-serif !important;
   font-weight: 400 !important;

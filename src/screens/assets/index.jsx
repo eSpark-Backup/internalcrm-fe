@@ -325,6 +325,10 @@ const Assets = () => {
                           backgroundColor: "#FF0000",
                         },
                       }}
+                      onClick={() => {
+                        setDeletingIndex(index); // Set the index of the item being deleted
+                        setDeleteModalOpen(true); // Open the delete confirmation modal
+                      }}
                     >
                       <DeleteIcon />
                     </IconButton>

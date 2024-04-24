@@ -10,6 +10,10 @@ import TeamsActive from "../assets/logos/teams-active.svg?react";
 import Projects from "../assets/logos/projects.svg?react";
 import ProjectsActive from "../assets/logos/projects-active.svg?react";
 
+import Leads from "../assets/logos/lead.svg?react";
+import LeadsActive from "../assets/logos/lead-active.svg"
+
+
 export const sidebar_links = [
   {
     id: 1,
@@ -39,4 +43,12 @@ export const sidebar_links = [
     iconActive: ProjectsActive,
     route: "/projects",
   },
+  {
+    id: 5,
+    heading: "Leads",
+    icon: Leads,
+    iconActive: LeadsActive,
+    route: "/leads",
+  },
+
 ];
