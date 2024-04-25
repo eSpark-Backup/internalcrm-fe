@@ -1,6 +1,14 @@
+.container {
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 70px;
+  scrollbar-width: none;
+  margin-top: 40px;
+}
+
 .container_style {
   display: flex;
-  margin-top: 40px;
+  margin-bottom: 35px;
 }
 
 .button_container {
@@ -15,4 +23,17 @@
   color: #e4e4e4;
   font-size: 15px;
   border-radius: 5px;
+}
+
+@media only screen and (max-width: 1366px) {
+  .container {
+    margin-top: 30px;
+    padding-bottom: 30px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .container {
+    margin-top: 25px;
+  }
 }

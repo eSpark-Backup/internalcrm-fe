@@ -3,16 +3,16 @@ import SearchBar from "../../components/search";
 import style from "./style.module.css";
 import {
   Typography,
-  Avatar,
   Grid,
   Table,
   TableHead,
   TableRow,
   TableCell,
   TableBody,
-  IconButton,
 } from "@mui/material"; // Import necessary Material-UI components
 import john from "../../assets/images/img.jpeg";
+
+import styles from "./style.module.css";
 
 const TeamDetail = () => {
   const [selectedMembers, setSelectedMembers] = useState([]);
@@ -98,13 +98,7 @@ const TeamDetail = () => {
         searchTextOne="Search by name"
         searchTextTwo="Search by job title"
       />
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 2.5fr",
-          marginTop: "50px",
-        }}
-      >
+      <div className={styles.container}>
         <div className={style.head_style}>
           <Typography
             variant="h5"

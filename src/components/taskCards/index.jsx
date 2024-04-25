@@ -89,8 +89,14 @@ const Tasks = () => {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr 1fr",
+          gridTemplateColumns:
+            cards.length > 2
+              ? "repeat(auto-fit, minmax(200px, 1fr))"
+              : "1fr 1fr 1fr",
+          gridAutoFlow: "column",
           gap: "10px",
+          width: cards.length > 2 ? "100vw" : "100%",
+          overflowX: "auto",
         }}
       >
         <div className="card_style">

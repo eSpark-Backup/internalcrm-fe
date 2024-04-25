@@ -3,13 +3,13 @@ import { Stack, styled } from "@mui/material";
 import Footer from "../components/footer";
 import Sidebar from "../components/sidebar";
 
-const AppLayout = ({ children }) => {
+const AppLayout = ({ isWhiteBg, children }) => {
   const StackStyles = styled(Stack)(() => ({
     display: "block",
     padding: "0px 40px 40px",
     position: "relative",
     overflowX: "hidden",
-    overflowY: "auto",
+    overflowY: isWhiteBg ? "auto" : "hidden",
     height: "100%",
     scrollbarWidth: "none",
 
@@ -18,11 +18,11 @@ const AppLayout = ({ children }) => {
     },
 
     "@media only screen and (max-width: 900px)": {
-      padding: "0px 20px 0px",
+      padding: "0px 20px 30px",
     },
 
     "@media only screen and (max-width: 600px)": {
-      padding: "0px 15px 0px",
+      padding: "0px 15px 30px",
     },
   }));
 

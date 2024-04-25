@@ -79,7 +79,7 @@ const Teams = () => {
   const teamsChunks = chunkArray(filteredTeams, 3);
 
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <SearchBar
         onNameSearch={handleSearchTeam}
         onMonthSearch={handleSearchJobTitle}
@@ -87,45 +87,47 @@ const Teams = () => {
         searchTextTwo="Search by job title"
       />
 
-      {teamsChunks.map((chunk, index) => (
-        <div key={index} className={styles.container_style}>
-          {chunk.map((team, idx) => (
-            <div key={idx} className="card_style">
-              <DynamicCard member>
-                <Typography
-                  sx={{
-                    color: "#595959",
-                    fontWeight: "bold",
-                    fontSize: "25px",
-                  }}
-                >
-                  {team.name}
-                </Typography>
-                <Typography
-                  sx={{
-                    color: "#595959",
-                    fontWeight: "normal",
-                    fontSize: "18px",
-                  }}
-                >
-                  Head: {team.head} <br /> Members: {team.members}
-                </Typography>
-                <div className={styles.button_container}>
-                  <Button
-                    component={Link}
-                    to="/team-details"
-                    className="view_button"
-                    variant="contained"
-                    sx={buttonStyles}
+      <div className={styles.container}>
+        {teamsChunks.map((chunk, index) => (
+          <div key={index} className={styles.container_style}>
+            {chunk.map((team, idx) => (
+              <div key={idx} className="card_style">
+                <DynamicCard member>
+                  <Typography
+                    sx={{
+                      color: "#595959",
+                      fontWeight: "bold",
+                      fontSize: "25px",
+                    }}
                   >
-                    View Team
-                  </Button>
-                </div>
-              </DynamicCard>
-            </div>
-          ))}
-        </div>
-      ))}
+                    {team.name}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#595959",
+                      fontWeight: "normal",
+                      fontSize: "18px",
+                    }}
+                  >
+                    Head: {team.head} <br /> Members: {team.members}
+                  </Typography>
+                  <div className={styles.button_container}>
+                    <Button
+                      component={Link}
+                      to="/team-details"
+                      className="view_button"
+                      variant="contained"
+                      sx={buttonStyles}
+                    >
+                      View Team
+                    </Button>
+                  </div>
+                </DynamicCard>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

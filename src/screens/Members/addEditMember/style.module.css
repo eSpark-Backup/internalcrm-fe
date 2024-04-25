@@ -2,7 +2,7 @@
   height: calc(100% + 112px);
   border: 1px solid #e4e4e4;
   border-radius: 10px;
-  /* overflow-y: auto; */
+  overflow-y: auto;
   background-color: #ffffff;
   padding-bottom: 112px;
 }

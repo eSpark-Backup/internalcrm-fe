@@ -9,6 +9,9 @@ import CustomizedSteppers from "../../../components/stepper";
 import AppInput from "../../../components/common/appInput";
 import AppSelect from "../../../components/common/appSelect";
 import Picker from "../../../components/datePicker";
+import AppDialog from "../../../components/common/appDialog";
+import MultiLevelSelect from "../../../components/multiLevelSelect";
+import FileUpload from "../../../components/fileUpload";
 
 import Checked from "../../../assets/logos/checked.svg?react";
 import Uncheck from "../../../assets/logos/uncheck.svg?react";
@@ -22,11 +25,12 @@ import {
 import { storeChildData } from "../../../redux/reducers/headerSlice";
 
 import styles from "./style.module.css";
-import AppDialog from "../../../components/common/appDialog";
-import MultiLevelSelect from "../../../components/multiLevelSelect";
-import FileUpload from "../../../components/fileUpload";
 
-const AddEditMember = () => {
+const AddEditMember = ({ setIsWhiteBg }) => {
+  useEffect(() => {
+    setIsWhiteBg(true);
+  }, [setIsWhiteBg]);
+
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
