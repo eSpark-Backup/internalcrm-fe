@@ -1,0 +1,139 @@
+.container_style {
+  margin-top: 40px !important;
+  width: 100% !important;
+  height: 100%;
+  overflow: scroll;
+  padding-bottom: 70px;
+  padding-top: 40px;
+}
+
+.container_style::-webkit-scrollbar {
+  width: 0px;
+}
+
+.grid_item {
+  padding-top: 0px !important;
+  margin-bottom: 35px !important;
+  height: auto;
+}
+
+.card_style {
+  border: 1px solid #e4e4e4 !important;
+  border-radius: 10px !important;
+  border-top-width: 8px !important;
+}
+
+.card_style:hover {
+  border-top-color: #029e9c !important;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.card_style:hover .edit {
+  opacity: 1 !important;
+}
+
+.card_content {
+  padding: 17px 19px 18px 17px !important;
+}
+
+.user_image {
+  width: 30px !important;
+  height: 30px !important;
+  background-color: #d9d9d9 !important;
+  margin-right: 5px;
+}
+
+.name_heading {
+  font-size: 16px !important;
+  color: #595959 !important;
+  line-height: 19px !important;
+}
+
+.member_detail {
+  line-height: 19px !important;
+  color: #595959;
+}
+
+.title {
+  font-size: 25px !important;
+  line-height: 30px !important;
+  color: #595959 !important;
+  margin-top: 8px !important;
+}
+
+.footer_buttons button,
+.request {
+  background: #e6f5f4 !important;
+  border: 1px solid #068987 !important;
+  border-radius: 50px !important;
+  padding: 8px 0px !important;
+  width: 120px !important;
+  font-size: 12px !important;
+  line-height: 15px !important;
+  color: #068987 !important;
+  text-transform: capitalize !important;
+  cursor: default !important;
+}
+
+.projects {
+  margin-right: 10px !important;
+}
+
+.edit {
+  width: 35px;
+  height: 35px;
+  border-radius: 50% !important;
+  background-color: #068987 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 0 !important;
+  padding: 0px !important;
+}
+
+@media only screen and (max-width: 1366px) {
+  .container_style {
+    margin-top: 30px !important;
+    padding-top: 30px;
+  }
+
+  .grid_item {
+    margin-bottom: 30px !important;
+  }
+
+  .card_content {
+    padding: 15px 16px !important;
+  }
+
+  .footer_buttons button,
+  .request {
+    padding: 7px 0px !important;
+    width: 110px !important;
+    font-size: 11px !important;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .container_style {
+    margin-top: 25px !important;
+    padding-top: 25px;
+  }
+
+  .grid_item {
+    margin-bottom: 25px !important;
+  }
+
+  .card_content {
+    padding: 13px 14px !important;
+  }
+
+  .member_detail {
+    line-height: 17px !important;
+  }
+
+  .title {
+    font-size: 23px !important;
+    line-height: 28px !important;
+    margin-top: 6px !important;
+  }
+}

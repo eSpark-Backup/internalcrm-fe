@@ -1,0 +1,45 @@
+.container {
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 70px;
+  scrollbar-width: none;
+  margin-top: 40px;
+}
+
+.container_style {
+  display: flex;
+  margin-bottom: 35px;
+}
+
+.button_container {
+  display: flex;
+  justify-content: center;
+}
+
+.teams_search {
+  padding: 12px 60px;
+  border: 1px solid #e4e4e4;
+  margin-top: 20px;
+  color: #e4e4e4;
+  font-size: 15px;
+  border-radius: 5px;
+}
+
+.grid_style{
+  padding-top: 0 !important;
+  margin-top: 30px !important;
+  padding-left: 32px !important;
+}
+
+@media only screen and (max-width: 1366px) {
+  .container {
+    margin-top: 30px;
+    padding-bottom: 30px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .container {
+    margin-top: 25px;
+  }
+}

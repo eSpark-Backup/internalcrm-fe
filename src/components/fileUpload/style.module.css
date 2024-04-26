@@ -1,0 +1,51 @@
+.image_container {
+  width: 100%;
+  padding: 13px 14px 13px 54px;
+  background-color: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 5px;
+  font-family: Inter;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #888888;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.svg_container {
+  height: 43px;
+  width: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #068987;
+  position: absolute;
+  border-radius: 5px 0px 0px 5px;
+  left: 0;
+}
+
+@media only screen and (max-width: 1536px) {
+  .image_container {
+    padding: 12px 14px 12px 54px;
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .image_container {
+    padding: 10px 14px 10px 54px;
+  }
+
+  .svg_container {
+    height: 39px;
+    width: 39px;
+  }
+}
+
+@media only screen and (max-width: 1200ppx) {
+  .image_container {
+    padding: 10px 14px 10px 50px;
+  }
+}

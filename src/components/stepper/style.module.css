@@ -1,0 +1,43 @@
+.stepper_stack {
+  width: 272px;
+  margin: 19px auto 67px;
+}
+
+.step_label span:nth-child(2) span {
+  font-family: Inter, sans-serif;
+  font-weight: 500 !important;
+  font-size: 10px;
+  line-height: 12px;
+  color: #029e9c !important;
+  margin-top: 6px;
+}
+
+@media only screen and (max-width: 1536px) {
+  .stepper_stack {
+    margin: 19px auto 52px;
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .stepper_stack {
+    margin: 17px auto 36px;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .stepper_stack {
+    margin: 15px auto 30px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .stepper_stack_edit {
+    margin: 15px auto 0px;
+  }
+}
+
+@media only screen and (max-width: 374px) {
+  .stepper_stack {
+    width: auto;
+  }
+}

@@ -1,0 +1,29 @@
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  margin-top: 50px;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.head_style {
+  width: 300px;
+  height: 360px;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+@media only screen and (max-width: 1366px) {
+  .container {
+    margin-top: 40px;
+  }
+}
+
+@media only screen and (max-width: 1199px) {
+  .container {
+    margin-top: 35px;
+  }
+}
