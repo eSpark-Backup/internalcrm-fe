@@ -45,10 +45,10 @@ export const sidebar_links = [
   },
   {
     id: 5,
-    heading: "Leads",
+    heading: "Lead Sources",
     icon: Leads,
     iconActive: LeadsActive,
-    route: "/leads",
+    route: "/lead-sources",
   },
 
 ];

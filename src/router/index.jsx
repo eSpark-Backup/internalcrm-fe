@@ -48,7 +48,7 @@ const AppRoutes = () => {
     { path: "/cards", element: <Cards /> },
     { path: "/assets", element: <Assets /> },
     { path: "/team-details", element: <TeamDetail /> },
-    { path: "/sources", element: <Sources /> },
+    { path: "/lead-sources", element: <Sources /> },
     { path: "/status", element: <Status /> },
 
 

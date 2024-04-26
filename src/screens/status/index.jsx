@@ -1,91 +1,123 @@
-import { Card, CardContent, IconButton, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
 import { CopyIcon } from "../../components/svg/copyIcon";
 import { DeleteIcon } from "../../components/svg/deleteIcon";
+import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
+import styles from "./style.module.css";
+import SearchBar from "../../components/search";
+import OverviewPopup from "../../components/overviewPopup";
 
 const Status = () => {
-  const [links, setLinks] = useState([
+  const [popupOpen, setPopupOpen] = useState(false);
+  
+  const [status, setStatus] = useState([
     {
-      url: "https://www.figma.com/file/ZJrkg0zmOVpFPVzluXuODi/CRM?type=design&node-id=215-2681&mode=design&t=IU477jiPHgmKjez1-0",
+      name: "Jan-Week1",
       date: "22 September,23",
     },
     {
-      url: "https://www.figma.com/file/ZJrkg0zmOVpFPVzluXuODi/CRM?type=design&node-id=215-2681&mode=design&t=IU477jiPHgmKjez1-0",
+      name: "Jan-Week1",
       date: "22 September,23",
     },
     {
-      url: "https://www.figma.com/file/ZJrkg0zmOVpFPVzluXuODi/CRM?type=design&node-id=215-2681&mode=design&t=IU477jiPHgmKjez1-0",
+      name: "Jan-Week1",
       date: "22 September,23",
     },
     {
-      url: "https://www.figma.com/file/ZJrkg0zmOVpFPVzluXuODi/CRM?type=design&node-id=215-2681&mode=design&t=IU477jiPHgmKjez1-0",
+      name: "Jan-Week1",
       date: "22 September,23",
     },
   ]);
+
+  const openPopup = () => {
+    console.log("Popup opened"); // Check if this message appears in the console
+    setPopupOpen(true);
+  };
+
+  const handlePopupClose = () => {
+    setPopupOpen(false);
+  };
   return (
     <div>
-     {links.map((link, index) => (
-              <Card
-                key={index}
+      <div
+        style={{
+          display: "flex",
+        }}
+      >
+        <SearchBar searchTextOne="Search by name" hideJobTitleSearch />
+      </div>
+      {status.map((status, index) => (
+        <Card
+          key={index}
+          sx={{
+            width: "100%",
+            marginBottom: "15px",
+            borderRadius: "12px",
+            boxShadow:
+              "0px 1px 1px -1px rgba(0,0,0,0.2),0px 0px 1px 0px rgba(0,0,0,0.14),0px 4px 8px 0px rgba(0,0,0,0.12)",
+          }}
+        >
+          <CardContent
+            style={{
+              display: "grid",
+              gridTemplateColumns: "3fr 1.5fr 1.5fr",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{ fontSize: "16px", fontFamily: "Inter", color: "#595959" }}
+            >
+              {status.name}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              {status.date}
+            </Typography>
+            <div>
+              <IconButton
+                aria-label="copy"
                 sx={{
-                  width: "100%",
-                  marginBottom: "15px",
-                  borderRadius: "12px",
-                  boxShadow:
-                    "0px 1px 1px -1px rgba(0,0,0,0.2),0px 0px 1px 0px rgba(0,0,0,0.14),0px 4px 8px 0px rgba(0,0,0,0.12)",
+                  backgroundColor: "#e6f5f4",
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  border: "solid 1px #068987",
+                  marginRight: "20px",
+                  "&:hover": {
+                    backgroundColor: "#e6f5f4",
+                  },
+                }}
+                onClick={() => {
+                  /* Handle copy */
                 }}
               >
-                <CardContent
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "3.5fr 1fr 1fr",
-                    alignItems: "center",
-                    textAlign: "center",
-                  }}
-                >
-                  <Typography variant="body1">{link.url}</Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {link.date}
-                  </Typography>
-                  <div>
-                    <IconButton
-                      aria-label="copy"
-                      sx={{
-                        backgroundColor: "#068987",
-                        padding: "10px",
-                        marginRight: "20px",
-                        "&:hover": {
-                          backgroundColor: "#068987",
-                        },
-                      }}
-                      onClick={() => {
-                        /* Handle copy */
-                      }}
-                    >
-                      {/* Your SVG icon */}
-                      <CopyIcon />
-                    </IconButton>
-                    <IconButton
-                      aria-label="delete"
-                      sx={{
-                        backgroundColor: "#FF0000",
-                        padding: "11px",
-                        marginRight: "-30px",
-                        "&:hover": {
-                          backgroundColor: "#FF0000",
-                        },
-                      }}
-                      onClick={() => {
-                        setDeletingIndex(index); // Set the index of the item being deleted
-                        setDeleteModalOpen(true); // Open the delete confirmation modal
-                      }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                {/* Your SVG icon */}
+                <LaunchRoundedIcon style={{ color: "#068987" }} />
+              </IconButton>
+              <Button
+                className={styles.status_button}
+                sx={{
+                  fontFamily: "Inter",
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  color: "#068987",
+                }}
+                onClick={openPopup} // onClick bound to handlePopupOpen
+              >
+                Overview
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+      <OverviewPopup isOpen={popupOpen} onClose={handlePopupClose} />
     </div>
   );
 };
