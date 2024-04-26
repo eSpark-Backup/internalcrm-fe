@@ -1,0 +1,10 @@
+.status_button {
+  /* Rectangle 17238 */
+
+  box-sizing: border-box;
+  width: 120px;
+  height: 30px;
+  background: #e6f5f4;
+  border: 1px solid #068987 !important;
+  border-radius: 50px !important;
+}

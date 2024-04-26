@@ -1,13 +1,15 @@
+import { useRef } from "react";
+
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-import Calender from "../../assets/logos/calender.svg?react";
-import { useRef } from "react";
 import Label from "../common/inputLabel";
 
+import Calender from "../../assets/logos/calender.svg?react";
+
 const Picker = (props) => {
-  const { label, placeholder } = props;
+  const { label, placeholder, normalFont } = props;
   const datePickerRef = useRef(null);
 
   const handleInputClick = () => {
@@ -33,14 +35,52 @@ const Picker = (props) => {
           ref={datePickerRef}
           disableFuture
           slotProps={{
-            // popper: {
-            //   sx: {
-            //     width: "23.85%",
-            //   },
-            // },
             textField: {
               placeholder: placeholder,
               onClick: () => handleInputClick(),
+              sx: {
+                width: "100%",
+
+                "& .MuiOutlinedInput-root": {
+                  paddingRight: "18px",
+                  fontFamily: "Inter, sans-serif",
+                  fontWeight: 400,
+                  borderRadius: "5px",
+
+                  "&.Mui-focused": {
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "#029894 !important",
+                    },
+                  },
+                },
+
+                "& fieldset": {
+                  borderColor: "#e4e4e4 !important",
+                  borderWidth: "1px",
+                },
+
+                "& .MuiOutlinedInput-input": {
+                  fontSize: normalFont ? "16px" : "14px",
+                  lineHeight: "17px",
+                  color: "#595959",
+                  padding: "14px 12px",
+                  height: "auto",
+
+                  "&::placeholder": {
+                    color: "#838383",
+                    fontSize: normalFont ? "16px" : "14px",
+                    lineHeight: "17px",
+                  },
+
+                  "@media only screen and (max-width: 1536px)": {
+                    padding: "13px 14px",
+                  },
+
+                  "@media only screen and (max-width: 1366px)": {
+                    padding: "11px 10px",
+                  },
+                },
+              },
             },
 
             layout: {
@@ -62,7 +102,7 @@ const Picker = (props) => {
                 backgroundColor: "transparent !important",
                 margin: "0px 5px",
                 width: 30,
-                height: 30,
+                height: 20,
 
                 "&.Mui-selected": {
                   color: "#e4e4e4",

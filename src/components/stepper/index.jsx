@@ -51,6 +51,11 @@ const ColorlibStepIconRoot = styled("div")(({ ownerState }) => ({
     width: 45,
     height: 45,
   },
+
+  "@media only screen and (max-width: 1200px)": {
+    width: 42,
+    height: 42,
+  },
 }));
 
 function ColorlibStepIcon(props) {
@@ -71,9 +76,14 @@ function ColorlibStepIcon(props) {
 
 const steps = ["Basic information", "Credentials", "Permissions"];
 
-export default function CustomizedSteppers({ activeStep }) {
+export default function CustomizedSteppers({ activeStep, edit }) {
   return (
-    <Stack spacing={4} className={styles.stepper_stack}>
+    <Stack
+      spacing={4}
+      className={`${styles.stepper_stack} ${
+        edit ? styles.stepper_stack_edit : ""
+      }`}
+    >
       <Stepper
         alternativeLabel
         activeStep={activeStep}

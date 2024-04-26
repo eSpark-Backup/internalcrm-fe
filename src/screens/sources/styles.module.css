@@ -1,0 +1,32 @@
+.edit_icon_container {
+    margin-top: 15px;
+    background-color: #e6f5f4;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: solid 1px #3bb4b2;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .delete_icon_container {
+    margin-top: 15px;
+    background-color: #ffffff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: solid 1px #E4E4E4;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-right: 10px;
+  }
+  
+  .show_icon {
+    opacity: 1;
+  }
+  
+  .grid_style{
+    padding-left: 32px !important;
+    margin-bottom: 32px !important;
+  }
+  

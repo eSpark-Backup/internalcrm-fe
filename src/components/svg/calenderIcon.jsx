@@ -1,6 +1,6 @@
 import React from "react";
 
-const CalenderIcon = () => {
+ const CalenderIcon = () => {
   return (
     <div style={{ color: "#888888", marginLeft: "-36px" }}>
       <svg
@@ -51,9 +51,18 @@ const CalenderIcon = () => {
           </linearGradient>
         </defs>
       </svg>
-      
     </div>
   );
 };
-
 export default CalenderIcon;
+
+
+
+
+
+
+
+
+
+
+

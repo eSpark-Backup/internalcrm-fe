@@ -27,6 +27,7 @@
   transform: none !important;
   position: relative !important;
   margin-bottom: 10px;
+  line-height: 17px !important;
 }
 
 .double_button_box {

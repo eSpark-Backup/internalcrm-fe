@@ -47,6 +47,7 @@ const Cards = () => {
           </Link>
           <div className="manage_members">
             <Button
+              onClick={handlePopupOpen}
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -87,6 +88,7 @@ const Cards = () => {
         </Button>
       </div>
       <Tasks />
+      <AddMembersPopup isOpen={isPopupOpen} onClose={handlePopupClose} />
       <AddMembersPopup isOpen={isPopupOpen} onClose={handlePopupClose} />
     </div>
   );

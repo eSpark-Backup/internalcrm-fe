@@ -8,13 +8,15 @@ import {
   Autocomplete,
 } from "@mui/material";
 import EventIcon from "@mui/icons-material/Event";
-import CalenderIcon from "../../assets/svg/constants";
+import CalenderIcon from "../svg/calenderIcon";
+import Picker from "../datePicker/index";
 
 const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
   const [task, setTask] = useState("");
   const [assignedTo, setAssignedTo] = useState(null); // State for selected employee
   const [fromDate, setFromDate] = useState(""); // State for From date
   const [toDate, setToDate] = useState(""); // State for To date
+  const [description, setDescription] = useState("");
 
   const employees = [
     { name: "Employee 1" },
@@ -24,18 +26,34 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
   ];
 
   const handleAdd = () => {
-    if (task.trim() !== "" && assignedTo && fromDate && toDate) {
+    console.log("Task:", task);
+    console.log("Assigned To:", assignedTo);
+    console.log("From Date:", fromDate);
+    console.log("To Date:", toDate);
+    console.log("Description:", description);
+    if (
+      task.trim() !== "" &&
+      assignedTo &&
+      fromDate &&
+      toDate &&
+      description.trim() !== ""
+    ) {
       handleAddTask({
-        task,
-        assignedTo: assignedTo.name,
-        fromDate,
-        toDate,
+        task: task,
+        description: description,
+        assignedTo: assignedTo,
+        fromDate: fromDate,
+        toDate: toDate,
       });
-      setTask(""); // Clear input field after adding task
-      setAssignedTo(null); // Clear selected employee
-      setFromDate(""); // Clear From date
-      setToDate(""); // Clear To date
-      handleClose(); // Close the popup
+      setTask("");
+      setDescription("");
+      setAssignedTo(null);
+      setFromDate("");
+      setToDate("");
+      handleClose();
+    } else {
+      // Handle case where all fields are not filled
+      console.log("Please fill all fields");
     }
   };
 
@@ -72,7 +90,7 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
           style={{
             display: "flex",
             justifyContent: "left",
-            gap: "165px",
+            gap: "90px",
             alignItems: "center",
           }}
         >
@@ -95,7 +113,7 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
               sx={{
                 marginBottom: "25px",
                 marginTop: "10px",
-                width: "140%",
+                width: "23vw",
                 "& .MuiInputLabel-root": {
                   color: "#888888",
                   fontSize: "14px",
@@ -128,7 +146,7 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
               sx={{
                 marginBottom: "25px",
                 marginTop: "10px",
-                width: "370%",
+                width: "23vw",
                 padding: "0 !important",
                 "& .MuiInputLabel-root": {
                   color: "#888888",
@@ -161,20 +179,8 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
             >
               From Date:
             </Typography>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <input
-                type="date"
-                value={fromDate}
-                onChange={(e) => setFromDate(e.target.value)}
-                style={{
-                  padding: "8px",
-                  borderRadius: "4px",
-                  border: "1px solid #C5C5C5",
-                  width: "295px",
-                  color: "#9E9E9E",
-                }}
-              />
-              <CalenderIcon />
+            <div className="calender_field">
+              <Picker />
             </div>
           </div>
           <div>
@@ -188,20 +194,9 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
             >
               To Date:
             </Typography>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <input
-                type="date"
-                value={toDate}
-                onChange={(e) => setToDate(e.target.value)}
-                style={{
-                  padding: "8px",
-                  borderRadius: "4px",
-                  border: "1px solid #C5C5C5",
-                  width: "295px",
-                  color: "#9E9E9E",
-                }}
-              />
-              <CalenderIcon />
+            <div className="calender_field">
+             
+              <Picker />
             </div>
           </div>
         </div>
@@ -216,15 +211,17 @@ const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
           Description
         </Typography>
         <TextField
-          sx={{ width:"670px" }}
+          sx={{ width: "670px" }}
           variant="outlined"
           margin="normal"
           fullWidth
           id="description"
           label="Description"
           placeholder="Enter description..."
-          // Add any additional props or styling as needed
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
+
         <div
           style={{
             display: "flex",

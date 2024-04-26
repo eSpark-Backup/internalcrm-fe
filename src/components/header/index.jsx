@@ -431,7 +431,11 @@ export default function AppHeader({ handleDrawerToggle }) {
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: { xs: 1, sm: 2 }, display: { sm: "none" } }}
+              sx={{
+                mr: { xs: 1, sm: 2 },
+                display: { md: "none" },
+                marginTop: { xs: 0, sm: "12px" },
+              }}
             >
               <MenuIcon />
             </IconButton>

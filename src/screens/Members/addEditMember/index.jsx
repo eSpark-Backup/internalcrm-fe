@@ -9,6 +9,9 @@ import CustomizedSteppers from "../../../components/stepper";
 import AppInput from "../../../components/common/appInput";
 import AppSelect from "../../../components/common/appSelect";
 import Picker from "../../../components/datePicker";
+import AppDialog from "../../../components/common/appDialog";
+import MultiLevelSelect from "../../../components/multiLevelSelect";
+import FileUpload from "../../../components/fileUpload";
 
 import Checked from "../../../assets/logos/checked.svg?react";
 import Uncheck from "../../../assets/logos/uncheck.svg?react";
@@ -22,11 +25,12 @@ import {
 import { storeChildData } from "../../../redux/reducers/headerSlice";
 
 import styles from "./style.module.css";
-import AppDialog from "../../../components/common/appDialog";
-import MultiLevelSelect from "../../../components/multiLevelSelect";
-import FileUpload from "../../../components/fileUpload";
 
-const AddEditMember = () => {
+const AddEditMember = ({ setIsWhiteBg }) => {
+  useEffect(() => {
+    setIsWhiteBg(true);
+  }, [setIsWhiteBg]);
+
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -91,22 +95,26 @@ const AddEditMember = () => {
         <CustomizedSteppers activeStep={activeStep} />
 
         {location?.state?.edit && (
-          <Button
-            className={`inter-semibold ${styles.delete_member}`}
-            onClick={deleteMember}
-          >
-            Delete Member
-          </Button>
+          <div style={{ textAlign: "end" }}>
+            <Button
+              className={`inter-semibold ${styles.delete_member}`}
+              onClick={deleteMember}
+            >
+              Delete Member
+            </Button>
+          </div>
         )}
 
         <form className={styles.form}>
-          <Grid container spacing={5}>
+          <Grid container spacing={activeStep !== 2 && 5}>
             {activeStep === 0 &&
               addMemberBasicInfo?.map((field) => {
                 return (
                   <Grid
                     item
-                    md={4}
+                    xs={12}
+                    sm={6}
+                    lg={4}
                     key={field.id}
                     className={styles.grid_child}
                   >
@@ -162,7 +170,7 @@ const AddEditMember = () => {
             {activeStep === 1 &&
               addMemberCredentials?.map((field) => {
                 return (
-                  <Grid item md={4} key={field.id}>
+                  <Grid item xs={12} sm={6} lg={4} key={field.id}>
                     {field.fieldType === "text" && (
                       <AppInput
                         key={field.id}
@@ -209,7 +217,9 @@ const AddEditMember = () => {
 
         <div
           className={styles.action_button}
-          style={{ justifyContent: activeStep === 0 ? "end" : "space-between" }}
+          style={{
+            justifyContent: activeStep === 0 ? "end" : "space-between",
+          }}
         >
           {activeStep > 0 && (
             <Button
