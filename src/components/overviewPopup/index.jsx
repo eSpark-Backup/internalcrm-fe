@@ -8,27 +8,7 @@ import {
   MenuItem,
   FormControl,
 } from "@mui/material";
-import { makeStyles } from "@material-ui/core/styles";
 import styles from "./styles.module.css";
-
-// Import dropdown icon from Material-UI icons
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: "10px !important",
-    minWidth: 120,
-    display: "block !important", // Ensure each form control takes up full width
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-  option: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  // Add custom styles for the button
-}));
 
 const OverviewPopup = ({ isOpen, onClose }) => {
   const [dropdownValue1, setDropdownValue1] = useState("");
@@ -73,8 +53,6 @@ const OverviewPopup = ({ isOpen, onClose }) => {
     onClose(); // Close the dialog after submission
   };
 
-  const classes = useStyles();
-
   return (
     <div>
       <Dialog
@@ -102,7 +80,7 @@ const OverviewPopup = ({ isOpen, onClose }) => {
           Overview
         </DialogTitle>
         <DialogContent sx={{ padding: "20px 12px 0px 12px" }}>
-          <FormControl className={classes.formControl}>
+          <FormControl className={styles.formControl}>
             <Button
               variant="contained"
               onClick={handleDropdownChange1}
@@ -188,7 +166,7 @@ const OverviewPopup = ({ isOpen, onClose }) => {
               </div>
             )}
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl className={styles.formControl}>
             <Button
               variant="contained"
               onClick={handleDropdownChange2}
@@ -246,7 +224,7 @@ const OverviewPopup = ({ isOpen, onClose }) => {
               </div>
             )}
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl className={styles.formControl}>
             <Button
               variant="contained"
               onClick={handleDropdownChange3}
@@ -304,7 +282,7 @@ const OverviewPopup = ({ isOpen, onClose }) => {
               </div>
             )}
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl className={styles.formControl}>
             <Button
               variant="contained"
               onClick={handleDropdownChange4}
