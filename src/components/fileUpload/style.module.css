@@ -16,8 +16,8 @@
 }
 
 .svg_container {
-  height: 41px;
-  width: 41px;
+  height: 43px;
+  width: 43px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,5 +41,11 @@
   .svg_container {
     height: 39px;
     width: 39px;
+  }
+}
+
+@media only screen and (max-width: 1200ppx) {
+  .image_container {
+    padding: 10px 14px 10px 50px;
   }
 }

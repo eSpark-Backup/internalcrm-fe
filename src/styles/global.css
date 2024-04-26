@@ -12,6 +12,28 @@ body {
   font-family: Inter, sans-serif !important;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f4f6f9;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px; /* roundness of the scroll thumb */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px; /* roundness of the scroll thumb */
+  background: #e4e4e4;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #c7c6c6;
+}
+
 html,
 body,
 #root {
@@ -314,7 +336,6 @@ body,
 
 .MuiPickersPopper-paper {
   border-radius: 10px !important;
-  height: 250px;
   background: #ffffff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25) !important;
 }
@@ -324,18 +345,6 @@ body,
 }
 
 /* Date Picker Styles End */
-
-@media only screen and (max-width: 1536px) {
-  .MuiOutlinedInput-input {
-    padding: 10px 14px !important;
-  }
-}
-
-@media only screen and (max-width: 1366px) {
-  .MuiOutlinedInput-input {
-    padding: 8px 14px !important;
-  }
-}
 
 @media only screen and (max-width: 600px) {
   /* Dialog Styles Start */

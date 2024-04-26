@@ -1,14 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Typography,
-  TextField,
-  Modal,
-  Grid,
-} from "@mui/material";
+import { Box, Button, Typography, TextField, Modal, Grid } from "@mui/material";
 import { storeChildData } from "../../redux/reducers/headerSlice";
 import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
 import DynamicCard from "../../components/card";
@@ -98,7 +91,7 @@ const Projects = () => {
   };
 
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <div
         style={{
           display: "flex",
@@ -134,48 +127,71 @@ const Projects = () => {
           </span>
         </Button>
       </div>
-
-      {teamsChunks.map((chunk, chunkIndex) => (
-        <Grid container key={chunkIndex} spacing={2}>
-          {chunk.map((project, index) => (
-            <Grid item xs={12} sm={4} key={index} className={styles.grid_style}>
-              <div
-                onMouseEnter={() => handleMouseEnter(index + chunkIndex * 3)}
-                onMouseLeave={() => handleMouseLeave(index + chunkIndex * 3)}
+      <div className={styles.container}>
+        {teamsChunks.map((chunk, chunkIndex) => (
+          <Grid container key={chunkIndex} spacing={2}>
+            {chunk.map((project, index) => (
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                key={index}
+                className={styles.grid_style}
               >
-                <DynamicCard member={true} card_style="card_style">
-                  <div style={{ display: "flex", justifyContent: "space-between" }}>
-                    <div>
-                      <Typography variant="h5" sx={{ color: "#595959", fontWeight: "bold" }}>
-                        {project.name}
-                      </Typography>
-                      <Typography sx={{ color: "#595959", fontSize: "18px", marginTop: "5px" }}>
-                        Created on: <strong>{project.date}</strong>
-                      </Typography>
-                    </div>
+                <div
+                  onMouseEnter={() => handleMouseEnter(index + chunkIndex * 3)}
+                  onMouseLeave={() => handleMouseLeave(index + chunkIndex * 3)}
+                >
+                  <DynamicCard member={true} card_style="card_style">
                     <div
-                      className={`${styles.launch_icon_container} ${
-                        hoveredCards[index + chunkIndex * 3] ? styles.show_icon : ""
-                      }`}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
                     >
-                      <Link to="/cards">
-                        <LaunchRoundedIcon
-                          style={{
-                            fontSize: "40px",
-                            marginLeft: "4px",
+                      <div>
+                        <Typography
+                          variant="h5"
+                          sx={{ color: "#595959", fontWeight: "bold" }}
+                        >
+                          {project.name}
+                        </Typography>
+                        <Typography
+                          sx={{
+                            color: "#595959",
+                            fontSize: "18px",
                             marginTop: "5px",
-                            color: "#3BB4B2",
                           }}
-                        />
-                      </Link>
+                        >
+                          Created on: <strong>{project.date}</strong>
+                        </Typography>
+                      </div>
+                      <div
+                        className={`${styles.launch_icon_container} ${
+                          hoveredCards[index + chunkIndex * 3]
+                            ? styles.show_icon
+                            : ""
+                        }`}
+                      >
+                        <Link to="/cards">
+                          <LaunchRoundedIcon
+                            style={{
+                              fontSize: "40px",
+                              marginLeft: "4px",
+                              marginTop: "5px",
+                              color: "#3BB4B2",
+                            }}
+                          />
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                </DynamicCard>
-              </div>
-            </Grid>
-          ))}
-        </Grid>
-      ))}
+                  </DynamicCard>
+                </div>
+              </Grid>
+            ))}
+          </Grid>
+        ))}
+      </div>
       <Modal
         open={isAddProjectOpen}
         onClose={closeAddProjectPopup}

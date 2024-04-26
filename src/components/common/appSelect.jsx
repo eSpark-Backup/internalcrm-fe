@@ -15,26 +15,26 @@ const selectStyles = (isMenuOpen, normalFont) => {
       filter:
         state.selectProps.menuIsOpen &&
         "drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.25))",
-      zIndex: 2,
+      zIndex: state.selectProps.menuIsOpen && 3,
     }),
     control: (baseStyles) => ({
       ...baseStyles,
-      padding: "5.5px 15px 5.5px 14px",
+      padding: "10px 12px",
       borderColor: isMenuOpen ? "#068987 !important" : "#E4E4E4 !important",
       boxShadow: "none",
       borderRadius: isMenuOpen ? "5px 5px 0px 0px" : "5px",
 
       "@media only screen and (max-width: 1536px)": {
-        padding: "4.5px 15px 4.5px 14px",
+        padding: "9px 12px",
       },
 
       "@media only screen and (max-width: 1366px)": {
-        padding: "2.5px 13px 2.5px 8px",
+        padding: "7px 10px",
       },
     }),
     valueContainer: (baseStyles) => ({
       ...baseStyles,
-      padding: "0px",
+      padding: "3px 0px",
     }),
     indicatorsContainer: () => ({
       display: "none",
@@ -54,6 +54,26 @@ const selectStyles = (isMenuOpen, normalFont) => {
       scrollbarWidth: "none",
       zIndex: "100",
       padding: "0px",
+    }),
+    input: (baseStyles) => ({
+      ...baseStyles,
+      fontSize: normalFont ? "16px" : "14px",
+      color: "#595959",
+      padding: "0px",
+      margin: "0px",
+      lineHeight: "17px",
+    }),
+    singleValue: (baseStyles) => ({
+      ...baseStyles,
+      fontSize: normalFont ? "16px" : "14px",
+      color: "#595959",
+      lineHeight: "17px",
+    }),
+    placeholder: (baseStyles) => ({
+      ...baseStyles,
+      fontSize: normalFont ? "16px" : "14px",
+      color: "#838383",
+      lineHeight: "17px",
     }),
     option: (provided, { isSelected }) => ({
       ...provided,

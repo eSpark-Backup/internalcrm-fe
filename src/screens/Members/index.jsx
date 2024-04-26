@@ -35,8 +35,8 @@ const Members = () => {
 
   const [isActive, setIsActive] = React.useState(true);
 
-  const [name, setName] = React.useState("");
-  const [joTitle, setJobTitle] = React.useState("");
+  const [, setName] = React.useState("");
+  const [, setJobTitle] = React.useState("");
   const [state, setState] = React.useState({
     request: true,
     cancelRequest: false,
@@ -52,12 +52,12 @@ const Members = () => {
     setIsActive(false);
   };
 
-  const handleSearchName = (event) => {
-    setName(event.target.value);
+  const handleSearchName = (value) => {
+    setName(value);
   };
 
-  const handleSearchJobTitle = (event) => {
-    setJobTitle(event.target.value);
+  const handleSearchJobTitle = (value) => {
+    setJobTitle(value);
   };
 
   useEffect(() => {
@@ -168,17 +168,6 @@ const Members = () => {
 
   return (
     <>
-      {/* <SearchBar
-        btn={!!isActive}
-        btnText="Add Member"
-        name={name}
-        setName={setName}
-        joTitle={joTitle}
-        searchTextOne={handleSearchName}
-        searchTextTwo={handleSearchJobTitle}
-        onClick={onClick}
-      /> */}
-
       <SearchBar
         onNameSearch={handleSearchName}
         onMonthSearch={handleSearchJobTitle}

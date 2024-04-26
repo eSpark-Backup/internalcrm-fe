@@ -52,7 +52,6 @@ const AppRoutes = () => {
     { path: "/status", element: <Status /> },
 
 
-
   ]);
 
   return routes;
