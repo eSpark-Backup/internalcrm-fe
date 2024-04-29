@@ -1,13 +1,27 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import React, { useState } from "react";
-import { Box, Button, Typography, TextField, Modal, Grid } from "@mui/material";
-import { storeChildData } from "../../redux/reducers/headerSlice";
-import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
-import DynamicCard from "../../components/card";
-import styles from "./style.module.css";
-import SearchBar from "../../components/search";
 import { Link } from "react-router-dom";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { Box, Button, Typography, Modal, Grid, Skeleton } from "@mui/material";
+import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
+
+import DynamicCard from "../../components/card";
+import SearchBar from "../../components/search";
+import AppInput from "../../components/common/appInput";
+import Picker from "../../components/datePicker";
+
+import Spin from "../../assets/logos/spin.svg?react";
+
+import { getAllProjects } from "../../api/projects/getAllProjects";
+import { createProject } from "../../api/projects/createProject";
+
+import { storeChildData } from "../../redux/reducers/headerSlice";
+
+import { formatDate } from "../../utils/formatdate";
+
+import styles from "./style.module.css";
 
 const Projects = () => {
   const dispatch = useDispatch();
@@ -21,10 +35,63 @@ const Projects = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const { data, isLoading } = useQuery({
+    queryKey: ["FETCH_PROJECTS"],
+    queryFn: () => getAllProjects(),
+  });
+
   const [hoveredCards, setHoveredCards] = useState([]);
   const [searchNameValue, setSearchNameValue] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [searchMonthValue, setSearchMonthValue] = useState("");
   const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
+
+  // Modal Input States
+  const [isCreating, setIsCreating] = useState(false);
+  const [createProjectState, setCreateProjectState] = useState({
+    name: "",
+    startingDate: null,
+    description: "not required",
+  });
+
+  const inputHandler = (key, value) => {
+    setCreateProjectState({ ...createProjectState, [key]: value });
+
+    // if (key === "startingDate") {
+    //   // Regular expression to match DD/MM/YYYY format
+    //   const dateFormat = /^\d{2}\/\d{2}\/\d{4}$/;
+
+    //   if (!dateFormat.test(value)) {
+    //     setError("Invalid date format. Please use DD/MM/YYYY format.");
+    //   } else {
+    //     setError("");
+    //   }
+    // }
+  };
+
+  const submitHandler = () => {
+    setIsCreating(true);
+
+    createProject(createProjectState)
+      .then((res) => {
+        if (res.status === 200) {
+          setIsCreating(false);
+          setIsAddProjectOpen(false);
+
+          return;
+        }
+
+        if (res.status === 400) {
+          setIsCreating(false);
+
+          return;
+        }
+      })
+      .catch((error) => {
+        setIsCreating(false);
+        console.error(error);
+      });
+  };
 
   const handleNameSearch = (value) => {
     setSearchNameValue(value);
@@ -34,37 +101,9 @@ const Projects = () => {
     setSearchMonthValue(value);
   };
 
-  const projectData = [
-    { name: "ABC Project", date: "12 September, 23" },
-    { name: "ABC Project", date: "12 September, 23" },
-    { name: "ABC Project", date: "12 September, 23" },
-    { name: "XYZ Project", date: "15 October, 23" },
-    { name: "XYZ Project", date: "15 October, 23" },
-    { name: "XYZ Project", date: "15 October, 23" },
-  ];
-
-  const chunkArray = (array, chunkSize) => {
-    return Array(Math.ceil(array.length / chunkSize))
-      .fill()
-      .map((_, index) => index * chunkSize)
-      .map((begin) => array.slice(begin, begin + chunkSize));
-  };
-
-  const filteredByNameProjects = projectData.filter((project) =>
+  const filteredProjects = data?.data?.filter((project) =>
     project.name.toLowerCase().includes(searchNameValue.toLowerCase())
   );
-
-  const filteredByMonthProjects = projectData.filter((project) =>
-    project.date.toLowerCase().includes(searchMonthValue.toLowerCase())
-  );
-
-  const filteredProjects = projectData.filter(
-    (project) =>
-      project.name.toLowerCase().includes(searchNameValue.toLowerCase()) &&
-      project.date.toLowerCase().includes(searchMonthValue.toLowerCase())
-  );
-
-  const teamsChunks = chunkArray(filteredProjects, 3);
 
   const handleMouseEnter = (index) => {
     setHoveredCards((prev) => {
@@ -111,6 +150,7 @@ const Projects = () => {
             searchTextTwo="Search by month"
           />
         </div>
+
         <Button
           onClick={openAddProjectPopup}
           sx={{
@@ -119,7 +159,7 @@ const Projects = () => {
             borderRadius: "4px",
             padding: "20px 40px",
             height: "43px",
-            backgroundColor: "#029894",
+            backgroundColor: "#029894 !important",
           }}
         >
           <span style={{ color: "#fff", textTransform: "capitalize" }}>
@@ -127,71 +167,87 @@ const Projects = () => {
           </span>
         </Button>
       </div>
+
       <div className={styles.container}>
-        {teamsChunks.map((chunk, chunkIndex) => (
-          <Grid container key={chunkIndex} spacing={2}>
-            {chunk.map((project, index) => (
-              <Grid
-                item
-                xs={12}
-                sm={4}
-                key={index}
-                className={styles.grid_style}
-              >
-                <div
-                  onMouseEnter={() => handleMouseEnter(index + chunkIndex * 3)}
-                  onMouseLeave={() => handleMouseLeave(index + chunkIndex * 3)}
+        <Grid container spacing={2}>
+          {isLoading
+            ? Array.from({ length: 3 }).map((_, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={4}
+                  key={index}
+                  className={styles.grid_style}
                 >
-                  <DynamicCard member={true} card_style="card_style">
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div>
-                        <Typography
-                          variant="h5"
-                          sx={{ color: "#595959", fontWeight: "bold" }}
-                        >
-                          {project.name}
-                        </Typography>
-                        <Typography
-                          sx={{
-                            color: "#595959",
-                            fontSize: "18px",
-                            marginTop: "5px",
-                          }}
-                        >
-                          Created on: <strong>{project.date}</strong>
-                        </Typography>
-                      </div>
+                  <Skeleton
+                    variant="rounded"
+                    height={110}
+                    sx={{ borderRadius: 2.5 }}
+                  />
+                </Grid>
+              ))
+            : filteredProjects?.map((project, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={4}
+                  key={index}
+                  className={styles.grid_style}
+                >
+                  <div
+                    onMouseEnter={() => handleMouseEnter(index * 3)}
+                    onMouseLeave={() => handleMouseLeave(index * 3)}
+                  >
+                    <DynamicCard member={true} card_style="card_style">
                       <div
-                        className={`${styles.launch_icon_container} ${
-                          hoveredCards[index + chunkIndex * 3]
-                            ? styles.show_icon
-                            : ""
-                        }`}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
                       >
-                        <Link to="/cards">
-                          <LaunchRoundedIcon
-                            style={{
-                              fontSize: "40px",
-                              marginLeft: "4px",
+                        <div>
+                          <Typography
+                            variant="h5"
+                            sx={{ color: "#595959", fontWeight: "bold" }}
+                          >
+                            {project.name}
+                          </Typography>
+                          <Typography
+                            sx={{
+                              color: "#595959",
+                              fontSize: "18px",
                               marginTop: "5px",
-                              color: "#3BB4B2",
                             }}
-                          />
-                        </Link>
+                          >
+                            Created on:{" "}
+                            <strong>{formatDate(project?.startingDate)}</strong>
+                          </Typography>
+                        </div>
+
+                        <div
+                          className={`${styles.launch_icon_container} ${
+                            hoveredCards[index * 3] ? styles.show_icon : ""
+                          }`}
+                        >
+                          <Link to="/cards" state={project}>
+                            <LaunchRoundedIcon
+                              style={{
+                                fontSize: "40px",
+                                marginLeft: "4px",
+                                marginTop: "5px",
+                                color: "#3BB4B2",
+                              }}
+                            />
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  </DynamicCard>
-                </div>
-              </Grid>
-            ))}
-          </Grid>
-        ))}
+                    </DynamicCard>
+                  </div>
+                </Grid>
+              ))}
+        </Grid>
       </div>
+
       <Modal
         open={isAddProjectOpen}
         onClose={closeAddProjectPopup}
@@ -225,36 +281,25 @@ const Projects = () => {
           >
             Create Project
           </Typography>
-          <TextField
-            label="Enter project name"
-            fullWidth
+
+          <AppInput
+            onChange={(e) => inputHandler("name", e.target.value)}
             sx={{
-              marginBottom: "10px",
-              "& .MuiInputLabel-root": {
-                color: "#888888",
-                fontSize: "14px",
-                marginTop: "-6px",
-              },
-              "& .MuiOutlinedInput-input": {
-                padding: "8px",
-              },
+              marginBottom: "12px",
             }}
+            placeholder="Enter project name"
+            value={createProjectState.name}
+            type="text"
+            paddingLeft={"21px"}
           />
-          <TextField
-            label="Enter starting date (DD/MM/YYYY)"
-            fullWidth
-            sx={{
-              marginBottom: "10px",
-              "& .MuiInputLabel-root": {
-                color: "#888888",
-                fontSize: "14px",
-                marginTop: "-6px",
-              },
-              "& .MuiOutlinedInput-input": {
-                padding: "8px",
-              },
-            }}
+
+          <Picker
+            placeholder="Enter starting date (DD/MM/YYYY)"
+            onChange={(date) =>
+              inputHandler("startingDate", date.toISOString())
+            }
           />
+
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
               onClick={closeAddProjectPopup}
@@ -269,16 +314,13 @@ const Projects = () => {
             >
               Cancel
             </Button>
+
             <Button
-              sx={{
-                padding: "6px 35px",
-                color: "#fff",
-                background: "#068987",
-                textTransform: "capitalize",
-                marginTop: "20px",
-              }}
+              className={`${styles.create_btn} inter-semibold`}
+              onClick={() => submitHandler()}
+              disabled={isCreating}
             >
-              Create
+              {isCreating ? <Spin /> : "Create"}
             </Button>
           </div>
         </Box>

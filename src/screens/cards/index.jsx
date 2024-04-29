@@ -1,19 +1,62 @@
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+import { useQuery } from "@tanstack/react-query";
+
 import { Button } from "@mui/material";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+
 import Tasks from "../../components/taskCards";
 import AddMembersPopup from "../../components/addMemberPopup";
 
-const Cards = () => {
-  const [isPopupOpen, setPopupOpen] = useState(false);
+import { storeChildData } from "../../redux/reducers/headerSlice";
+import { getAllProjectMembers } from "../../api/projects/getAllProjectMembers";
 
-  const handlePopupOpen = () => {
+const Cards = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { state } = useLocation();
+
+  const { data } = useQuery({
+    queryFn: () => getAllProjectMembers(state.id),
+  });
+  console.log(data);
+
+  const handleClick = () => {
+    navigate(-1);
+  };
+
+  useEffect(() => {
+    dispatch(
+      storeChildData({
+        title: state.name,
+        singleButton: true,
+        singleButtonText: "Back",
+        handleClick,
+      })
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [addingMember, setAddingMember] = useState(false);
+
+  const handleAddMembers = () => {
+    setAddingMember(true);
+    setPopupOpen(true);
+  };
+
+  const handleManageMember = () => {
+    setAddingMember(false);
     setPopupOpen(true);
   };
 
   const handlePopupClose = () => {
     setPopupOpen(false);
+    setAddingMember(false);
   };
+
   return (
     <div>
       <div
@@ -25,7 +68,7 @@ const Cards = () => {
         }}
       >
         <div style={{ display: "flex", gap: "20px" }}>
-          <Link to="/assets" style={{ textDecoration: "none" }}>
+          <Link to="/assets" style={{ textDecoration: "none" }} state={state}>
             <Button
               sx={{
                 display: "flex",
@@ -45,9 +88,10 @@ const Cards = () => {
               Assets
             </Button>
           </Link>
+
           <div className="manage_members">
             <Button
-              onClick={handlePopupOpen}
+              onClick={handleManageMember}
               sx={{
                 display: "flex",
                 alignItems: "center",
@@ -67,8 +111,9 @@ const Cards = () => {
             </Button>
           </div>
         </div>
+
         <Button
-          onClick={handlePopupOpen}
+          onClick={handleAddMembers}
           sx={{
             display: "flex",
             alignItems: "center",
@@ -87,9 +132,15 @@ const Cards = () => {
           Add Members
         </Button>
       </div>
+
       <Tasks />
-      <AddMembersPopup isOpen={isPopupOpen} onClose={handlePopupClose} />
-      <AddMembersPopup isOpen={isPopupOpen} onClose={handlePopupClose} />
+
+      <AddMembersPopup
+        isOpen={isPopupOpen}
+        onClose={handlePopupClose}
+        addingMember={addingMember}
+        projectId={state?.id}
+      />
     </div>
   );
 };

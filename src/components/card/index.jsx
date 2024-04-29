@@ -33,12 +33,12 @@ const DynamicCard = (props) => {
             variant="h6"
             component="div"
             sx={{
-              fontFamily:"Inter",
+              fontFamily: "Inter",
               fontWeight: "600",
               color: "#595959",
               textAlign: "left",
               padding: "0",
-              fontSize:"25px"
+              fontSize: "25px",
             }}
           >
             {title}

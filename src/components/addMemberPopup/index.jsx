@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Table,
@@ -11,18 +11,64 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import CancelIcon from "@mui/icons-material/Cancel";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
 import john from "../../assets/images/img.jpeg";
+import DeleteMarked from "../../assets/logos/delete-marked.svg?react";
+import DeleteUnmarked from "../../assets/logos/delete-unmarked.svg?react";
 import { UnselectedTick } from "../svg/unselectedTicks";
 import { SelectedTick } from "../svg/selectedTick";
 import { UserIcon } from "../svg/userIcon";
+import Spin from "../../assets/logos/spin.svg?react";
 
+import { addProjectMembers } from "../../api/projects/addProjectMember";
+import { deleteProjectMember } from "../../api/projects/deleteProjectMember";
 
-const AddMembersPopup = ({ isOpen, onClose }) => {
-  // State to manage selected members
-  const [selectedMembers, setSelectedMembers] = useState([]);
-  const [showPopup, setShowPopup] = useState(false); // State to manage the visibility of the popup
+const AddMembersPopup = ({ isOpen, onClose, addingMember, projectId }) => {
+  const [showPopup, setShowPopup] = useState(false);
+
+  // Handle Add/Remove Members
+  const [isAdding, setIsAdding] = useState(false);
+  const [isRemoving, setIsRemoving] = useState(false);
+
+  const [userIds, setUserIds] = useState([]);
+
+  const addMembersToProject = () => {
+    setIsAdding(true);
+
+    addProjectMembers({ projectId, userIds }).then((res) => {
+      if (res) {
+        if (res.status === 200) {
+          setIsAdding(false);
+          setUserIds([]);
+          setShowPopup(true);
+          onClose();
+        }
+
+        if (res.status === 400 || res?.data?.error !== "") {
+          setIsAdding(false);
+        }
+      }
+    });
+  };
+
+  const removeMembersFromProject = () => {
+    setIsRemoving(true);
+
+    deleteProjectMember(projectId, userIds).then((res) => {
+      if (res) {
+        if (res.status === 200) {
+          setIsRemoving(false);
+          setUserIds([]);
+          setShowPopup(true);
+          onClose();
+        }
+
+        if (res.status === 400 || res?.data?.error !== "") {
+          setIsRemoving(false);
+        }
+      }
+    });
+  };
 
   // Dummy data for members, replace with actual data from your application
   const membersData = [
@@ -109,7 +155,7 @@ const AddMembersPopup = ({ isOpen, onClose }) => {
 
   // Function to handle member selection
   const handleMemberSelect = (memberId) => {
-    setSelectedMembers((prevSelected) => {
+    setUserIds((prevSelected) => {
       if (prevSelected.includes(memberId)) {
         return prevSelected.filter((id) => id !== memberId);
       } else {
@@ -140,11 +186,11 @@ const AddMembersPopup = ({ isOpen, onClose }) => {
           maxWidth: "70%",
           width: "60%",
           height: "520px",
-          padding: "20px",
           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
           overflow: "hidden",
           padding: "15px 25px 75px 25px",
           position: "relative",
+          zIndex: 1400,
         }}
       >
         <div style={{ overflowY: "scroll", height: "100%" }}>
@@ -169,6 +215,7 @@ const AddMembersPopup = ({ isOpen, onClose }) => {
                 <TableCell sx={headCellStyle}>Action</TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody style={{ height: "400px", overflowY: "scroll" }}>
               {membersData.map((member) => (
                 <TableRow key={member.id}>
@@ -183,19 +230,27 @@ const AddMembersPopup = ({ isOpen, onClose }) => {
                       }}
                     />
                   </TableCell>
+
                   <TableCell sx={contentCellStyle}>{member.name}</TableCell>
                   <TableCell sx={contentCellStyle}>{member.id}</TableCell>
                   <TableCell sx={contentCellStyle}>{member.gender}</TableCell>
                   <TableCell sx={contentCellStyle}>{member.jobTitle}</TableCell>
+
                   <TableCell sx={contentCellStyle}>
                     <IconButton
                       sx={{ padding: "0" }}
                       onClick={() => handleMemberSelect(member.id)}
                     >
-                      {selectedMembers.includes(member.id) ? (
-                        <UnselectedTick />
+                      {addingMember ? (
+                        userIds.includes(member.id) ? (
+                          <UnselectedTick />
+                        ) : (
+                          <SelectedTick />
+                        )
+                      ) : userIds.includes(member.id) ? (
+                        <DeleteMarked />
                       ) : (
-                        <SelectedTick />
+                        <DeleteUnmarked />
                       )}
                     </IconButton>
                   </TableCell>
@@ -204,14 +259,21 @@ const AddMembersPopup = ({ isOpen, onClose }) => {
             </TableBody>
           </Table>
         </div>
+
         <Button
-          onClick={() => setShowPopup(true)}
+          onClick={() => {
+            if (addingMember) {
+              addMembersToProject();
+            } else {
+              removeMembersFromProject;
+            }
+          }}
           sx={{
             display: "flex",
             alignItems: "center",
             borderRadius: "4px",
-            padding: "20px 50px",
-            height: "35px",
+            padding: "10px 50px",
+            height: "40px",
             backgroundColor: "#029894",
             color: "#fff",
             textTransform: "capitalize",
@@ -221,9 +283,16 @@ const AddMembersPopup = ({ isOpen, onClose }) => {
             },
           }}
         >
-          Add
+          {isAdding || isRemoving ? (
+            <Spin style={{ width: "35px", height: "35px" }} />
+          ) : addingMember ? (
+            "Add"
+          ) : (
+            "Remove"
+          )}
         </Button>
       </div>
+
       <Modal
         open={showPopup}
         onClose={() => setShowPopup(false)}
@@ -257,6 +326,7 @@ const AddMembersPopup = ({ isOpen, onClose }) => {
           >
             Successfully Added
           </Typography>
+
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
               onClick={() => {

@@ -1,56 +1,92 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { useQuery } from "@tanstack/react-query";
+
 import {
   Button,
   Grid,
   Typography,
   Modal,
-  TextField,
   Box,
   Card,
   CardContent,
   IconButton,
+  Skeleton,
 } from "@mui/material";
 
 import DeleteConfirmationPopup from "../../components/deletePopup";
 import SearchBar from "../../components/search";
-import { CopyIcon } from "../../components/svg/copyIcon";
-import { DeleteIcon } from "../../components/svg/deleteIcon";
-import { UploadIcon } from "../../components/svg/uploadIcon";
+import AppInput from "../../components/common/appInput";
 
+import Spin from "../../assets/logos/spin.svg?react";
+
+import { uploadProjectAsset } from "../../api/projects/uploadProjectAsset";
+import { deleteProjectAsset } from "../../api/projects/deleteProjectAsset";
+import { getAllProjectAssets } from "../../api/projects/getAllProjectAssets";
+
+import { storeChildData } from "../../redux/reducers/headerSlice";
 
 import styles from "./style.module.css";
 
 const Assets = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { state } = useLocation();
+
+  const handleClick = () => {
+    navigate(-1);
+  };
+
+  useEffect(() => {
+    dispatch(
+      storeChildData({
+        title: "Assets",
+        singleButton: true,
+        singleButtonText: "Back",
+        handleClick,
+      })
+    );
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const { data, isLoading } = useQuery({
+    queryFn: () => getAllProjectAssets(state.id),
+  });
+
   const [activeButton, setActiveButton] = useState("Links");
   const [attachModalOpen, setAttachModalOpen] = useState(false);
   const [attachLink, setAttachLink] = useState("");
-  const [links, setLinks] = useState([
+  const [addLink, setLink] = useState(false);
+  const [documents] = useState([
     {
-      url: "https://www.figma.com/file/ZJrkg0zmOVpFPVzluXuODi/CRM?type=design&node-id=215-2681&mode=design&t=IU477jiPHgmKjez1-0",
+      name: "ABC-UX/UI Requirements Document",
       date: "22 September,23",
+      assetId: 1,
     },
     {
-      url: "https://www.figma.com/file/ZJrkg0zmOVpFPVzluXuODi/CRM?type=design&node-id=215-2681&mode=design&t=IU477jiPHgmKjez1-0",
+      name: "ABC-UX/UI Requirements Document",
       date: "22 September,23",
+      assetId: 2,
     },
     {
-      url: "https://www.figma.com/file/ZJrkg0zmOVpFPVzluXuODi/CRM?type=design&node-id=215-2681&mode=design&t=IU477jiPHgmKjez1-0",
+      name: "ABC-UX/UI Requirements Document",
       date: "22 September,23",
+      assetId: 3,
     },
     {
-      url: "https://www.figma.com/file/ZJrkg0zmOVpFPVzluXuODi/CRM?type=design&node-id=215-2681&mode=design&t=IU477jiPHgmKjez1-0",
+      name: "ABC-UX/UI Requirements Document",
       date: "22 September,23",
+      assetId: 4,
     },
-  ]);
-  const [documents, setDocuments] = useState([
-    { name: "ABC-UX/UI Requirements Document", date: "22 September,23" },
-    { name: "ABC-UX/UI Requirements Document", date: "22 September,23" },
-    { name: "ABC-UX/UI Requirements Document", date: "22 September,23" },
-    { name: "ABC-UX/UI Requirements Document", date: "22 September,23" },
   ]);
 
+  // Deleteing Asset Modal
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [deletingIndex, setDeletingIndex] = useState(null);
+  const [deletingAsset, setDeletingAsset] = useState(null);
+  const [isDeletingAsset, setIsDeletingAsset] = useState(false);
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
@@ -69,29 +105,70 @@ const Assets = () => {
   };
 
   const handleAttachDone = () => {
-    // Update the state with the attached link
-    const newLinks = [
-      ...links,
-      { url: attachLink, date: new Date().toDateString() },
-    ];
-    setLinks(newLinks);
-    setAttachModalOpen(false);
-    setAttachLink("");
+    setLink(true);
+
+    let body = {
+      projectId: state.id,
+    };
+
+    if (attachLink !== "") {
+      if (activeButton === "Links") {
+        body = {
+          ...body,
+          link: attachLink,
+          type: "link",
+        };
+      } else {
+        body = {
+          ...body,
+          asset: attachLink,
+          type: "document",
+        };
+      }
+
+      uploadProjectAsset(body)
+        .then((res) => {
+          if (res) {
+            console.log(res);
+
+            if (res.status === 200) {
+              setAttachLink("");
+              setAttachModalOpen(false);
+              setLink(false);
+
+              return;
+            }
+
+            if (res.status === 400 || res?.data?.error !== "") {
+              setLink(false);
+            }
+          }
+        })
+        .catch((error) => {
+          setLink(false);
+          console.log(error);
+        });
+    }
   };
 
   const handleDelete = () => {
-    // Handle deletion based on the active button and deletingIndex
-    if (activeButton === "Links") {
-      const updatedLinks = [...links];
-      updatedLinks.splice(deletingIndex, 1);
-      setLinks(updatedLinks);
-    } else {
-      const updatedDocuments = [...documents];
-      updatedDocuments.splice(deletingIndex, 1);
-      setDocuments(updatedDocuments);
-    }
-    setDeleteModalOpen(false);
-    setDeletingIndex(null);
+    setIsDeletingAsset(true);
+
+    deleteProjectAsset(deletingAsset).then((res) => {
+      if (res) {
+        if (res.status === 200) {
+          setIsDeletingAsset(false);
+          setDeleteModalOpen(false);
+          setDeletingAsset(null);
+
+          return;
+        }
+
+        if (res.status === 400 || res?.data?.error !== "") {
+          setIsDeletingAsset(false);
+        }
+      }
+    });
   };
 
   return (
@@ -119,23 +196,12 @@ const Assets = () => {
               <Grid item>
                 <Button
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    borderRadius: "4px",
-                    padding: "15px 25px",
-                    height: "40px",
                     backgroundColor:
                       activeButton === "Links" ? "#029894" : "transparent",
-                    color: "#fff",
-                    textTransform: "capitalize",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    border: `2px solid ${
-                      activeButton === "Links" ? "#029894" : "#E4E4E4"
-                    }`,
-                    borderRadius: "5px 0px 0px 5px",
-                    boxShadow: "none",
+                    borderColor:
+                      activeButton === "Links" ? "#029894" : "#E4E4E4",
                     color: activeButton === "Links" ? "#fff" : "#029894",
+
                     "&:hover": {
                       backgroundColor:
                         activeButton === "Links" ? "#029894" : "transparent",
@@ -144,29 +210,19 @@ const Assets = () => {
                   }}
                   variant="contained"
                   onClick={() => handleButtonClick("Links")}
+                  className={`inter-semibold ${styles.sub_buttons}`}
                 >
                   Links
                 </Button>
               </Grid>
+
               <Grid item>
                 <Button
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    borderRadius: "4px",
-                    padding: "15px 15px",
-                    height: "40px",
                     backgroundColor:
                       activeButton === "Documents" ? "#029894" : "transparent",
-                    color: "#fff",
-                    textTransform: "capitalize",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    border: `2px solid ${
-                      activeButton === "Documents" ? "#029894" : "#E4E4E4"
-                    }`,
-                    borderRadius: "0px 5px 5px 0px",
-                    boxShadow: "none",
+                    borderColor:
+                      activeButton === "Documents" ? "#029894" : "#E4E4E4",
                     color: activeButton === "Documents" ? "#fff" : "#029894",
                     "&:hover": {
                       backgroundColor:
@@ -178,12 +234,14 @@ const Assets = () => {
                   }}
                   variant="contained"
                   onClick={() => handleButtonClick("Documents")}
+                  className={`inter-semibold ${styles.sub_buttons}`}
                 >
                   Documents
                 </Button>
               </Grid>
             </Grid>
           </div>
+
           <div
             style={{
               display: "flex",
@@ -192,6 +250,7 @@ const Assets = () => {
             <SearchBar searchTextOne="Search by name" hideJobTitleSearch />
           </div>
         </div>
+
         <Button
           sx={{
             display: "flex",
@@ -215,9 +274,18 @@ const Assets = () => {
 
       <div className={styles.container}>
         <Grid item xs={12}>
-          {activeButton === "Links" ? (
+          {isLoading ? (
+            Array.from({ length: 3 }).map((_, index) => (
+              <Skeleton
+                key={index}
+                height="80px"
+                variant="rounded"
+                sx={{ marginBottom: 2.5 }}
+              />
+            ))
+          ) : activeButton === "Links" ? (
             <>
-              {links.map((link, index) => (
+              {data?.data?.map((link, index) => (
                 <Card
                   key={index}
                   sx={{
@@ -269,6 +337,7 @@ const Assets = () => {
                           />
                         </svg>
                       </IconButton>
+
                       <IconButton
                         aria-label="delete"
                         sx={{
@@ -280,8 +349,8 @@ const Assets = () => {
                           },
                         }}
                         onClick={() => {
-                          setDeletingIndex(index); // Set the index of the item being deleted
-                          setDeleteModalOpen(true); // Open the delete confirmation modal
+                          setDeletingAsset(link.assetId);
+                          setDeleteModalOpen(true);
                         }}
                       >
                         <svg
@@ -324,9 +393,11 @@ const Assets = () => {
                     }}
                   >
                     <Typography variant="body1">{doc.name}</Typography>
+
                     <Typography variant="body2" color="textSecondary">
                       {doc.date}
                     </Typography>
+
                     <div>
                       <IconButton
                         aria-label="copy"
@@ -353,6 +424,7 @@ const Assets = () => {
                           />
                         </svg>
                       </IconButton>
+
                       <IconButton
                         aria-label="delete"
                         sx={{
@@ -362,6 +434,10 @@ const Assets = () => {
                           "&:hover": {
                             backgroundColor: "#FF0000",
                           },
+                        }}
+                        onClick={() => {
+                          setDeletingAsset(doc.assetId);
+                          setDeleteModalOpen(true);
                         }}
                       >
                         <svg
@@ -385,6 +461,7 @@ const Assets = () => {
           )}
         </Grid>
       </div>
+
       {/* Attach Modal */}
       <Modal
         open={attachModalOpen}
@@ -419,24 +496,17 @@ const Assets = () => {
           >
             Attach Link
           </Typography>
-          <TextField
-            label="Enter Link"
-            variant="outlined"
-            fullWidth
+
+          <AppInput
             value={attachLink}
             onChange={handleAttachLinkChange}
+            placeholder="Attach Link"
             sx={{
               marginBottom: "20px",
-              "& .MuiInputLabel-root": {
-                color: "#888888",
-                fontSize: "14px",
-                marginTop: "-6px",
-              },
-              "& .MuiOutlinedInput-input": {
-                padding: "8px",
-              },
             }}
+            paddingLeft="21px"
           />
+
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
               onClick={handleCloseAttachModal}
@@ -452,28 +522,36 @@ const Assets = () => {
             >
               Cancel
             </Button>
+
             <Button
               onClick={handleAttachDone}
               sx={{
                 padding: "7px 45px",
                 color: "#fff",
-                background: "#068987",
+                background: "#068987 !important",
                 textTransform: "capitalize",
                 marginTop: "20px",
                 fontWeight: "bold",
+                width: "120px",
               }}
             >
-              Done
+              {addLink ? (
+                <Spin style={{ width: "25px", height: "100%" }} />
+              ) : (
+                "Done"
+              )}
             </Button>
           </div>
         </Box>
       </Modal>
+
       <DeleteConfirmationPopup
         open={deleteModalOpen}
         handleClose={() => setDeleteModalOpen(false)}
         handleDelete={handleDelete}
         heading="Delete Asset"
         sentence="Are you sure you want to delete your asset?"
+        isDeleting={isDeletingAsset}
       />
     </>
   );
