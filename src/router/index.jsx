@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter as Router, useRoutes } from "react-router-dom";
 
 // import ProtectRoute from "./protectRoute";
@@ -10,14 +11,13 @@ import Members from "../screens/Members";
 import AddEditMember from "../screens/Members/addEditMember";
 import Teams from "../screens/Teams";
 import Projects from "../screens/Projects";
-// import PublicRoute from "./publicRoute";
 import Cards from "../screens/cards";
 import Assets from "../screens/assets";
 import TeamDetail from "../screens/teamDetail";
 import Sources from "../screens/sources";
 import Status from "../screens/status";
 
-const AppRoutes = () => {
+const AppRoutes = ({ setIsWhiteBg }) => {
   let routes = useRoutes([
     { path: "/", element: <Login /> },
     // {
@@ -33,7 +33,7 @@ const AppRoutes = () => {
     },
     {
       path: "/members/addMember",
-      element: <AddEditMember />,
+      element: <AddEditMember setIsWhiteBg={setIsWhiteBg} />,
     },
     {
       path: "/teams",
@@ -50,18 +50,18 @@ const AppRoutes = () => {
     { path: "/team-details", element: <TeamDetail /> },
     { path: "/lead-sources", element: <Sources /> },
     { path: "/status", element: <Status /> },
-
-
   ]);
 
   return routes;
 };
 
 const AppWrapper = () => {
+  const [isWhiteBg, setIsWhiteBg] = useState(false);
+
   return (
     <Router>
-      <AppLayout>
-        <AppRoutes />
+      <AppLayout isWhiteBg={isWhiteBg}>
+        <AppRoutes setIsWhiteBg={setIsWhiteBg} />
       </AppLayout>
     </Router>
   );

@@ -48,6 +48,7 @@ const AppInput = (props) => {
     VisibilityOff,
     input_sx,
     password,
+    paddingLeft,
   } = props;
 
   return (
@@ -57,14 +58,16 @@ const AppInput = (props) => {
       key={id}
       sx={sx}
     >
-      <InputLabel
-        shrink
-        htmlFor="bootstrap-input"
-        className={`inter-medium ${styles.input_label}`}
-        sx={{ fontSize: normalFont ? "16px !important" : "14px !important" }}
-      >
-        {label}
-      </InputLabel>
+      {label && (
+        <InputLabel
+          shrink
+          htmlFor="bootstrap-input"
+          className={`inter-medium ${styles.input_label}`}
+          sx={{ fontSize: normalFont ? "16px !important" : "14px !important" }}
+        >
+          {label}
+        </InputLabel>
+      )}
 
       <BootstrapInput
         placeholder={placeholder}
@@ -76,6 +79,7 @@ const AppInput = (props) => {
         sx={{
           "& input": {
             paddingRight: input_sx && `${input_sx} !important`,
+            paddingLeft: paddingLeft && `${paddingLeft} !important`,
             fontSize: normalFont ? "16px !important" : "14px !important",
             height: "auto",
 
