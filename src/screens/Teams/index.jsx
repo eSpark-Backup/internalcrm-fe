@@ -1,23 +1,20 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+
+import { useState } from "react";
+import { Button, Grid, Typography, Skeleton } from "@mui/material";
+
+import DynamicCard from "../../components/card";
+import SearchBar from "../../components/search";
+
+import { getAllTeams } from "../../api/teams/getAllTeams";
 
 import { storeChildData } from "../../redux/reducers/headerSlice";
-import DynamicCard from "../../components/card";
+
 import styles from "./style.module.css";
-import { Search } from "@mui/icons-material";
-import SearchBar from "../../components/search";
-import { Link } from "react-router-dom";
 
 const Teams = () => {
   const dispatch = useDispatch();
@@ -31,17 +28,12 @@ const Teams = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const { data, isLoading } = useQuery({
+    queryFn: () => getAllTeams(),
+  });
+
   const [searchTeam, setSearchTeam] = useState("");
   const [searchJobTitle, setSearchJobTitle] = useState("");
-
-  const teams = [
-    { name: "React", head: "Rohail Zafar", members: 10 },
-    { name: "React", head: "Rohail Zafar", members: 10 },
-    { name: "React", head: "Rohail Zafar", members: 10 },
-    { name: "React", head: "Rohail Zafar", members: 10 },
-    { name: "React", head: "Rohail Zafar", members: 10 },
-    { name: "Vue", head: "Jane Smith", members: 12 },
-  ];
 
   const buttonStyles = {
     padding: "5px 35px",
@@ -63,72 +55,87 @@ const Teams = () => {
     setSearchJobTitle(value);
   };
 
-  const filteredTeams = teams.filter((team) => {
+  const filteredTeams = data?.data?.filter((team) => {
     return (
       team.name.toLowerCase().includes(searchTeam.toLowerCase()) &&
       team.head.toLowerCase().includes(searchJobTitle.toLowerCase())
     );
   });
 
-  const chunkArray = (array, chunkSize) => {
-    return Array(Math.ceil(array.length / chunkSize))
-      .fill()
-      .map((_, index) => index * chunkSize)
-      .map((begin) => array.slice(begin, begin + chunkSize));
-  };
-
-  const allTeams = chunkArray(filteredTeams, 3);
-
   return (
-    <div>
-      <Grid item xs={12} style={{ height: "100%" }}>
-      <SearchBar
-        onNameSearch={handleSearchTeam}
-        onMonthSearch={handleSearchJobTitle}
-        searchTextOne="Search by name"
-        searchTextTwo="Search by job title"
-      />
-</Grid>
+    <div style={{ height: "100%" }}>
+      <Grid item xs={12}>
+        <SearchBar
+          onNameSearch={handleSearchTeam}
+          onMonthSearch={handleSearchJobTitle}
+          searchTextOne="Search by name"
+          searchTextTwo="Search by job title"
+        />
+      </Grid>
+
       <div className={styles.container}>
-        {allTeams.map((chunk, index) => (
-          <Grid key={index} container item xs={12} spacing={2}>
-            {chunk.map((team, idx) => (
-              <Grid item xs={12} sm={6} md={4} className={styles.grid_style}>
-                <DynamicCard member={true} card_style="card_style">
-                  <Typography
-                    sx={{
-                      color: "#595959",
-                      fontWeight: "bold",
-                      fontSize: "25px",
-                    }}
-                  >
-                    {team.name}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      color: "#595959",
-                      fontWeight: "normal",
-                      fontSize: "18px",
-                    }}
-                  >
-                    Head: {team.head} <br /> Members: {team.members}
-                  </Typography>
-                  <div className={styles.button_container}>
-                    <Button
-                      component={Link}
-                      to="/team-details"
-                      className="view_button"
-                      variant="contained"
-                      sx={buttonStyles}
+        <Grid container item xs={12} spacing={2}>
+          {isLoading
+            ? Array.from({ length: 3 }).map((_, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={4}
+                  key={index}
+                  className={styles.grid_style}
+                >
+                  <Skeleton
+                    variant="rounded"
+                    height={180}
+                    sx={{ borderRadius: 2.5 }}
+                  />
+                </Grid>
+              ))
+            : filteredTeams.map((team, index) => (
+                <Grid
+                  key={index}
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  className={styles.grid_style}
+                >
+                  <DynamicCard member={true} card_style="card_style">
+                    <Typography
+                      sx={{
+                        color: "#595959",
+                        fontWeight: "bold",
+                        fontSize: "25px",
+                      }}
                     >
-                      View Team
-                    </Button>
-                  </div>
-                </DynamicCard>
-              </Grid>
-            ))}
-          </Grid>
-        ))}
+                      {team.name}
+                    </Typography>
+
+                    <Typography
+                      sx={{
+                        color: "#595959",
+                        fontWeight: "normal",
+                        fontSize: "18px",
+                      }}
+                    >
+                      Head: {team.head} <br /> Members: {team.members}
+                    </Typography>
+
+                    <div className={styles.button_container}>
+                      <Button
+                        component={Link}
+                        to="/team-details"
+                        className="view_button"
+                        variant="contained"
+                        sx={buttonStyles}
+                      >
+                        View Team
+                      </Button>
+                    </div>
+                  </DynamicCard>
+                </Grid>
+              ))}
+        </Grid>
       </div>
     </div>
   );
