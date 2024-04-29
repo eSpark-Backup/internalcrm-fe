@@ -15,10 +15,8 @@ export const uploadProjectAsset = async (body) => {
       }
     );
 
-    console.log(response);
-
     return response;
   } catch (error) {
-    console.log(error);
+    return error.response;
   }
 };

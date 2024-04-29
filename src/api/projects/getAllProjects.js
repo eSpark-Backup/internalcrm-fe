@@ -1,6 +1,8 @@
 import axiosInstance from "../axiosInstance";
 import API_ENDPOINTS from "../endpoints";
 
+export const FETCH_PROJECTS = "FETCH_PROJECTS";
+
 export const getAllProjects = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -11,10 +13,8 @@ export const getAllProjects = async () => {
       },
     });
 
-    console.log(response);
-
-    return response;
+    return response.data;
   } catch (error) {
-    console.log(error);
+    return error.response;
   }
 };

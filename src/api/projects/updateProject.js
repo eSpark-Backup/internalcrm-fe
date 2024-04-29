@@ -19,6 +19,6 @@ export const updateProjectDetails = async (projectId, body) => {
 
     return response;
   } catch (error) {
-    console.log(error);
+    return error.response;
   }
 };

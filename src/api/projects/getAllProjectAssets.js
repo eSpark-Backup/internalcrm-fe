@@ -16,8 +16,8 @@ export const getAllProjectAssets = async (projectId) => {
 
     console.log(response);
 
-    return response;
+    return response.data;
   } catch (error) {
-    console.log(error);
+    return error.response;
   }
 };
