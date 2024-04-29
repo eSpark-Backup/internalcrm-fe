@@ -1,5 +1,6 @@
-import React from "react";
 import { Modal, Box, Typography, Button } from "@mui/material";
+
+import Spin from "../../assets/logos/spin.svg?react";
 
 const DeleteConfirmationPopup = ({
   open,
@@ -7,6 +8,7 @@ const DeleteConfirmationPopup = ({
   handleDelete,
   heading,
   sentence,
+  isDeleting,
 }) => {
   return (
     <Modal open={open} onClose={handleClose}>
@@ -63,13 +65,18 @@ const DeleteConfirmationPopup = ({
             sx={{
               padding: "7px 45px",
               color: "#fff",
-              background: "#029894",
+              background: "#029894 !important",
               textTransform: "capitalize",
               marginTop: "20px",
               fontWeight: "bold",
+              width: "116px",
             }}
           >
-            Yes
+            {isDeleting ? (
+              <Spin style={{ width: "25px", height: "100%" }} />
+            ) : (
+              "Yes"
+            )}
           </Button>
         </div>
       </Box>

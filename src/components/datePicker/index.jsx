@@ -9,7 +9,7 @@ import Label from "../common/inputLabel";
 import Calender from "../../assets/logos/calender.svg?react";
 
 const Picker = (props) => {
-  const { label, placeholder, normalFont } = props;
+  const { label, placeholder, normalFont, onChange } = props;
   const datePickerRef = useRef(null);
 
   const handleInputClick = () => {
@@ -31,8 +31,9 @@ const Picker = (props) => {
           dayOfWeekFormatter={(date) => {
             return date.format("dd");
           }}
-          format={placeholder}
+          format="DD/MM/YYYY"
           ref={datePickerRef}
+          onChange={onChange}
           disableFuture
           slotProps={{
             textField: {
