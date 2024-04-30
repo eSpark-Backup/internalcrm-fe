@@ -1,7 +1,13 @@
+import { fecthAllTeams } from "../../redux/reducers/teamSlice";
 import axiosInstance from "../axiosInstance";
 import API_ENDPOINTS from "../endpoints";
 
-export const getAllTeams = async () => {
+export const getAllTeams = async (
+  dispatch,
+  setMessage,
+  setSnackbarState,
+  setSeverity
+) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -11,8 +17,16 @@ export const getAllTeams = async () => {
       },
     });
 
+    if (response.status === 200) {
+      dispatch(fecthAllTeams(response.data));
+    }
+
     return response.data;
   } catch (error) {
+    setMessage(error.response?.data?.message);
+    setSnackbarState(true);
+    setSeverity("error");
+
     return error.response;
   }
 };
