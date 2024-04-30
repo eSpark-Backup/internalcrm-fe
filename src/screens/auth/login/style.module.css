@@ -37,10 +37,14 @@
   text-transform: capitalize !important;
   width: 100%;
   margin-top: 40px !important;
+  padding: 10px 0px !important;
+  font-size: 16px !important;
+  line-height: 19px !important;
+  height: 40px !important;
 }
 
 .text_class {
-  margin: 18px 0px 0px !important;
+  margin: 18px 0px 12px !important;
   color: #595959 !important;
   line-height: 17px !important;
 }

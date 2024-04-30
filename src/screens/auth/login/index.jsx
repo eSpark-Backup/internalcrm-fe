@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -11,9 +11,13 @@ import Button from "@mui/material/Button";
 
 import AppInput from "../../../components/common/appInput";
 import AppDialog from "../../../components/common/appDialog";
+// import CustomLoader from "../../../components/loading";
+import CustomizedSnackbars from "../../../components/toast";
 
 import Visibility from "../../../assets/logos/visibility.svg?react";
 import VisibilityOff from "../../../assets/logos/visibility-off.svg?react";
+
+// import { loginAdmin } from "../../../api/auth/login";
 
 import { storeChildData } from "../../../redux/reducers/headerSlice";
 
@@ -33,6 +37,11 @@ const Login = () => {
 
   const [email, setEmail] = React.useState("");
 
+  // const [isLogin, setIsLogin] = useState(false);
+  // const [message, setMessage] = useState("");
+  const [snackbarState, setSnackbarState] = useState(false);
+  // const [severity, setSeverity] = useState("");
+
   const handleInputChange = (key, value) => {
     setState((state) => ({ ...state, [key]: value }));
   };
@@ -51,6 +60,29 @@ const Login = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleLogin = () => {
+    navigate("dashboard");
+
+    // setIsLogin(true);
+
+    // loginAdmin(state, dispatch).then((res) => {
+    //   console.log(res);
+
+    //   setSnackbarState(true);
+    //   setIsLogin(false);
+
+    //   if (res.status === 200) {
+    //     setMessage(res.data.message);
+    //     setSeverity("success");
+
+    //     navigate("dashboard");
+    //   } else {
+    //     setMessage(res.data.message);
+    //     setSeverity("error");
+    //   }
+    // });
+  };
+
   return (
     <Stack className={styles.login_screen}>
       <Typography variant="body1" className="inter-regular">
@@ -65,6 +97,7 @@ const Login = () => {
           normalFont
           value={state.email}
           onChange={(e) => handleInputChange("email", e.target.value)}
+          id="email"
         />
 
         <AppInput
@@ -81,6 +114,7 @@ const Login = () => {
           password
           value={state.password}
           onChange={(e) => handleInputChange("password", e.target.value)}
+          id="password"
         />
 
         <Stack
@@ -129,8 +163,10 @@ const Login = () => {
 
         <Button
           className={`${styles.login} inter-semibold`}
-          onClick={() => navigate("dashboard")}
+          onClick={() => handleLogin()}
+          // disabled={isLogin}
         >
+          {/* {isLogin ? <CustomLoader /> : "Login"} */}
           Login
         </Button>
       </form>
@@ -152,6 +188,13 @@ const Login = () => {
         weight="medium"
         margin="0px 0px 20px"
         handleClose={handleClose}
+      />
+
+      <CustomizedSnackbars
+        // message={message}
+        open={snackbarState}
+        setOpen={setSnackbarState}
+        // severity={severity}
       />
     </Stack>
   );
