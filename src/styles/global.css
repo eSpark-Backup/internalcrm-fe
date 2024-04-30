@@ -364,9 +364,8 @@ body,
 }
 
 .card_style:hover {
-  border-top: 9px solid #029e9c;
-  border-radius: 15px;
-  /* box-shadow: 0px 0px 15px 5px rgba(128, 128, 128, 0.5); */
+  border-top-color: #029e9c !important;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3) !important;
 }
 
 .card_style:hover .view_button {

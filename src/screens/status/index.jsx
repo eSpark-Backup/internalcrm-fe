@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -5,9 +6,6 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
-import { CopyIcon } from "../../components/svg/copyIcon";
-import { DeleteIcon } from "../../components/svg/deleteIcon";
 import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
 import styles from "./style.module.css";
 import SearchBar from "../../components/search";
@@ -15,10 +13,12 @@ import OverviewPopup from "../../components/overviewPopup";
 
 const Status = () => {
   const [popupOpen, setPopupOpen] = useState(false);
-  
+  const [searchNameValue, setSearchNameValue] = useState("");
+  const [isActive, setIsActive] = useState(true);
+
   const [status, setStatus] = useState([
     {
-      name: "Jan-Week1",
+      name: "Oct-Week1",
       date: "22 September,23",
     },
     {
@@ -36,23 +36,34 @@ const Status = () => {
   ]);
 
   const openPopup = () => {
-    console.log("Popup opened"); // Check if this message appears in the console
+    console.log("Popup opened");
     setPopupOpen(true);
   };
 
   const handlePopupClose = () => {
     setPopupOpen(false);
   };
+
+  const handleNameSearch = (value) => {
+    setSearchNameValue(value);
+  };
+
+  // Filter status items based on the searchNameValue
+  const filteredStatus = status.filter((item) =>
+    item.name.toLowerCase().includes(searchNameValue.toLowerCase())
+  );
+
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-        }}
-      >
-        <SearchBar searchTextOne="Search by name" hideJobTitleSearch />
-      </div>
-      {status.map((status, index) => (
+      <SearchBar
+        hideJobTitleSearch
+        onNameSearch={handleNameSearch}
+        searchTextOne="Search by name"
+        searchTextTwo="Search by month"
+        btn={!!isActive}
+        btnText="Add source"
+      />
+      {filteredStatus.map((statusItem, index) => (
         <Card
           key={index}
           sx={{
@@ -75,10 +86,10 @@ const Status = () => {
               variant="body1"
               sx={{ fontSize: "16px", fontFamily: "Inter", color: "#595959" }}
             >
-              {status.name}
+              {statusItem.name}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-              {status.date}
+              {statusItem.date}
             </Typography>
             <div>
               <IconButton
@@ -98,7 +109,6 @@ const Status = () => {
                   /* Handle copy */
                 }}
               >
-                {/* Your SVG icon */}
                 <LaunchRoundedIcon style={{ color: "#068987" }} />
               </IconButton>
               <Button
@@ -109,7 +119,7 @@ const Status = () => {
                   fontWeight: "500",
                   color: "#068987",
                 }}
-                onClick={openPopup} // onClick bound to handlePopupOpen
+                onClick={openPopup}
               >
                 Overview
               </Button>

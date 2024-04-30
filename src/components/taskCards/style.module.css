@@ -15,3 +15,15 @@
   align-items: center;
   margin-bottom: 20px;
 }
+
+.create_card_popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 37.5%;
+  background-color: #fff;
+  box-shadow: 24;
+  padding: 30px 20px;
+  border-radius: 7px;
+}

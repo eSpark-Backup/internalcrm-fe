@@ -50,8 +50,6 @@ const AppRoutes = () => {
     { path: "/team-details", element: <TeamDetail /> },
     { path: "/lead-sources", element: <Sources /> },
     { path: "/status", element: <Status /> },
-
-
   ]);
 
   return routes;

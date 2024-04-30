@@ -10,6 +10,7 @@ import {
 import SearchDark from "../../assets/logos/search-dark.svg?react";
 import styles from "./style.module.css";
 import { Search } from "@mui/icons-material";
+import Picker from "../datePicker";
 
 const SearchBar = ({
   onNameSearch,
@@ -63,6 +64,7 @@ const SearchBar = ({
               }}
             />
           )}
+         
         </div>
 
         <IconButton className={styles.search_container}>
