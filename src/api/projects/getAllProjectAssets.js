@@ -1,7 +1,9 @@
 import axiosInstance from "../axiosInstance";
 import API_ENDPOINTS from "../endpoints";
 
-export const getAllProjectAssets = async (projectId) => {
+import { fetchAllProjectAssets } from "../../redux/reducers/projectSlice";
+
+export const getAllProjectAssets = async (projectId, dispatch) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -13,8 +15,11 @@ export const getAllProjectAssets = async (projectId) => {
         },
       }
     );
-
     console.log(response);
+
+    if (response.status === 200) {
+      dispatch(fetchAllProjectAssets(response.data));
+    }
 
     return response.data;
   } catch (error) {
