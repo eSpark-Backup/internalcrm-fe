@@ -9,6 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Stack from "@mui/material/Stack";
 
 import AppInput from "./appInput";
+import CustomLoader from "../loading";
 
 import styles from "./style.module.css";
 
@@ -37,6 +38,9 @@ export default function AppDialog(props) {
     handleClose,
     onClick,
     dialog_content_custom,
+    sx,
+    paddingLeft,
+    loader,
   } = props;
 
   return (
@@ -50,6 +54,7 @@ export default function AppDialog(props) {
         sx={{
           "& .MuiDialog-paper": {
             padding: padding,
+            margin: "0px",
           },
         }}
       >
@@ -77,7 +82,7 @@ export default function AppDialog(props) {
                   <AppInput
                     onChange={(e) => onChange(field.name, e.target.value)}
                     key={field.id}
-                    id={field.id}
+                    id={field.name}
                     sx={{ marginTop: field.id !== 0 ? "15px" : "0px" }}
                     label={field.label}
                     placeholder={field.placeholder}
@@ -94,6 +99,9 @@ export default function AppDialog(props) {
               label={label}
               placeholder={placeholder}
               value={value}
+              id={label}
+              sx={sx}
+              paddingLeft={paddingLeft}
             />
           )}
         </DialogContent>
@@ -114,8 +122,9 @@ export default function AppDialog(props) {
               <Button
                 className={`inter-semibold ${styles.filled_button}`}
                 onClick={onClick}
+                disabled={loader}
               >
-                {rightText}
+                {loader ? <CustomLoader /> : rightText}
               </Button>
             </Stack>
           ) : (

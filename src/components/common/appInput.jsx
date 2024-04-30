@@ -72,7 +72,7 @@ const AppInput = (props) => {
       <BootstrapInput
         placeholder={placeholder}
         value={value}
-        id="bootstrap-input"
+        id={`bootstrap-input ${id}`}
         className={`inter-regular ${styles.app_input}`}
         onChange={onChange}
         type={type}

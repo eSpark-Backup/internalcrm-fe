@@ -36,6 +36,7 @@
 
 .dialog_actions button {
   width: 120px;
+  height: 40px;
   /* padding: 10px 0px; */
   text-transform: capitalize;
   border-radius: 5px;
