@@ -1,14 +1,14 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { useState } from "react";
 import { Button, Grid, Typography, Skeleton } from "@mui/material";
 
 import DynamicCard from "../../components/card";
 import SearchBar from "../../components/search";
+import CustomizedSnackbars from "../../components/toast";
 
 import { getAllTeams } from "../../api/teams/getAllTeams";
 
@@ -18,6 +18,7 @@ import styles from "./style.module.css";
 
 const Teams = () => {
   const dispatch = useDispatch();
+  const allTeams = useSelector((state) => state.teams.allTeams);
 
   useEffect(() => {
     dispatch(
@@ -28,12 +29,18 @@ const Teams = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { data, isLoading } = useQuery({
-    queryFn: () => getAllTeams(),
-  });
-
   const [searchTeam, setSearchTeam] = useState("");
   const [searchJobTitle, setSearchJobTitle] = useState("");
+
+  // Snackbar States
+  const [snackbarState, setSnackbarState] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("");
+
+  const { isLoading } = useQuery({
+    queryFn: () =>
+      getAllTeams(dispatch, setMessage, setSnackbarState, setSeverity),
+  });
 
   const buttonStyles = {
     padding: "5px 35px",
@@ -55,7 +62,7 @@ const Teams = () => {
     setSearchJobTitle(value);
   };
 
-  const filteredTeams = data?.data?.filter((team) => {
+  const filteredTeams = allTeams?.filter((team) => {
     return (
       team.name.toLowerCase().includes(searchTeam.toLowerCase()) &&
       team.head.toLowerCase().includes(searchJobTitle.toLowerCase())
@@ -91,7 +98,7 @@ const Teams = () => {
                   />
                 </Grid>
               ))
-            : filteredTeams.map((team, index) => (
+            : filteredTeams?.map((team, index) => (
                 <Grid
                   key={index}
                   item
@@ -137,6 +144,13 @@ const Teams = () => {
               ))}
         </Grid>
       </div>
+
+      <CustomizedSnackbars
+        message={message}
+        open={snackbarState}
+        setOpen={setSnackbarState}
+        severity={severity}
+      />
     </div>
   );
 };

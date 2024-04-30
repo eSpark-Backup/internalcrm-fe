@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
@@ -11,8 +11,8 @@ import DynamicCard from "../../components/card";
 import SearchBar from "../../components/search";
 import AppInput from "../../components/common/appInput";
 import Picker from "../../components/datePicker";
-
-import Spin from "../../assets/logos/spin.svg?react";
+import CustomizedSnackbars from "../../components/toast";
+import CustomLoader from "../../components/loading";
 
 import { getAllProjects } from "../../api/projects/getAllProjects";
 import { createProject } from "../../api/projects/createProject";
@@ -25,6 +25,7 @@ import styles from "./style.module.css";
 
 const Projects = () => {
   const dispatch = useDispatch();
+  const allProjects = useSelector((state) => state.projects.allProjects);
 
   useEffect(() => {
     dispatch(
@@ -35,16 +36,23 @@ const Projects = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["FETCH_PROJECTS"],
-    queryFn: () => getAllProjects(),
-  });
-
   const [hoveredCards, setHoveredCards] = useState([]);
   const [searchNameValue, setSearchNameValue] = useState("");
   // eslint-disable-next-line no-unused-vars
   const [searchMonthValue, setSearchMonthValue] = useState("");
   const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
+
+  // Snackbar States
+  const [snackbarState, setSnackbarState] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("");
+
+  const { isLoading } = useQuery({
+    queryKey: ["FETCH_PROJECTS"],
+    queryFn: () => {
+      getAllProjects(dispatch, setMessage, setSnackbarState, setSeverity);
+    },
+  });
 
   // Modal Input States
   const [isCreating, setIsCreating] = useState(false);
@@ -101,7 +109,7 @@ const Projects = () => {
     setSearchMonthValue(value);
   };
 
-  const filteredProjects = data?.data?.filter((project) =>
+  const filteredProjects = allProjects?.filter((project) =>
     project.name.toLowerCase().includes(searchNameValue.toLowerCase())
   );
 
@@ -320,11 +328,18 @@ const Projects = () => {
               onClick={() => submitHandler()}
               disabled={isCreating}
             >
-              {isCreating ? <Spin /> : "Create"}
+              {isCreating ? <CustomLoader /> : "Create"}
             </Button>
           </div>
         </Box>
       </Modal>
+
+      <CustomizedSnackbars
+        message={message}
+        open={snackbarState}
+        setOpen={setSnackbarState}
+        severity={severity}
+      />
     </div>
   );
 };

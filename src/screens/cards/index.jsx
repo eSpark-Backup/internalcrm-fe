@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
@@ -9,18 +9,23 @@ import { Button } from "@mui/material";
 import Tasks from "../../components/taskCards";
 import AddMembersPopup from "../../components/addMemberPopup";
 
-import { storeChildData } from "../../redux/reducers/headerSlice";
 import { getAllProjectMembers } from "../../api/projects/getAllProjectMembers";
+
+import { storeChildData } from "../../redux/reducers/headerSlice";
+
+import styles from "./style.module.css";
 
 const Cards = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
+  const allProjectMembers = useSelector(
+    (state) => state.projects.allProjectMembers
+  );
 
-  const { data } = useQuery({
-    queryFn: () => getAllProjectMembers(state.id),
+  useQuery({
+    queryFn: () => getAllProjectMembers(state.id, dispatch),
   });
-  console.log(data);
 
   const handleClick = () => {
     navigate(-1);
@@ -59,78 +64,20 @@ const Cards = () => {
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "20px",
-          marginBottom: "20px",
-        }}
-      >
-        <div style={{ display: "flex", gap: "20px" }}>
+      <div className={styles.header_container}>
+        <div className={styles.action_button_container}>
           <Link to="/assets" style={{ textDecoration: "none" }} state={state}>
-            <Button
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                borderRadius: "4px",
-                padding: "20px 50px",
-                height: "35px",
-                backgroundColor: "#029894",
-                color: "#fff",
-                textTransform: "capitalize",
-                fontSize: "16px",
-                "&:hover": {
-                  backgroundColor: "#029894",
-                },
-              }}
-            >
-              Assets
-            </Button>
+            <Button>Assets</Button>
           </Link>
 
-          <div className="manage_members">
-            <Button
-              onClick={handleManageMember}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                borderRadius: "4px",
-                padding: "20px 25px",
-                height: "35px",
-                backgroundColor: "#029894",
-                color: "#fff",
-                textTransform: "capitalize",
-                fontSize: "16px",
-                "&:hover": {
-                  backgroundColor: "#029894",
-                },
-              }}
-            >
-              Manage Member
-            </Button>
-          </div>
+          {allProjectMembers?.length ? (
+            <div className="manage_members">
+              <Button onClick={handleManageMember}>Manage Member</Button>
+            </div>
+          ) : null}
         </div>
 
-        <Button
-          onClick={handleAddMembers}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            borderRadius: "4px",
-            padding: "20px 30px",
-            height: "35px",
-            backgroundColor: "#029894",
-            color: "#fff",
-            textTransform: "capitalize",
-            fontSize: "16px",
-            "&:hover": {
-              backgroundColor: "#029894",
-            },
-          }}
-        >
-          Add Members
-        </Button>
+        <Button onClick={handleAddMembers}>Add Members</Button>
       </div>
 
       <Tasks />
