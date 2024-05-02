@@ -11,13 +11,13 @@ import Button from "@mui/material/Button";
 
 import AppInput from "../../../components/common/appInput";
 import AppDialog from "../../../components/common/appDialog";
-// import CustomLoader from "../../../components/loading";
+import CustomLoader from "../../../components/loading";
 import CustomizedSnackbars from "../../../components/toast";
 
 import Visibility from "../../../assets/logos/visibility.svg?react";
 import VisibilityOff from "../../../assets/logos/visibility-off.svg?react";
 
-// import { loginAdmin } from "../../../api/auth/login";
+import { loginAdmin } from "../../../api/auth/login";
 
 import { storeChildData } from "../../../redux/reducers/headerSlice";
 
@@ -37,10 +37,10 @@ const Login = () => {
 
   const [email, setEmail] = React.useState("");
 
-  // const [isLogin, setIsLogin] = useState(false);
-  // const [message, setMessage] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
+  const [message, setMessage] = useState("");
   const [snackbarState, setSnackbarState] = useState(false);
-  // const [severity, setSeverity] = useState("");
+  const [severity, setSeverity] = useState("");
 
   const handleInputChange = (key, value) => {
     setState((state) => ({ ...state, [key]: value }));
@@ -61,26 +61,24 @@ const Login = () => {
   }, []);
 
   const handleLogin = () => {
-    navigate("dashboard");
+    setIsLogin(true);
 
-    // setIsLogin(true);
+    loginAdmin(state, dispatch).then((res) => {
+      console.log(res);
 
-    // loginAdmin(state, dispatch).then((res) => {
-    //   console.log(res);
+      setSnackbarState(true);
+      setIsLogin(false);
 
-    //   setSnackbarState(true);
-    //   setIsLogin(false);
+      if (res.status === 200) {
+        setMessage(res.data.message);
+        setSeverity("success");
 
-    //   if (res.status === 200) {
-    //     setMessage(res.data.message);
-    //     setSeverity("success");
-
-    //     navigate("dashboard");
-    //   } else {
-    //     setMessage(res.data.message);
-    //     setSeverity("error");
-    //   }
-    // });
+        navigate("dashboard");
+      } else {
+        setMessage(res.data.message);
+        setSeverity("error");
+      }
+    });
   };
 
   return (
@@ -164,10 +162,9 @@ const Login = () => {
         <Button
           className={`${styles.login} inter-semibold`}
           onClick={() => handleLogin()}
-          // disabled={isLogin}
+          disabled={isLogin}
         >
-          {/* {isLogin ? <CustomLoader /> : "Login"} */}
-          Login
+          {isLogin ? <CustomLoader /> : "Login"}
         </Button>
       </form>
 
@@ -191,10 +188,10 @@ const Login = () => {
       />
 
       <CustomizedSnackbars
-        // message={message}
+        message={message}
         open={snackbarState}
         setOpen={setSnackbarState}
-        // severity={severity}
+        severity={severity}
       />
     </Stack>
   );

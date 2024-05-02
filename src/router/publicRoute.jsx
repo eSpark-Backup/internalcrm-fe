@@ -1,11 +1,16 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const PublicRoute = () => {
+  const navigate = useNavigate();
+
   const token = localStorage.getItem("token");
 
-  if (!token) {
-    return <Navigate to="/" replace />;
-  }
+  useEffect(() => {
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, [navigate, token]);
 
   return <Outlet />;
 };

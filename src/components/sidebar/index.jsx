@@ -23,8 +23,9 @@ import InnerHeader from "../common/innerHeader";
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
+  const token = localStorage.getItem("token");
+
   const childData = useSelector((state) => state.header.childData);
-  // const token = localStorage.getItem("token");
 
   const { window, children } = props;
 
@@ -105,7 +106,7 @@ function ResponsiveDrawer(props) {
 
       <AppHeader handleDrawerToggle={handleDrawerToggle} />
 
-      {location.pathname !== "/" && (
+      {token && (
         <Stack
           component="nav"
           sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -160,10 +161,7 @@ function ResponsiveDrawer(props) {
         sx={{
           width: {
             sm: "100%",
-            md:
-              location.pathname !== "/"
-                ? `calc(100% - ${drawerWidth}px)`
-                : "100%",
+            md: token ? `calc(100% - ${drawerWidth}px)` : "100%",
           },
         }}
       >

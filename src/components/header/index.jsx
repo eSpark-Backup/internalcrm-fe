@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { styled } from "@mui/material/styles";
 
@@ -95,9 +95,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function AppHeader({ handleDrawerToggle }) {
-  // const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [logoutModal, setLogoutModal] = React.useState(false);
@@ -403,29 +402,21 @@ export default function AppHeader({ handleDrawerToggle }) {
       <AppBar
         position="fixed"
         sx={{
-          // width: { sm: token ? `calc(100% - ${drawerWidth}px)` : "100%" },
-          // ml: { sm: token ? `calc(100% - ${drawerWidth}px)` : "0px" },
           width: {
-            md:
-              location.pathname !== "/"
-                ? `calc(100% - ${drawerWidth}px)`
-                : "100%",
+            md: token ? `calc(100% - ${drawerWidth}px)` : "100%",
           },
           ml: {
-            md:
-              location.pathname !== "/"
-                ? `calc(100% - ${drawerWidth}px)`
-                : "0px",
+            md: token ? `calc(100% - ${drawerWidth}px)` : "0px",
           },
         }}
         className={styles.app_header}
       >
         <Toolbar
           className={`${styles.app_header_toolbar} ${
-            location.pathname === "/" && styles.login_header
+            !token && styles.login_header
           }`}
         >
-          {location.pathname !== "/" && (
+          {token && (
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -441,7 +432,7 @@ export default function AppHeader({ handleDrawerToggle }) {
             </IconButton>
           )}
 
-          {location.pathname !== "/" ? (
+          {token ? (
             <Typography
               variant="h6"
               noWrap
@@ -465,11 +456,11 @@ export default function AppHeader({ handleDrawerToggle }) {
           <Stack
             sx={{
               flexGrow: 1,
-              display: { xs: location.pathname === "/" && "none", sm: "block" },
+              display: { xs: !token && "none", sm: "block" },
             }}
           />
 
-          {location.pathname !== "/" && (
+          {token && (
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -481,7 +472,7 @@ export default function AppHeader({ handleDrawerToggle }) {
             </Search>
           )}
 
-          {location.pathname !== "/" && (
+          {token && (
             <Stack
               sx={{ display: { xs: "none", md: "flex" }, flexDirection: "row" }}
             >
@@ -523,7 +514,7 @@ export default function AppHeader({ handleDrawerToggle }) {
             </Stack>
           )}
 
-          {location.pathname !== "/" && (
+          {token && (
             <Stack sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
@@ -538,7 +529,7 @@ export default function AppHeader({ handleDrawerToggle }) {
             </Stack>
           )}
 
-          {location.pathname === "/" && (
+          {!token && (
             <Stack className={styles.logo}>
               <Logo />
             </Stack>

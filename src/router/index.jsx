@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { BrowserRouter as Router, useRoutes } from "react-router-dom";
 
-// import ProtectRoute from "./protectRoute";
+import ProtectRoute from "./protectRoute";
+import PublicRoute from "./publicRoute";
 
 import AppLayout from "../layout";
 
@@ -19,37 +20,25 @@ import Status from "../screens/status";
 
 const AppRoutes = ({ setIsWhiteBg }) => {
   let routes = useRoutes([
-    { path: "/", element: <Login /> },
-    // {
-    //   element: <ProtectRoute />,
-    //   children: [
+    { element: <PublicRoute />, children: [{ path: "/", element: <Login /> }] },
     {
-      path: "/dashboard",
-      element: <Dashboard />,
+      element: <ProtectRoute />,
+      children: [
+        { path: "/dashboard", element: <Dashboard /> },
+        { path: "/members", element: <Members /> },
+        {
+          path: "/members/addMember",
+          element: <AddEditMember setIsWhiteBg={setIsWhiteBg} />,
+        },
+        { path: "/teams", lement: <Teams /> },
+        { path: "projects", element: <Projects /> },
+        { path: "/cards", element: <Cards /> },
+        { path: "/assets", element: <Assets /> },
+        { path: "/team-details", element: <TeamDetail /> },
+        { path: "/lead-sources", element: <Sources /> },
+        { path: "/status", element: <Status /> },
+      ],
     },
-    {
-      path: "/members",
-      element: <Members />,
-    },
-    {
-      path: "/members/addMember",
-      element: <AddEditMember setIsWhiteBg={setIsWhiteBg} />,
-    },
-    {
-      path: "/teams",
-      element: <Teams />,
-    },
-    {
-      path: "projects",
-      element: <Projects />,
-    },
-    //   ],
-    // },
-    { path: "/cards", element: <Cards /> },
-    { path: "/assets", element: <Assets /> },
-    { path: "/team-details", element: <TeamDetail /> },
-    { path: "/lead-sources", element: <Sources /> },
-    { path: "/status", element: <Status /> },
   ]);
 
   return routes;
