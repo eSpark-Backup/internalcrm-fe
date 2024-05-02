@@ -30,7 +30,7 @@ const AppRoutes = ({ setIsWhiteBg }) => {
           path: "/members/addMember",
           element: <AddEditMember setIsWhiteBg={setIsWhiteBg} />,
         },
-        { path: "/teams", lement: <Teams /> },
+        { path: "/teams", element: <Teams /> },
         { path: "projects", element: <Projects /> },
         { path: "/cards", element: <Cards /> },
         { path: "/assets", element: <Assets /> },
