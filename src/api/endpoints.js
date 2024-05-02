@@ -11,6 +11,7 @@ const API_ENDPOINTS = {
     DOWNLOAD_PROJECT_ASSET: "projects/asset",
     DELETE_PROJECT_ASSET: "projects/asset",
     DELETE_PROJECT_MEMBER: "projects",
+    CARDS: "cards",
   },
 };
 
