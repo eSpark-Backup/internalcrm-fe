@@ -9,7 +9,7 @@ import { Button } from "@mui/material";
 import Tasks from "../../components/taskCards";
 import AddMembersPopup from "../../components/addMemberPopup";
 
-import { getAllProjectMembers } from "../../api/projects/getAllProjectMembers";
+import { getAllProjectMembers } from "../../api/projects/projectMembers/getAllProjectMembers";
 
 import { storeChildData } from "../../redux/reducers/headerSlice";
 

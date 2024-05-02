@@ -22,9 +22,9 @@ import Copy from "../../assets/logos/copy.svg?react";
 import Download from "../../assets/logos/download.svg?react";
 import DeleteLight from "../../assets/logos/delete-light.svg?react";
 
-import { uploadProjectAsset } from "../../api/projects/uploadProjectAsset";
-import { deleteProjectAsset } from "../../api/projects/deleteProjectAsset";
-import { getAllProjectAssets } from "../../api/projects/getAllProjectAssets";
+import { uploadProjectAsset } from "../../api/projects/projectAssets/uploadProjectAsset";
+import { deleteProjectAsset } from "../../api/projects/projectAssets/deleteProjectAsset";
+import { getAllProjectAssets } from "../../api/projects/projectAssets/getAllProjectAssets";
 
 import { storeChildData } from "../../redux/reducers/headerSlice";
 
@@ -61,7 +61,7 @@ const Assets = () => {
   });
 
   const [activeButton, setActiveButton] = useState("Links");
-  const [attachModalOpen, setAttachModalOpen] = useState(true);
+  const [attachModalOpen, setAttachModalOpen] = useState(false);
   const [attachLink, setAttachLink] = useState("");
   const [addLink, setLink] = useState(false);
   const [documents] = useState([

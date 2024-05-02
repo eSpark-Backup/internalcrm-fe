@@ -20,8 +20,8 @@ import { SelectedTick } from "../svg/selectedTick";
 import { UserIcon } from "../svg/userIcon";
 import Spin from "../../assets/logos/spin.svg?react";
 
-import { addProjectMembers } from "../../api/projects/addProjectMember";
-import { deleteProjectMember } from "../../api/projects/deleteProjectMember";
+import { addProjectMembers } from "../../api/projects/projectMembers/addProjectMember";
+import { deleteProjectMember } from "../../api/projects/projectMembers/deleteProjectMember";
 
 const AddMembersPopup = ({ isOpen, onClose, addingMember, projectId }) => {
   const [showPopup, setShowPopup] = useState(false);
