@@ -266,7 +266,7 @@ const AddEditMember = ({ setIsWhiteBg }) => {
         rightText="Yes"
         textClass={styles.text_class}
         weight="regular"
-        margin="43px 0px 50px"
+        margin="47px 0px"
         handleClose={handleClose}
         onClick={onClick}
       />

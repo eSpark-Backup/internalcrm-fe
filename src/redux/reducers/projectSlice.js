@@ -6,6 +6,7 @@ const projectSlice = createSlice({
     allProjects: [],
     allProjectMembers: [],
     allProjectAssets: [],
+    allProjectCards: [],
   },
   reducers: {
     fetchAllProjects: (state, action) => {
@@ -17,6 +18,9 @@ const projectSlice = createSlice({
     fetchAllProjectAssets: (state, action) => {
       state.allProjectAssets = action.payload.data;
     },
+    fetchAllProjectCards: (state, action) => {
+      state.allProjectCards = action.payload.data;
+    },
   },
 });
 
@@ -24,6 +28,7 @@ export const {
   fetchAllProjects,
   fetchAllProjectMembers,
   fetchAllProjectAssets,
+  fetchAllProjectCards,
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

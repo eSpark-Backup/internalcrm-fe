@@ -19,6 +19,7 @@ const Cards = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
+
   const allProjectMembers = useSelector(
     (state) => state.projects.allProjectMembers
   );
@@ -80,7 +81,7 @@ const Cards = () => {
         <Button onClick={handleAddMembers}>Add Members</Button>
       </div>
 
-      <Tasks />
+      <Tasks projectId={state.id} />
 
       <AddMembersPopup
         isOpen={isPopupOpen}

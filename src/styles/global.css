@@ -303,7 +303,6 @@ body,
 /* Dialog Styles End */
 
 /* Date Picker Styles Start */
-
 .date_picker {
   width: 100%;
 }
@@ -343,19 +342,7 @@ body,
 .MuiTypography-root {
   font-family: "Inter", sans-serif;
 }
-
 /* Date Picker Styles End */
-
-@media only screen and (max-width: 600px) {
-  /* Dialog Styles Start */
-  .box_style .MuiDialog-paper {
-    width: 90% !important;
-    margin: 0px !important;
-    padding: 21px 15px !important;
-  }
-
-  /* Dialog Styles End */
-}
 
 .card_style {
   border-top: 1px solid #e4e4e4 !important;
@@ -386,8 +373,19 @@ body,
   width: 40px;
   height: 40px;
   margin-top: 5px;
+  cursor: pointer;
 }
 
 .plus_icon {
   opacity: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  /* Dialog Styles Start */
+  .box_style .MuiDialog-paper {
+    width: 90% !important;
+    margin: 0px !important;
+    padding: 21px 15px !important;
+  }
+  /* Dialog Styles End */
 }

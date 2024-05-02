@@ -15,3 +15,9 @@
   align-items: center;
   margin-bottom: 20px;
 }
+
+.text_class {
+  color: #595959 !important;
+  line-height: 17px !important;
+  text-align: center;
+}
