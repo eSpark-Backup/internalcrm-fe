@@ -1,7 +1,7 @@
-import axiosInstance from "../axiosInstance";
-import API_ENDPOINTS from "../endpoints";
+import axiosInstance from "../../axiosInstance";
+import API_ENDPOINTS from "../../endpoints";
 
-import { fetchAllProjectMembers } from "../../redux/reducers/projectSlice";
+import { fetchAllProjectMembers } from "../../../redux/reducers/projectSlice";
 
 export const getAllProjectMembers = async (projectId, dispatch) => {
   try {

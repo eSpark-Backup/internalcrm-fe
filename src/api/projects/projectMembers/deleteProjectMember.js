@@ -1,12 +1,12 @@
-import axiosInstance from "../axiosInstance";
-import API_ENDPOINTS from "../endpoints";
+import axiosInstance from "../../axiosInstance";
+import API_ENDPOINTS from "../../endpoints";
 
-export const deleteProjectAsset = async (projectId) => {
+export const deleteProjectMember = async (projectId, userId) => {
   try {
     const token = localStorage.getItem("token");
 
     const response = await axiosInstance.delete(
-      `${API_ENDPOINTS.PROJECTS.DELETE_PROJECT_ASSET}/${projectId}`,
+      `${API_ENDPOINTS.PROJECTS.DELETE_PROJECT_MEMBER}/${projectId}/member/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

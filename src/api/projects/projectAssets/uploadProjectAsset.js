@@ -1,12 +1,12 @@
-import axiosInstance from "../axiosInstance";
-import API_ENDPOINTS from "../endpoints";
+import axiosInstance from "../../axiosInstance";
+import API_ENDPOINTS from "../../endpoints";
 
-export const addProjectMembers = async (body) => {
+export const uploadProjectAsset = async (body) => {
   try {
     const token = localStorage.getItem("token");
 
     const response = await axiosInstance.post(
-      `${API_ENDPOINTS.PROJECTS.ADD_PROJECT_MEMBERS}`,
+      `${API_ENDPOINTS.PROJECTS.UPLOAD_ASSETS}`,
       body,
       {
         headers: {
@@ -14,8 +14,6 @@ export const addProjectMembers = async (body) => {
         },
       }
     );
-
-    console.log("response", response);
 
     return response;
   } catch (error) {

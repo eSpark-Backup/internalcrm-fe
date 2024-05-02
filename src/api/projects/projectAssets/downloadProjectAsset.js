@@ -1,5 +1,5 @@
-import axiosInstance from "../axiosInstance";
-import API_ENDPOINTS from "../endpoints";
+import axiosInstance from "../../axiosInstance";
+import API_ENDPOINTS from "../../endpoints";
 
 export const downloadProjectAsset = async (projectId) => {
   try {
