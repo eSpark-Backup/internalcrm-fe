@@ -1,98 +1,31 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { styled } from "@mui/material/styles";
-
 import AppBar from "@mui/material/AppBar";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import Button from "@mui/material/Button";
 
 import AppDialog from "../common/appDialog";
+import DesktopMenu from "./desktopMenu";
+import MobileMenu from "./mobileMenu";
+import SearchBar from "./searchBar";
+import Notifications from "./notification";
 
 import AccountCircle from "../../assets/logos/profile.svg?react";
 import NotificationsIcon from "../../assets/logos/notification.svg?react";
-import SearchIcon from "../../assets/logos/search.svg?react";
-import ChangePassword from "../../assets/logos/change-password.svg?react";
-import Logout from "../../assets/logos/logout.svg?react";
-import Delete from "../../assets/logos/delete.svg?react";
-import Checked from "../../assets/logos/check.svg?react";
 import Logo from "../../assets/logos/login-logo.svg?react";
 
 import { changePasswordFields } from "../../constants/changePassword";
-import { notifications } from "../../constants/notifications";
 
 import styles from "./style.module.css";
 
 const drawerWidth = 240;
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: 5,
-  marginRight: theme.spacing(3),
-  marginLeft: 0,
-  [theme.breakpoints.down("md")]: {
-    marginRight: theme.spacing(0),
-  },
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 0, 0, 4.2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-
-  "@media only screen and (max-width: 1366px)": {
-    padding: "0px 0px 0px 28px",
-
-    "& svg": {
-      width: "22px",
-    },
-  },
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1.69, 1, 1.69, 8),
-    transition: theme.transitions.create("width"),
-    [theme.breakpoints.up("md")]: {
-      width: `calc(230px - ${theme.spacing(6.5)})`,
-    },
-    width: "100%",
-    border: "1px solid #E4E4E4",
-    borderRadius: "5px",
-  },
-
-  "@media only screen and (max-width: 1366px)": {
-    "& .MuiInputBase-input": {
-      padding: "11px 8px 11px 58px",
-    },
-  },
-
-  "@media only screen and (max-width: 1199px)": {
-    "& .MuiInputBase-input": {
-      padding: "10px 8px 10px 58px",
-    },
-  },
-}));
 
 export default function AppHeader({ handleDrawerToggle }) {
   const token = localStorage.getItem("token");
@@ -161,229 +94,47 @@ export default function AppHeader({ handleDrawerToggle }) {
   // Desktop Menu Section End
   const menuId = "primary-search-account-menu";
   const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      sx={popup_styles}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem
-        onClick={() => {
-          setChangePasswordModal(true);
-          handleMenuClose();
-        }}
-        className="menu_item password_item"
-      >
-        <span className="menu_item_icon">
-          <ChangePassword />
-        </span>
-        <span className="inter-medium">Change password</span>
-      </MenuItem>
-      {/* <Divider /> */}
-      <MenuItem className="menu_item">
-        <Button
-          className="inter-medium"
-          onClick={() => {
-            setLogoutModal(true);
-            handleMenuClose();
-          }}
-        >
-          <span className="menu_item_icon">
-            <Logout />
-          </span>
-          <span>Logout</span>
-        </Button>
-      </MenuItem>
-    </Menu>
+    <DesktopMenu
+      anchorEl={mobileMoreAnchorEl}
+      menuId={menuId}
+      popup_styles={popup_styles}
+      isMenuOpen={isMenuOpen}
+      handleMenuClose={handleMenuClose}
+      setChangePasswordModal={setChangePasswordModal}
+      setLogoutModal={setLogoutModal}
+    />
   );
   // Desktop Menu Section End
 
   // Mobile Menu Section Start
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      sx={popup_styles}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem className="mobile_menu_item">
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-          className="mobile_icon_button"
-        >
-          <Badge variant="dot" color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-
-      <MenuItem
-        className="mobile_menu_item"
-        // onClick={handleProfileMenuOpen}
-      >
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-          className="mobile_icon_button"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-
-      <MenuItem
-        onClick={() => {
-          setChangePasswordModal(true);
-        }}
-        className="menu_item password_item"
-      >
-        <span className="menu_item_icon">
-          <ChangePassword />
-        </span>
-        <span className="inter-medium">Change password</span>
-      </MenuItem>
-
-      <MenuItem className="menu_item">
-        <Button
-          className="inter-medium"
-          onClick={() => {
-            setLogoutModal(true);
-          }}
-        >
-          <span className="menu_item_icon">
-            <Logout />
-          </span>
-          <span>Logout</span>
-        </Button>
-      </MenuItem>
-    </Menu>
+    <MobileMenu
+      mobileMoreAnchorEl={mobileMoreAnchorEl}
+      mobileMenuId={mobileMenuId}
+      popup_styles={popup_styles}
+      isMobileMenuOpen={isMobileMenuOpen}
+      handleMobileMenuClose={handleMobileMenuClose}
+      setChangePasswordModal={setChangePasswordModal}
+      setLogoutModal={setLogoutModal}
+    />
   );
   // Mobile Menu Section End
 
   // Notifications Section Start
   const notificationId = "primary-notification";
   const renderNotification = (
-    <Menu
-      anchorEl={notificationAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={notificationId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      sx={[
-        popup_styles,
-        {
-          "& .MuiPopover-paper": {
-            right: "100px !important",
-            width: "455px",
-            scrollbarWidth: "none",
-          },
-          "& ul": {
-            padding: "0px",
-
-            "& li": {
-              cursor: "default",
-            },
-          },
-        },
-      ]}
-      open={isNotificationOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem className="notification_heading">
-        <span className="inter-semibold notify">Notifications</span>
-        <span className="inter-regular mark_read">Mark all as read</span>
-      </MenuItem>
-
-      <div className="all_notifications">
-        {notifications?.map((notification) => (
-          <div
-            key={notification.id}
-            className={`notification_box ${
-              notification.isRead ? "read" : "unread"
-            }`}
-            onMouseEnter={() => {
-              setHoveredId(notification.id);
-              setIsHovered(true);
-            }}
-            onMouseLeave={() => {
-              setHoveredId(null);
-              setIsHovered(false);
-            }}
-          >
-            <div className="action_button_parent flex-center">
-              <IconButton
-                className={`action_button checked ${
-                  !notification.isRead ||
-                  (isHovered && notification.id === hoveredId)
-                    ? "d-none"
-                    : ""
-                }`}
-              >
-                <Checked />
-              </IconButton>
-
-              <IconButton
-                className={`action_button delete ${
-                  notification.isRead ? "" : "d-block"
-                } ${
-                  isHovered && notification.id === hoveredId ? "d-block" : ""
-                }`}
-              >
-                <Delete />
-              </IconButton>
-            </div>
-
-            <div>
-              <Typography variant="h6" className="inter-regular">
-                New {notification.type} {notification.name} is successfully{" "}
-                {notification.action}
-              </Typography>
-
-              <Typography variant="body1" className="inter-light">
-                {notification.createdAt}
-              </Typography>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <MenuItem className="notification_footer">
-        <span className="inter-regular mark_read">View all notifications</span>
-      </MenuItem>
-    </Menu>
+    <Notifications
+      notificationAnchorEl={notificationAnchorEl}
+      notificationId={notificationId}
+      popup_styles={popup_styles}
+      isNotificationOpen={isNotificationOpen}
+      handleMenuClose={handleMenuClose}
+      setHoveredId={setHoveredId}
+      setIsHovered={setIsHovered}
+      isHovered={isHovered}
+      hoveredId={hoveredId}
+    />
   );
   // Notifications Section End
 
@@ -460,17 +211,7 @@ export default function AppHeader({ handleDrawerToggle }) {
             }}
           />
 
-          {token && (
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder=""
-                inputProps={{ "aria-label": "search" }}
-              />
-            </Search>
-          )}
+          {token && <SearchBar />}
 
           {token && (
             <Stack
@@ -568,7 +309,7 @@ export default function AppHeader({ handleDrawerToggle }) {
         rightText="Log out"
         textClass={styles.text_class}
         weight="regular"
-        margin="43px 0px 50px"
+        margin="47px 0px"
         handleClose={handleClose}
         onClick={onClick}
         dialog_content_custom={styles.dialog_content_custom}
