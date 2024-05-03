@@ -52,6 +52,7 @@ const Assets = () => {
 
   const [activeButton, setActiveButton] = useState("Links");
   const [assetId, setAssetId] = useState(null);
+  const [assets, setAssets] = useState([]);
   // Links / Documents State
   const [assetModalOpen, setAssetModalOpen] = useState(false);
   const [attachLink, setAttachLink] = useState("");
@@ -61,10 +62,17 @@ const Assets = () => {
   const [snackbarState, setSnackbarState] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState("");
-
   // Deleteing Asset Modal
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isDeletingAsset, setIsDeletingAsset] = useState(false);
+
+  useEffect(() => {
+    if (activeButton === "Links") {
+      setAssets(allProjectAssets.filter((asset) => asset.type === "link"));
+    } else {
+      setAssets(allProjectAssets.filter((asset) => asset.type === "document"));
+    }
+  }, [activeButton, allProjectAssets]);
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
@@ -93,9 +101,6 @@ const Assets = () => {
     };
 
     if (attachLink !== "" || addDocument) {
-      const formData = new FormData();
-      formData.append("document", addDocument);
-
       if (activeButton === "Links") {
         body = {
           ...body,
@@ -103,11 +108,12 @@ const Assets = () => {
           type: "link",
         };
       } else {
-        body = {
-          ...body,
-          asset: formData,
-          type: "document",
-        };
+        const formData = new FormData();
+        formData.append("asset", addDocument);
+        formData.append("projectId", state.id);
+        formData.append("type", "document");
+
+        body = formData;
       }
 
       uploadProjectAsset(
@@ -255,10 +261,10 @@ const Assets = () => {
                 />
               ))
             : allProjectAssets &&
-              allProjectAssets?.map((link, index) => (
+              assets?.map((asset) => (
                 <AssetCard
-                  key={index}
-                  data={link}
+                  key={asset.id}
+                  asset={asset}
                   activeButton={activeButton}
                   deleteAssetHandler={deleteAssetHandler}
                 />

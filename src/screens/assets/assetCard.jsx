@@ -7,11 +7,11 @@ import DeleteLight from "../../assets/logos/delete-light.svg?react";
 import { formatDate } from "../../utils/formatdate";
 
 const AssetCard = (props) => {
-  const { data, deleteAssetHandler } = props;
+  const { asset, deleteAssetHandler } = props;
 
   return (
     <Card
-      key={data.id}
+      key={asset?.id}
       sx={{
         width: "100%",
         marginBottom: "15px",
@@ -28,12 +28,10 @@ const AssetCard = (props) => {
           textAlign: "center",
         }}
       >
-        <Typography variant="body1">
-          {data?.type === "link" ? data.resource : data.name}
-        </Typography>
+        <Typography variant="body1">{asset?.resource}</Typography>
 
         <Typography variant="body2" color="textSecondary">
-          {data?.type === "link" ? formatDate(data?.createdAt) : data.date}
+          {formatDate(asset?.createdAt)}
         </Typography>
 
         <div>
@@ -48,7 +46,7 @@ const AssetCard = (props) => {
               },
             }}
           >
-            {data?.type === "link" ? <Copy /> : <Download />}
+            {asset?.type === "link" ? <Copy /> : <Download />}
           </IconButton>
 
           <IconButton
@@ -61,7 +59,7 @@ const AssetCard = (props) => {
                 backgroundColor: "#FF0000",
               },
             }}
-            onClick={() => deleteAssetHandler(data.id)}
+            onClick={() => deleteAssetHandler(asset?.id)}
           >
             <DeleteLight />
           </IconButton>
