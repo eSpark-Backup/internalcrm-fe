@@ -4,15 +4,13 @@ import { Link } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { Box, Button, Typography, Modal, Grid, Skeleton } from "@mui/material";
+import { Button, Typography, Grid, Skeleton } from "@mui/material";
 import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
 
 import DynamicCard from "../../components/card";
 import SearchBar from "../../components/search";
-import AppInput from "../../components/common/appInput";
-import Picker from "../../components/datePicker";
+import AppDialog from "../../components/common/appDialog";
 import CustomizedSnackbars from "../../components/toast";
-import CustomLoader from "../../components/loading";
 
 import { getAllProjects } from "../../api/projects/getAllProjects";
 import { createProject } from "../../api/projects/createProject";
@@ -64,41 +62,29 @@ const Projects = () => {
 
   const inputHandler = (key, value) => {
     setCreateProjectState({ ...createProjectState, [key]: value });
+  };
 
-    // if (key === "startingDate") {
-    //   // Regular expression to match DD/MM/YYYY format
-    //   const dateFormat = /^\d{2}\/\d{2}\/\d{4}$/;
-
-    //   if (!dateFormat.test(value)) {
-    //     setError("Invalid date format. Please use DD/MM/YYYY format.");
-    //   } else {
-    //     setError("");
-    //   }
-    // }
+  const handleStateAdterCreation = () => {
+    setCreateProjectState({
+      name: "",
+      startingDate: null,
+      description: "not required",
+    });
+    setIsAddProjectOpen(false);
   };
 
   const submitHandler = () => {
     setIsCreating(true);
 
-    createProject(createProjectState)
-      .then((res) => {
-        if (res.status === 200) {
-          setIsCreating(false);
-          setIsAddProjectOpen(false);
-
-          return;
-        }
-
-        if (res.status === 400) {
-          setIsCreating(false);
-
-          return;
-        }
-      })
-      .catch((error) => {
-        setIsCreating(false);
-        console.error(error);
-      });
+    createProject(
+      createProjectState,
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setIsCreating,
+      handleStateAdterCreation
+    );
   };
 
   const handleNameSearch = (value) => {
@@ -256,83 +242,34 @@ const Projects = () => {
         </Grid>
       </div>
 
-      <Modal
+      <AppDialog
         open={isAddProjectOpen}
-        onClose={closeAddProjectPopup}
-        aria-labelledby="add-project-modal-title"
-        aria-describedby="add-project-modal-description"
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 450,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-            borderRadius: "10px",
-          }}
-        >
-          <Typography
-            id="add-project-modal-title"
-            variant="h6"
-            component="h2"
-            gutterBottom
-            sx={{
-              textAlign: "center",
-              fontWeight: "bold",
-              color: "#068987",
-              marginBottom: "15px",
-            }}
-          >
-            Create Project
-          </Typography>
-
-          <AppInput
-            onChange={(e) => inputHandler("name", e.target.value)}
-            sx={{
-              marginBottom: "12px",
-            }}
-            placeholder="Enter project name"
-            value={createProjectState.name}
-            type="text"
-            paddingLeft={"21px"}
-          />
-
-          <Picker
-            placeholder="Enter starting date (DD/MM/YYYY)"
-            onChange={(date) =>
-              inputHandler("startingDate", date.toISOString())
-            }
-          />
-
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              onClick={closeAddProjectPopup}
-              sx={{
-                padding: "6px 35px",
-                color: "#068987",
-                border: "1px solid #068987",
-                textTransform: "capitalize",
-                marginRight: "10px",
-                marginTop: "20px",
-              }}
-            >
-              Cancel
-            </Button>
-
-            <Button
-              className={`${styles.create_btn} inter-semibold`}
-              onClick={() => submitHandler()}
-              disabled={isCreating}
-            >
-              {isCreating ? <CustomLoader /> : "Create"}
-            </Button>
-          </div>
-        </Box>
-      </Modal>
+        padding="31px 22px"
+        heading="Create Project"
+        singleInput={true}
+        doubleButton={true}
+        leftText="Cancel"
+        rightText="Create"
+        weight="semibold"
+        margin="12px 0px 20px"
+        handleClose={closeAddProjectPopup}
+        onClick={submitHandler}
+        value={createProjectState.name}
+        onChange={(e) => inputHandler("name", e.target.value)}
+        placeholder="Enter project name"
+        id="project name"
+        type="text"
+        sx={{
+          marginBottom: "12px",
+        }}
+        paddingLeft="21px"
+        loader={isCreating}
+        hasPicker={true}
+        pickerPlaceholder="Enter starting date (DD/MM/YYYY)"
+        onDateChange={(date) =>
+          inputHandler("startingDate", date.toISOString())
+        }
+      />
 
       <CustomizedSnackbars
         message={message}

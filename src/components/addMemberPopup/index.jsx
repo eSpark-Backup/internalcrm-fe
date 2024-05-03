@@ -18,7 +18,7 @@ import DeleteUnmarked from "../../assets/logos/delete-unmarked.svg?react";
 import { UnselectedTick } from "../svg/unselectedTicks";
 import { SelectedTick } from "../svg/selectedTick";
 import { UserIcon } from "../svg/userIcon";
-import Spin from "../../assets/logos/spin.svg?react";
+import CustomLoader from "../loading";
 
 import { addProjectMembers } from "../../api/projects/projectMembers/addProjectMember";
 import { deleteProjectMember } from "../../api/projects/projectMembers/deleteProjectMember";
@@ -284,7 +284,7 @@ const AddMembersPopup = ({ isOpen, onClose, addingMember, projectId }) => {
           }}
         >
           {isAdding || isRemoving ? (
-            <Spin style={{ width: "35px", height: "35px" }} />
+            <CustomLoader />
           ) : addingMember ? (
             "Add"
           ) : (

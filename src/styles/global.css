@@ -342,6 +342,10 @@ body,
 .MuiTypography-root {
   font-family: "Inter", sans-serif;
 }
+
+.MuiPickersPopper-root {
+  z-index: 99999 !important;
+}
 /* Date Picker Styles End */
 
 .card_style {

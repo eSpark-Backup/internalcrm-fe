@@ -4,23 +4,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
-import {
-  Button,
-  Grid,
-  Typography,
-  Card,
-  CardContent,
-  IconButton,
-  Skeleton,
-} from "@mui/material";
+import { Button, Grid, Skeleton } from "@mui/material";
 
 import DeleteConfirmationPopup from "../../components/deletePopup";
 import SearchBar from "../../components/search";
 import AppDialog from "../../components/common/appDialog";
-
-import Copy from "../../assets/logos/copy.svg?react";
-import Download from "../../assets/logos/download.svg?react";
-import DeleteLight from "../../assets/logos/delete-light.svg?react";
+import AssetCard from "./assetCard";
+import CustomizedSnackbars from "../../components/toast";
 
 import { uploadProjectAsset } from "../../api/projects/projectAssets/uploadProjectAsset";
 import { deleteProjectAsset } from "../../api/projects/projectAssets/deleteProjectAsset";
@@ -34,10 +24,10 @@ const Assets = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { state } = useLocation();
+
   const allProjectAssets = useSelector(
     (state) => state.projects.allProjectAssets
   );
-  console.log(allProjectAssets);
 
   const handleClick = () => {
     navigate(-1);
@@ -56,52 +46,39 @@ const Assets = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { isLoading } = useQuery({
+  const { isLoading, refetch } = useQuery({
     queryFn: () => getAllProjectAssets(state.id, dispatch),
   });
 
   const [activeButton, setActiveButton] = useState("Links");
-  const [attachModalOpen, setAttachModalOpen] = useState(false);
+  const [assetId, setAssetId] = useState(null);
+  // Links / Documents State
+  const [assetModalOpen, setAssetModalOpen] = useState(false);
   const [attachLink, setAttachLink] = useState("");
-  const [addLink, setLink] = useState(false);
-  const [documents] = useState([
-    {
-      name: "ABC-UX/UI Requirements Document",
-      date: "22 September,23",
-      assetId: 1,
-    },
-    {
-      name: "ABC-UX/UI Requirements Document",
-      date: "22 September,23",
-      assetId: 2,
-    },
-    {
-      name: "ABC-UX/UI Requirements Document",
-      date: "22 September,23",
-      assetId: 3,
-    },
-    {
-      name: "ABC-UX/UI Requirements Document",
-      date: "22 September,23",
-      assetId: 4,
-    },
-  ]);
+  const [addDocument, setAddDocument] = useState(null);
+  const [loadingState, setLoadingState] = useState(false);
+  // Snackbar State
+  const [snackbarState, setSnackbarState] = useState(false);
+  const [message, setMessage] = useState("");
+  const [severity, setSeverity] = useState("");
 
   // Deleteing Asset Modal
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [deletingAsset, setDeletingAsset] = useState(null);
   const [isDeletingAsset, setIsDeletingAsset] = useState(false);
 
   const handleButtonClick = (button) => {
     setActiveButton(button);
   };
 
-  const handleAttach = () => {
-    setAttachModalOpen(true);
+  const handleAseetModal = () => {
+    setAssetModalOpen(true);
   };
 
   const handleCloseAttachModal = () => {
-    setAttachModalOpen(false);
+    setAssetModalOpen(false);
+    setAttachLink("");
+    setDeleteModalOpen(false);
+    setAssetId(null);
   };
 
   const handleAttachLinkChange = (event) => {
@@ -109,13 +86,16 @@ const Assets = () => {
   };
 
   const handleAttachDone = () => {
-    setLink(true);
+    setLoadingState(true);
 
     let body = {
       projectId: state.id,
     };
 
-    if (attachLink !== "") {
+    if (attachLink !== "" || addDocument) {
+      const formData = new FormData();
+      formData.append("document", addDocument);
+
       if (activeButton === "Links") {
         body = {
           ...body,
@@ -125,54 +105,41 @@ const Assets = () => {
       } else {
         body = {
           ...body,
-          asset: attachLink,
+          asset: formData,
           type: "document",
         };
       }
 
-      uploadProjectAsset(body)
-        .then((res) => {
-          if (res) {
-            console.log(res);
-
-            if (res.status === 200) {
-              setAttachLink("");
-              setAttachModalOpen(false);
-              setLink(false);
-
-              return;
-            }
-
-            if (res.status === 400 || res?.data?.error !== "") {
-              setLink(false);
-            }
-          }
-        })
-        .catch((error) => {
-          setLink(false);
-          console.log(error);
-        });
+      uploadProjectAsset(
+        body,
+        dispatch,
+        setMessage,
+        setSnackbarState,
+        setSeverity,
+        setLoadingState,
+        handleCloseAttachModal,
+        refetch
+      );
     }
   };
 
   const handleDelete = () => {
     setIsDeletingAsset(true);
 
-    deleteProjectAsset(deletingAsset).then((res) => {
-      if (res) {
-        if (res.status === 200) {
-          setIsDeletingAsset(false);
-          setDeleteModalOpen(false);
-          setDeletingAsset(null);
+    deleteProjectAsset(
+      assetId,
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setIsDeletingAsset,
+      handleCloseAttachModal
+    );
+  };
 
-          return;
-        }
-
-        if (res.status === 400 || res?.data?.error !== "") {
-          setIsDeletingAsset(false);
-        }
-      }
-    });
+  const deleteAssetHandler = (assetId) => {
+    setAssetId(assetId);
+    setDeleteModalOpen(true);
   };
 
   return (
@@ -270,7 +237,7 @@ const Assets = () => {
               backgroundColor: "#029894",
             },
           }}
-          onClick={activeButton === "Links" ? handleAttach : ""}
+          onClick={handleAseetModal}
         >
           {activeButton === "Links" ? "Attach " : "Upload"}
         </Button>
@@ -278,156 +245,35 @@ const Assets = () => {
 
       <div className={styles.container}>
         <Grid item xs={12}>
-          {isLoading ? (
-            Array.from({ length: 3 }).map((_, index) => (
-              <Skeleton
-                key={index}
-                height="80px"
-                variant="rounded"
-                sx={{ marginBottom: 2.5 }}
-              />
-            ))
-          ) : activeButton === "Links" ? (
-            <>
-              {allProjectAssets?.map((link, index) => (
-                <Card
+          {isLoading
+            ? Array.from({ length: 3 }).map((_, index) => (
+                <Skeleton
                   key={index}
-                  sx={{
-                    width: "100%",
-                    marginBottom: "15px",
-                    borderRadius: "12px",
-                    boxShadow:
-                      "0px 1px 1px -1px rgba(0,0,0,0.2),0px 0px 1px 0px rgba(0,0,0,0.14),0px 4px 8px 0px rgba(0,0,0,0.12)",
-                  }}
-                >
-                  <CardContent
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "3.5fr 1fr 1fr",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}
-                  >
-                    <Typography variant="body1">{link.url}</Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {link.date}
-                    </Typography>
-                    <div>
-                      <IconButton
-                        aria-label="copy"
-                        sx={{
-                          backgroundColor: "#068987",
-                          padding: "10px",
-                          marginRight: "20px",
-                          "&:hover": {
-                            backgroundColor: "#068987",
-                          },
-                        }}
-                        onClick={() => {
-                          /* Handle copy */
-                        }}
-                      >
-                        <Copy />
-                      </IconButton>
-
-                      <IconButton
-                        aria-label="delete"
-                        sx={{
-                          backgroundColor: "#FF0000",
-                          padding: "11px",
-                          marginRight: "-30px",
-                          "&:hover": {
-                            backgroundColor: "#FF0000",
-                          },
-                        }}
-                        onClick={() => {
-                          setDeletingAsset(link.assetId);
-                          setDeleteModalOpen(true);
-                        }}
-                      >
-                        <DeleteLight />
-                      </IconButton>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </>
-          ) : (
-            <>
-              {documents.map((doc, index) => (
-                <Card
+                  height="80px"
+                  variant="rounded"
+                  sx={{ marginBottom: 2.5 }}
+                />
+              ))
+            : allProjectAssets &&
+              allProjectAssets?.map((link, index) => (
+                <AssetCard
                   key={index}
-                  sx={{
-                    width: "100%",
-                    marginBottom: "15px",
-                    borderRadius: "12px",
-                    boxShadow:
-                      "0px 1px 1px -1px rgba(0,0,0,0.2),0px 0px 1px 0px rgba(0,0,0,0.14),0px 4px 8px 0px rgba(0,0,0,0.12)",
-                  }}
-                >
-                  <CardContent
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "3.5fr 1fr 1fr",
-                      alignItems: "center",
-                      textAlign: "center",
-                    }}
-                  >
-                    <Typography variant="body1">{doc.name}</Typography>
-
-                    <Typography variant="body2" color="textSecondary">
-                      {doc.date}
-                    </Typography>
-
-                    <div>
-                      <IconButton
-                        aria-label="copy"
-                        sx={{
-                          backgroundColor: "#068987",
-                          padding: "10px",
-                          marginRight: "20px",
-                          "&:hover": {
-                            backgroundColor: "#068987",
-                          },
-                        }}
-                      >
-                        {/* Your SVG icon */}
-                        <Download />
-                      </IconButton>
-
-                      <IconButton
-                        aria-label="delete"
-                        sx={{
-                          backgroundColor: "#FF0000",
-                          padding: "11px",
-                          marginRight: "-30px",
-                          "&:hover": {
-                            backgroundColor: "#FF0000",
-                          },
-                        }}
-                        onClick={() => {
-                          setDeletingAsset(doc.assetId);
-                          setDeleteModalOpen(true);
-                        }}
-                      >
-                        <DeleteLight />
-                      </IconButton>
-                    </div>
-                  </CardContent>
-                </Card>
+                  data={link}
+                  activeButton={activeButton}
+                  deleteAssetHandler={deleteAssetHandler}
+                />
               ))}
-            </>
-          )}
         </Grid>
       </div>
 
       {/* Attach Modal */}
       <AppDialog
-        open={attachModalOpen}
+        open={assetModalOpen}
         padding="31px 22px"
-        heading="Attach Link"
-        singleInput={true}
+        heading={activeButton === "Links" ? "Attach Link" : "Upload Documents"}
+        singleInput={activeButton === "Links" && true}
         doubleButton={true}
+        hasImage={activeButton === "Documents" && true}
         leftText="Cancel"
         rightText="Done"
         weight="semibold"
@@ -436,13 +282,16 @@ const Assets = () => {
         onClick={handleAttachDone}
         value={attachLink}
         onChange={handleAttachLinkChange}
-        placeholder="Enter Link"
-        id="attach link"
+        onAcceptImage={setAddDocument}
+        placeholder={
+          activeButton === "Links" ? "Enter Link" : "Upload Documents"
+        }
+        id="add asset"
         sx={{
           marginBottom: "20px",
         }}
         paddingLeft="21px"
-        loader={addLink}
+        loader={loadingState}
       />
 
       <DeleteConfirmationPopup
@@ -452,6 +301,13 @@ const Assets = () => {
         heading="Delete Asset"
         sentence="Are you sure you want to delete your asset?"
         isDeleting={isDeletingAsset}
+      />
+
+      <CustomizedSnackbars
+        message={message}
+        open={snackbarState}
+        setOpen={setSnackbarState}
+        severity={severity}
       />
     </>
   );

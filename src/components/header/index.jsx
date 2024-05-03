@@ -145,6 +145,7 @@ export default function AppHeader({ handleDrawerToggle }) {
 
   const onClick = () => {
     handleClose();
+    localStorage.removeItem("token");
     navigate("/");
   };
 

@@ -10,11 +10,8 @@ import Calender from "../../assets/logos/calender.svg?react";
 
 const Picker = (props) => {
   const { label, placeholder, normalFont, onChange } = props;
-  const datePickerRef = useRef(null);
 
-  const handleInputClick = () => {
-    console.log(datePickerRef.current);
-  };
+  const datePickerRef = useRef(null);
 
   return (
     <>
@@ -38,7 +35,6 @@ const Picker = (props) => {
           slotProps={{
             textField: {
               placeholder: placeholder,
-              onClick: () => handleInputClick(),
               sx: {
                 width: "100%",
 
@@ -91,6 +87,14 @@ const Picker = (props) => {
                   fontFamily: "Inter, sans-serif",
                   color: "#171717",
                   fontWeight: 600,
+                },
+
+                "& .MuiDateCalendar-root": {
+                  height: "100%",
+                },
+
+                "& .MuiDayCalendar-slideTransition": {
+                  minHeight: "100%",
                 },
               },
             },
@@ -162,6 +166,10 @@ const Picker = (props) => {
 
                 "& .MuiPickersCalendarHeader-switchViewButton": {
                   display: "none !important",
+                },
+
+                "& .MuiDayCalendar-slideTransition": {
+                  minHeight: "100%",
                 },
               },
             },

@@ -1,6 +1,6 @@
 import { Modal, Box, Typography, Button } from "@mui/material";
 
-import Spin from "../../assets/logos/spin.svg?react";
+import CustomLoader from "../loading";
 
 const DeleteConfirmationPopup = ({
   open,
@@ -72,11 +72,7 @@ const DeleteConfirmationPopup = ({
               width: "116px",
             }}
           >
-            {isDeleting ? (
-              <Spin style={{ width: "25px", height: "100%" }} />
-            ) : (
-              "Yes"
-            )}
+            {isDeleting ? <CustomLoader /> : "Yes"}
           </Button>
         </div>
       </Box>

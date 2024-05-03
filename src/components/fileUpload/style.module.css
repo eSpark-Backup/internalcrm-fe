@@ -27,6 +27,14 @@
   left: 0;
 }
 
+.file_name {
+  font-size: 14px;
+  line-height: 17px;
+  color: #595959;
+  text-transform: capitalize;
+  margin-top: 5px;
+}
+
 @media only screen and (max-width: 1536px) {
   .image_container {
     padding: 12px 14px 12px 54px;
