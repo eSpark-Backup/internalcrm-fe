@@ -1,7 +1,17 @@
 import axiosInstance from "../../axiosInstance";
 import API_ENDPOINTS from "../../endpoints";
 
-export const createProjectCard = async (body) => {
+import { createUpdateProjectCard } from "../../../redux/reducers/projectSlice";
+
+export const createProjectCard = async (
+  body,
+  dispatch,
+  setMessage,
+  setSnackbarState,
+  setSeverity,
+  setCardLoading,
+  handleClose
+) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -15,10 +25,24 @@ export const createProjectCard = async (body) => {
       }
     );
 
-    console.log("response", response);
+    if (response.status === 201 || response.status === 200) {
+      dispatch(createUpdateProjectCard(response.data.data));
+
+      setSnackbarState(true);
+      setMessage(response?.data?.message);
+      setSeverity("success");
+
+      setCardLoading(false);
+      handleClose();
+    }
 
     return response;
   } catch (error) {
+    setSnackbarState(true);
+    setMessage(error.response?.data?.message);
+    setSeverity("error");
+    setCardLoading(false);
+
     return error.response;
   }
 };

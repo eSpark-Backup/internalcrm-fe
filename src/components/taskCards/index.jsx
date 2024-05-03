@@ -1,64 +1,118 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { Button, Menu, MenuItem, Typography, Skeleton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  Modal,
-  TextField,
-  Typography,
-} from "@mui/material";
-import React, { useState } from "react";
+
 import AddTaskPopup from "../../components/addTaskPopup";
 import DynamicCard from "../../components/card";
-import DeleteConfirmationPopup from "../../components/deletePopup";
+import AppDialog from "../common/appDialog";
+import CustomizedSnackbars from "../toast";
+
+import { getAllProjectCards } from "../../api/projects/projectCards/getAllProjectCards";
+import { createProjectCard } from "../../api/projects/projectCards/createProjectCard";
+import { deleteProjectCard } from "../../api/projects/projectCards/deleteProjectCard";
+import { updateProjectCardDetails } from "../../api/projects/projectCards/updateProjectCard";
+
 import styles from "./style.module.css";
 
-const Tasks = () => {
-  const [open, setOpen] = useState(false);
-  const [cardName, setCardName] = useState("");
-  const [cards, setCards] = useState([]);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+const Tasks = ({ projectId }) => {
+  const dispatch = useDispatch();
+
+  const allProjectCards = useSelector(
+    (state) => state.projects.allProjectCards
+  );
+
+  // Create Card States
+  const [openCardModal, setOpenCardModal] = useState(false);
+  const [name, setName] = useState("");
+  // Update Card State
   const [editMode, setEditMode] = useState(false);
+  // Delete Card State
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+  // Task States
   const [addTaskPopupOpen, setAddTaskPopupOpen] = useState(false);
+  // Other State
+  const [cardId, setCardId] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [selectedCardIndexForTask, setSelectedCardIndexForTask] =
     useState(null);
+  // Get All Cards States
+  const [message, setMessage] = useState("");
+  const [snackbarState, setSnackbarState] = useState(false);
+  const [severity, setSeverity] = useState("");
+  // Loading State
+  const [cardLoading, setCardLoading] = useState(false);
 
+  const { isLoading } = useQuery({
+    queryFn: () =>
+      getAllProjectCards(
+        dispatch,
+        setMessage,
+        setSnackbarState,
+        setSeverity,
+        projectId
+      ),
+  });
+
+  // Add Tasks For Projects
   const handleAddTaskClick = (index) => {
     setSelectedCardIndexForTask(index);
     setAddTaskPopupOpen(true);
   };
 
   const handleOpen = () => {
-    setOpen(true);
-    setEditMode(false);
+    setOpenCardModal(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
-    setDeletePopupOpen(false); // Close delete confirmation popup when closing modal
-  };
+    setOpenCardModal(false);
+    setDeletePopupOpen(false);
 
-  const handleCreateCard = () => {
-    if (editMode && cardName.trim() !== "") {
-      const updatedCards = [...cards];
-      updatedCards[selectedCardIndex].name = cardName;
-      setCards(updatedCards);
+    setTimeout(() => {
       setEditMode(false);
-    } else if (!editMode && cardName.trim() !== "") {
-      const newCard = { name: cardName, tasks: [] };
-      setCards([...cards, newCard]);
-    }
-    setCardName("");
-    setOpen(false);
+      setName("");
+      setCardId(null);
+    }, 100);
   };
 
-  const handleMenuOpen = (event, index) => {
+  // Create Project Card
+  const handleCreateCard = () => {
+    setCardLoading(true);
+
+    createProjectCard(
+      { name, projectId },
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setCardLoading,
+      handleClose
+    );
+  };
+
+  // Update Project Card
+  const handleUpdateCard = () => {
+    setCardLoading(true);
+
+    updateProjectCardDetails(
+      cardId,
+      { name, projectId },
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setCardLoading,
+      handleClose
+    );
+  };
+
+  const handleMenuOpen = (event, cardId) => {
+    setCardId(cardId);
     setAnchorEl(event.currentTarget);
-    setSelectedCardIndex(index);
   };
 
   const handleMenuClose = () => {
@@ -67,7 +121,8 @@ const Tasks = () => {
 
   const handleEdit = () => {
     setEditMode(true);
-    setCardName(cards[selectedCardIndex].name);
+    setName(allProjectCards?.find((card) => card.id === cardId).name);
+
     handleOpen();
     handleMenuClose();
   };
@@ -77,12 +132,19 @@ const Tasks = () => {
     handleMenuClose();
   };
 
+  // Delete Project Card
   const confirmDelete = () => {
-    const updatedCards = cards.filter(
-      (_, index) => index !== selectedCardIndex
+    setCardLoading(true);
+
+    deleteProjectCard(
+      cardId,
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setCardLoading,
+      handleClose
     );
-    setCards(updatedCards);
-    setDeletePopupOpen(false); // Close delete confirmation popup after deletion
   };
 
   return (
@@ -91,13 +153,15 @@ const Tasks = () => {
         style={{
           display: "grid",
           gridTemplateColumns:
-            cards.length > 2
+            allProjectCards && allProjectCards?.length > 2
               ? "repeat(auto-fit, minmax(200px, 1fr))"
               : "1fr 1fr 1fr",
           gridAutoFlow: "column",
           gap: "10px",
-          width: cards.length > 2 ? "100vw" : "100%",
+          width:
+            allProjectCards && allProjectCards?.length > 2 ? "100vw" : "100%",
           overflowX: "auto",
+          height: "100%",
         }}
       >
         <div>
@@ -113,168 +177,144 @@ const Tasks = () => {
             </div>
           </DynamicCard>
         </div>
-        {cards.map((card, index) => (
-          <div key={index}>
-            <DynamicCard member={true} card_style="card_style">
-              <div className={styles.card_content}>
-                <Typography
-                  variant="h5"
-                  sx={{
-                    color: "#595959",
-                    marginTop: "5px",
-                    fontWeight: "600",
-                  }}
-                >
-                  {card.name}
-                </Typography>
-                <MoreVertIcon
-                  onClick={(event) => handleMenuOpen(event, index)}
-                />
-                <Menu
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl && selectedCardIndex === index)}
-                  onClose={handleMenuClose}
-                >
-                  <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                  <MenuItem onClick={handleDelete}>Delete</MenuItem>
-                </Menu>
-              </div>
-              <div>
-                <div
-                  style={{
-                    padding: "20px",
-                    border: "1px solid #EBEBEB",
-                    borderRadius: "10px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  {card.tasks.length === 0 ? (
-                    <Typography variant="body2">No tasks</Typography>
-                  ) : (
-                    card.tasks.map((task, taskIndex) => (
-                      <div key={taskIndex}>
-                        <Typography variant="body2">{task}</Typography>
-                      </div>
-                    ))
-                  )}
-                </div>
-                <div style={{ padding: "20px" }}>
-                  <Button
-                    onClick={() => handleAddTaskClick(index)}
-                    variant="outlined"
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      backgroundColor: "#029E9C",
-                      color: "#fff",
-                      width: "100%",
-                      marginTop: "15px",
-                      marginBottom: "-20px",
-                    }}
-                  >
-                    Add Task
-                  </Button>
-                </div>
-              </div>
-            </DynamicCard>
-          </div>
-        ))}
-      </div>
-      <Modal open={open} onClose={handleClose}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 450,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: "30px 20px",
-            borderRadius: "7px",
-          }}
-        >
-          <Typography
-            id="add-project-modal-title"
-            variant="h6"
-            component="h2"
-            gutterBottom
-            sx={{
-              textAlign: "center",
-              fontWeight: "bold",
-              color: "#068987",
-              marginBottom: "15px",
-            }}
-          >
-            {editMode ? "Edit Card" : "Create Card"}{" "}
-            {/* Display edit mode title */}
-          </Typography>
-          <TextField
-            label="Enter card name"
-            fullWidth
-            value={cardName}
-            onChange={(e) => setCardName(e.target.value)}
-            sx={{
-              marginBottom: "25px",
-              marginTop: "25px",
-              "& .MuiInputLabel-root": {
-                color: "#888888",
-                fontSize: "14px",
-                marginTop: "-6px",
-              },
-              "& .MuiOutlinedInput-input": {
-                padding: "8px",
-              },
-            }}
-          />
 
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              onClick={handleClose}
-              sx={{
-                padding: "6px 35px",
-                color: "#068987",
-                border: "1px solid #068987",
-                textTransform: "capitalize",
-                marginRight: "10px",
-                marginTop: "20px",
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleCreateCard}
-              sx={{
-                padding: "6px 35px",
-                color: "#fff",
-                background: "#068987",
-                textTransform: "capitalize",
-                marginTop: "20px",
-              }}
-            >
-              {editMode ? "Save" : "Create"}{" "}
-            </Button>
-          </div>
-        </Box>
-      </Modal>
-      <DeleteConfirmationPopup
-        open={deletePopupOpen}
-        handleClose={() => setDeletePopupOpen(false)}
-        handleDelete={confirmDelete}
-        heading="Delete Card"
-        sentence="Are you sure you want to delete this card?"
+        {isLoading
+          ? Array.from({ length: 2 }).map((_, index) => (
+              <Skeleton key={index} height="230px" variant="rounded" />
+            ))
+          : allProjectCards &&
+            allProjectCards?.map((card, index) => (
+              <div key={index}>
+                <DynamicCard member={true} card_style="card_style">
+                  <div className={styles.card_content}>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        color: "#595959",
+                        marginTop: "5px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      {card.name}
+                    </Typography>
+
+                    <MoreVertIcon
+                      onClick={(event) => handleMenuOpen(event, card.id)}
+                      sx={{ cursor: "pointer" }}
+                    />
+
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={Boolean(anchorEl && cardId === card.id)}
+                      onClose={handleMenuClose}
+                    >
+                      <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                      <MenuItem onClick={handleDelete}>Delete</MenuItem>
+                    </Menu>
+                  </div>
+
+                  <div>
+                    <div
+                      style={{
+                        padding: "20px",
+                        border: "1px solid #EBEBEB",
+                        borderRadius: "10px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      {card.tasks.length === 0 ? (
+                        <Typography variant="body2">No tasks</Typography>
+                      ) : (
+                        card.tasks.map((task, taskIndex) => (
+                          <div key={taskIndex}>
+                            <Typography variant="body2">{task}</Typography>
+                          </div>
+                        ))
+                      )}
+                    </div>
+
+                    <div style={{ padding: "20px" }}>
+                      <Button
+                        onClick={() => handleAddTaskClick(index)}
+                        variant="outlined"
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          backgroundColor: "#029E9C !important",
+                          color: "#fff",
+                          width: "100%",
+                          marginTop: "15px",
+                          marginBottom: "-20px",
+                        }}
+                      >
+                        Add Task
+                      </Button>
+                    </div>
+                  </div>
+                </DynamicCard>
+              </div>
+            ))}
+      </div>
+
+      {/* Create Card Modal */}
+      <AppDialog
+        open={openCardModal}
+        padding="31px 22px"
+        heading={editMode ? "Edit Card" : "Create Card"}
+        singleInput={true}
+        doubleButton={true}
+        leftText="Cancel"
+        rightText={editMode ? "Edit" : "Create"}
+        weight="semibold"
+        margin="40px 0px 24px"
+        handleClose={handleClose}
+        onClick={editMode ? handleUpdateCard : handleCreateCard}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Enter card name"
+        id="card name"
+        sx={{
+          marginBottom: "20px",
+        }}
+        paddingLeft="21px"
+        loader={cardLoading}
       />
+
+      {/* Delete Card Modal */}
+      <AppDialog
+        open={deletePopupOpen}
+        padding="32px 38px"
+        heading="Delete Card"
+        textBox={true}
+        text="Are you sure you want to delete this card?"
+        doubleButton={true}
+        leftText="No"
+        rightText="Yes"
+        textClass={styles.text_class}
+        weight="regular"
+        margin="47px 0px"
+        handleClose={handleClose}
+        onClick={confirmDelete}
+        loader={cardLoading}
+      />
+
       <AddTaskPopup
         open={addTaskPopupOpen}
         handleClose={() => setAddTaskPopupOpen(false)}
         handleAddTask={(task) => {
-          const updatedCards = [...cards];
+          const updatedCards = [...allProjectCards];
           updatedCards[selectedCardIndexForTask].tasks.push(task);
-          setCards(updatedCards);
-          setAddTaskPopupOpen(false); // Close the popup after adding task
+          setAddTaskPopupOpen(false);
         }}
+      />
+
+      <CustomizedSnackbars
+        message={message}
+        open={snackbarState}
+        setOpen={setSnackbarState}
+        severity={severity}
       />
     </div>
   );

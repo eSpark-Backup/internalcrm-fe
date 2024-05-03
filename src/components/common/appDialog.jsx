@@ -10,6 +10,8 @@ import Stack from "@mui/material/Stack";
 
 import AppInput from "./appInput";
 import CustomLoader from "../loading";
+import Picker from "../datePicker";
+import FileUpload from "../fileUpload";
 
 import styles from "./style.module.css";
 
@@ -41,6 +43,11 @@ export default function AppDialog(props) {
     sx,
     paddingLeft,
     loader,
+    hasPicker,
+    pickerPlaceholder,
+    onDateChange,
+    hasImage,
+    onAcceptImage,
   } = props;
 
   return (
@@ -102,6 +109,18 @@ export default function AppDialog(props) {
               id={label}
               sx={sx}
               paddingLeft={paddingLeft}
+            />
+          )}
+
+          {hasPicker && (
+            <Picker placeholder={pickerPlaceholder} onChange={onDateChange} />
+          )}
+
+          {hasImage && (
+            <FileUpload
+              placeholder={placeholder}
+              onAcceptImage={onAcceptImage}
+              sx={sx}
             />
           )}
         </DialogContent>

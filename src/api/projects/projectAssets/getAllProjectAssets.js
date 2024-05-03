@@ -3,7 +3,13 @@ import API_ENDPOINTS from "../../endpoints";
 
 import { fetchAllProjectAssets } from "../../../redux/reducers/projectSlice";
 
-export const getAllProjectAssets = async (projectId, dispatch) => {
+export const getAllProjectAssets = async (
+  projectId,
+  dispatch,
+  setMessage,
+  setSnackbarState,
+  setSeverity
+) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -15,7 +21,6 @@ export const getAllProjectAssets = async (projectId, dispatch) => {
         },
       }
     );
-    console.log(response);
 
     if (response.status === 200) {
       dispatch(fetchAllProjectAssets(response.data));
@@ -23,6 +28,9 @@ export const getAllProjectAssets = async (projectId, dispatch) => {
 
     return response.data;
   } catch (error) {
+    setMessage(error.response?.data?.message);
+    setSnackbarState(true);
+    setSeverity("error");
     return error.response;
   }
 };
