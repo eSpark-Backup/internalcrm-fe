@@ -7,6 +7,7 @@ const projectSlice = createSlice({
     allProjectMembers: [],
     allProjectAssets: [],
     allProjectCards: [],
+    allProjectTasks: [],
   },
   reducers: {
     // Project Reducers
@@ -105,6 +106,37 @@ const projectSlice = createSlice({
       }
     },
     // Ends Project Cards Reducers
+
+    // Project Tasks Reducers
+    fetchAllProjectTasks: (state, action) => {
+      state.allProjectTasks = action.payload.data;
+    },
+    createUpdateProjectTask: (state, action) => {
+      const findPrevProjectTask = state.allProjectTasks?.findIndex(
+        (asset) => asset.id === action.payload.id
+      );
+
+      if (findPrevProjectTask === -1) {
+        state.allProjectTasks = [
+          { ...action.payload },
+          ...state.allProjectTasks,
+        ];
+      } else {
+        state.allProjectTasks[findPrevProjectTask] = action.payload;
+      }
+    },
+    deleteProjectTaskReducer: (state, action) => {
+      const findPrevProjectTask = state.allProjectTasks?.filter(
+        (asset) => asset.id !== action.payload
+      );
+
+      if (findPrevProjectTask.length) {
+        state.allProjectTasks = findPrevProjectTask;
+      } else {
+        state.allProjectTasks = [];
+      }
+    },
+    // Ends Project Tasks Reducers
   },
 });
 
@@ -128,6 +160,12 @@ export const {
   createUpdateProjectCard,
   deleteProjectCardReducer,
   // Ends Project Cards Reducers
+
+  // Project Tasks Reducers
+  fetchAllProjectTasks,
+  createUpdateProjectTask,
+  deleteProjectTaskReducer,
+  // Ends Project Tasks Reducers
 } = projectSlice.actions;
 
 export default projectSlice.reducer;
