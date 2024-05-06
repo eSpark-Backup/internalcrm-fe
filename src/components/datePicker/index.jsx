@@ -15,7 +15,7 @@ const Picker = (props) => {
 
   return (
     <>
-      <Label label={label} />
+      <Label label={label} normalFont={normalFont} />
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
@@ -59,7 +59,7 @@ const Picker = (props) => {
                 "& .MuiOutlinedInput-input": {
                   fontSize: normalFont ? "16px" : "14px",
                   lineHeight: "17px",
-                  color: "#595959",
+                  color: "#888888",
                   padding: "14px 12px",
                   height: "auto",
 
@@ -94,7 +94,7 @@ const Picker = (props) => {
                 },
 
                 "& .MuiDayCalendar-slideTransition": {
-                  minHeight: "100%",
+                  // minHeight: "100%",
                 },
               },
             },
@@ -169,7 +169,7 @@ const Picker = (props) => {
                 },
 
                 "& .MuiDayCalendar-slideTransition": {
-                  minHeight: "100%",
+                  // minHeight: "100%",
                 },
               },
             },

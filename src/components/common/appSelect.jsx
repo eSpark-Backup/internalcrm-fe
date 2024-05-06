@@ -58,7 +58,7 @@ const selectStyles = (isMenuOpen, normalFont) => {
     input: (baseStyles) => ({
       ...baseStyles,
       fontSize: normalFont ? "16px" : "14px",
-      color: "#595959",
+      color: "#888888",
       padding: "0px",
       margin: "0px",
       lineHeight: "17px",
@@ -66,7 +66,7 @@ const selectStyles = (isMenuOpen, normalFont) => {
     singleValue: (baseStyles) => ({
       ...baseStyles,
       fontSize: normalFont ? "16px" : "14px",
-      color: "#595959",
+      color: "#888888",
       lineHeight: "17px",
     }),
     placeholder: (baseStyles) => ({
@@ -81,7 +81,7 @@ const selectStyles = (isMenuOpen, normalFont) => {
       backgroundColor: isSelected ? "#E6F5F4" : "transparent",
       fontFamily: "Inter, sans-serif !important",
       padding: "14px 20px",
-      color: isSelected ? "#068987" : "#595959",
+      color: isSelected ? "#068987" : "#888888",
       fontSize: normalFont ? "16px" : "14px",
       transition: "all 0.3s ease-in-out",
       borderLeft: isSelected ? "3px solid #068987" : "none",
