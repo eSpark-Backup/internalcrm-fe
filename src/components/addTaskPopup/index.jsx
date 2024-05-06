@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
 import {
   Modal,
   Box,
@@ -6,253 +8,207 @@ import {
   TextField,
   Button,
   Autocomplete,
+  Grid,
+  TextareaAutosize,
 } from "@mui/material";
-import EventIcon from "@mui/icons-material/Event";
-import CalenderIcon from "../svg/calenderIcon";
-import Picker from "../datePicker/index";
 
-const AddTaskPopup = ({ open, handleClose, handleAddTask }) => {
-  const [task, setTask] = useState("");
-  const [assignedTo, setAssignedTo] = useState(null); // State for selected employee
-  const [fromDate, setFromDate] = useState(""); // State for From date
-  const [toDate, setToDate] = useState(""); // State for To date
+import Picker from "../datePicker";
+import AppInput from "../common/appInput";
+import Label from "../common/inputLabel";
+import CustomLoader from "../loading";
+
+import ArrowDropdown from "../../assets/logos/arrow-dropdown.svg?react";
+
+import { createProjectTask } from "../../api/projects/projectTasks/createProjectTask";
+
+import styles from "./style.module.css";
+
+const AddTaskPopup = (props) => {
+  const {
+    open,
+    setAddTaskPopupOpen,
+    cardId,
+    setSnackbarState,
+    setSeverity,
+    setMessage,
+  } = props;
+
+  const dispatch = useDispatch();
+
+  // Add Task State
+  const [name, setTask] = useState("");
+  const [assignedTo, setAssignedTo] = useState(null);
+  const [employeeName, setEmployeeName] = useState(null);
+  const [startDate, setFromDate] = useState(null);
+  const [endDate, setToDate] = useState(null);
   const [description, setDescription] = useState("");
+  // Loading Stat
+  const [isCreating, setIsCreating] = useState(false);
 
   const employees = [
-    { name: "Employee 1" },
-    { name: "Employee 2" },
-    { name: "Employee 3" },
-    // Add more employees as needed
+    { name: "Employee 1", id: 0 },
+    { name: "Employee 2", id: 1 },
+    { name: "Employee 3", id: 2 },
   ];
 
+  const handleClose = () => {
+    setAddTaskPopupOpen(false);
+    setTask("");
+    setAssignedTo(null);
+    setFromDate(null);
+    setToDate(null);
+    setDescription("");
+  };
+
   const handleAdd = () => {
-    console.log("Task:", task);
-    console.log("Assigned To:", assignedTo);
-    console.log("From Date:", fromDate);
-    console.log("To Date:", toDate);
-    console.log("Description:", description);
-    if (
-      task.trim() !== "" &&
-      assignedTo &&
-      fromDate &&
-      toDate &&
-      description.trim() !== ""
-    ) {
-      handleAddTask({
-        task: task,
-        description: description,
-        assignedTo: assignedTo,
-        fromDate: fromDate,
-        toDate: toDate,
-      });
-      setTask("");
-      setDescription("");
-      setAssignedTo(null);
-      setFromDate("");
-      setToDate("");
-      handleClose();
-    } else {
-      // Handle case where all fields are not filled
-      console.log("Please fill all fields");
-    }
+    setIsCreating(true);
+
+    const body = {
+      cardId,
+      name,
+      assignedTo,
+      startDate,
+      endDate,
+      description,
+    };
+
+    createProjectTask(
+      body,
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setIsCreating,
+      handleClose
+    );
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "800px",
-          bgcolor: "background.paper",
-          boxShadow: 24,
-          p: "30px 60px",
-          borderRadius: "7px",
-        }}
-      >
+    <Modal
+      open={open}
+      onClose={handleClose}
+      sx={{
+        "& .MuiModal-backdrop": {
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
+        },
+      }}
+    >
+      <Box className={styles.box_container}>
         <Typography
           variant="h6"
           component="h2"
           gutterBottom
-          sx={{
-            textAlign: "left",
-            fontWeight: "bold",
-            color: "#068987",
-            marginBottom: "15px",
-            fontFamily: "Inter",
-          }}
+          className={`inter-semibold ${styles.create_task}`}
         >
           Create Task
         </Typography>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "left",
-            gap: "90px",
-            alignItems: "center",
-          }}
-        >
-          <div>
-            <Typography
-              sx={{
-                fontSize: "14px",
-                fontWeight: "500",
-                color: "#636363",
-                fontFamily: "Inter",
-              }}
-            >
-              Task name:
-            </Typography>
-            <TextField
-              label="Enter task name"
-              fullWidth
-              value={task}
+
+        <Grid container>
+          <Grid item md={6} xs={12} className={styles.grid_item_p_right}>
+            <AppInput
               onChange={(e) => setTask(e.target.value)}
-              sx={{
-                marginBottom: "25px",
-                marginTop: "10px",
-                width: "23vw",
-                "& .MuiInputLabel-root": {
-                  color: "#888888",
-                  fontSize: "14px",
-                  marginTop: "-6px",
-                },
-                "& .MuiOutlinedInput-input": {
-                  padding: "8px",
-                },
-              }}
+              id="create task"
+              label="Task name:"
+              placeholder="Enter task name"
+              value={name}
+              normalFont
+              paddingLeft="21px"
             />
-          </div>
-          <div>
-            <Typography
-              sx={{ fontSize: "14px", fontWeight: "500", color: "#636363" }}
-            >
-              Assign To:
-            </Typography>
+          </Grid>
+
+          <Grid
+            item
+            md={6}
+            xs={12}
+            className={styles.grid_item_p_left}
+            sx={{ marginBottom: "30px" }}
+          >
+            <Label label="Assign To:" normalFont />
+
             <Autocomplete
               options={employees}
               getOptionLabel={(option) => option.name}
-              value={assignedTo}
-              onChange={(event, newValue) => {
-                setAssignedTo(newValue);
+              value={employeeName}
+              onChange={(_, newValue) => {
+                setAssignedTo(newValue.id);
+                setEmployeeName(newValue);
               }}
+              id="highlights-demo"
               renderInput={(params) => (
-                <TextField {...params} label="Select Employee" />
+                <TextField {...params} placeholder="Select Employee" />
               )}
+              popupIcon={<ArrowDropdown />}
               fullWidth
               disableClearable // Add this line to disable the clear button
               sx={{
-                marginBottom: "25px",
-                marginTop: "10px",
-                width: "23vw",
                 padding: "0 !important",
-                "& .MuiInputLabel-root": {
+
+                "& .MuiOutlinedInput-root": {
+                  padding: "0 !important",
                   color: "#888888",
                   fontSize: "14px",
-                  marginTop: "-6px",
-                },
-                "& .MuiOutlinedInput-root": {
-                  padding: "0",
+                  fontFamily: "Inter, sans-serif",
+
+                  "& .MuiAutocomplete-input": {
+                    height: "auto",
+                    lineHeight: "17px",
+                  },
+
+                  "& fieldset": {
+                    borderColor: "#E4E4E4 !important",
+                    borderWidth: "1px !important",
+                  },
                 },
               }}
             />
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "left",
-            gap: "85px",
-            alignItems: "center",
-          }}
-        >
-          <div>
-            <Typography
-              sx={{
-                fontSize: "14px",
-                fontWeight: "500",
-                color: "#636363",
-                marginBottom: "10px",
-              }}
-            >
-              From Date:
-            </Typography>
-            <div className="calender_field">
-              <Picker />
-            </div>
-          </div>
-          <div>
-            <Typography
-              sx={{
-                fontSize: "14px",
-                fontWeight: "500",
-                color: "#636363",
-                marginBottom: "10px",
-              }}
-            >
-              To Date:
-            </Typography>
-            <div className="calender_field">
-             
-              <Picker />
-            </div>
-          </div>
-        </div>
-        <Typography
-          sx={{
-            fontSize: "14px",
-            fontWeight: "500",
-            color: "#636363",
-            marginTop: "30px",
-          }}
-        >
-          Description
-        </Typography>
-        <TextField
-          sx={{ width: "670px" }}
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="description"
-          label="Description"
-          placeholder="Enter description..."
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+          </Grid>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
-        >
-          <Button
-            onClick={handleClose}
-            sx={{
-              padding: "6px 35px",
-              color: "#068987",
-              border: "1px solid #068987",
-              textTransform: "capitalize",
-              marginRight: "10px",
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleAdd}
-            sx={{
-              padding: "6px 35px",
-              color: "#fff",
-              background: "#068987",
-              textTransform: "capitalize",
-            }}
-          >
-            Add
-          </Button>
-        </div>
+          <Grid item md={6} xs={12} className={styles.grid_item_p_right}>
+            <Picker
+              label="From"
+              normalFont
+              onChange={(date) => setFromDate(date.toISOString())}
+            />
+          </Grid>
+
+          <Grid item md={6} xs={12} className={styles.grid_item_p_left}>
+            <Picker
+              label="To"
+              normalFont
+              onChange={(date) => setToDate(date.toISOString())}
+            />
+          </Grid>
+
+          <Grid item xs={12} sx={{ my: "30px" }}>
+            <Label label="Description" normalFont />
+
+            <TextareaAutosize
+              placeholder="Add description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className={`inter-regular ${styles.textarea}`}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <Button
+              onClick={handleClose}
+              className={`inter-semibold ${styles.cancel}`}
+            >
+              Cancel
+            </Button>
+          </Grid>
+
+          <Grid item xs={6} display={"flex"} justifyContent={"end"}>
+            <Button
+              onClick={handleAdd}
+              className={`inter-semibold ${styles.create}`}
+              disabled={isCreating}
+            >
+              {isCreating ? <CustomLoader /> : "Create"}
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </Modal>
   );

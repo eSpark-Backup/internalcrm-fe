@@ -38,8 +38,6 @@ const Tasks = ({ projectId }) => {
   // Other State
   const [cardId, setCardId] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedCardIndexForTask, setSelectedCardIndexForTask] =
-    useState(null);
   // Get All Cards States
   const [message, setMessage] = useState("");
   const [snackbarState, setSnackbarState] = useState(false);
@@ -59,8 +57,8 @@ const Tasks = ({ projectId }) => {
   });
 
   // Add Tasks For Projects
-  const handleAddTaskClick = (index) => {
-    setSelectedCardIndexForTask(index);
+  const handleAddTaskClick = (cardId) => {
+    setCardId(cardId);
     setAddTaskPopupOpen(true);
   };
 
@@ -237,7 +235,7 @@ const Tasks = ({ projectId }) => {
 
                     <div style={{ padding: "20px" }}>
                       <Button
-                        onClick={() => handleAddTaskClick(index)}
+                        onClick={() => handleAddTaskClick(card.id)}
                         variant="outlined"
                         sx={{
                           display: "flex",
@@ -302,12 +300,11 @@ const Tasks = ({ projectId }) => {
 
       <AddTaskPopup
         open={addTaskPopupOpen}
-        handleClose={() => setAddTaskPopupOpen(false)}
-        handleAddTask={(task) => {
-          const updatedCards = [...allProjectCards];
-          updatedCards[selectedCardIndexForTask].tasks.push(task);
-          setAddTaskPopupOpen(false);
-        }}
+        setAddTaskPopupOpen={setAddTaskPopupOpen}
+        cardId={cardId}
+        setSnackbarState={setSnackbarState}
+        setSeverity={setSeverity}
+        setMessage={setMessage}
       />
 
       <CustomizedSnackbars

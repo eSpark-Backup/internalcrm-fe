@@ -307,9 +307,9 @@ body,
   width: 100%;
 }
 
-.calender_field .date_picker {
+/* .calender_field .date_picker {
   width: 24.5vw;
-}
+} */
 
 .date_picker .MuiOutlinedInput-root {
   font-family: Inter, sans-serif !important;
@@ -383,6 +383,24 @@ body,
 .plus_icon {
   opacity: 0;
 }
+
+/* Autocomplete Styles Start */
+
+.MuiAutocomplete-option {
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #888888;
+  padding: 14px 20px !important;
+}
+
+.MuiAutocomplete-option:hover {
+  background-color: #e6f5f4 !important;
+  font-weight: 500;
+}
+
+/* Autocomplete Styles End */
 
 @media only screen and (max-width: 600px) {
   /* Dialog Styles Start */
