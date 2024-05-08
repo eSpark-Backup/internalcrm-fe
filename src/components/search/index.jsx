@@ -1,4 +1,3 @@
-// SearchBar.js
 import React from "react";
 import {
   Stack,
@@ -10,7 +9,7 @@ import {
 import SearchDark from "../../assets/logos/search-dark.svg?react";
 import styles from "./style.module.css";
 import { Search } from "@mui/icons-material";
-import Picker from "../datePicker";
+import Picker from "../datePicker/index";
 
 const SearchBar = ({
   onNameSearch,
@@ -30,36 +29,33 @@ const SearchBar = ({
       sx={{ display: { xs: "block", lg: "flex" } }}
     >
       <Stack flexDirection="row">
-        <div>
-          <div style={{ display: "flex" }}>
-            <TextField
-              placeholder={searchTextOne}
-              variant="outlined"
-              onChange={(e) => onNameSearch(e.target.value)} // Handle team name search
-              className={styles.textfield}
-              sx={{ marginRight: "10px", height: "40px" }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <IconButton>
-                      <SearchDark />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            {hideStatusSearch && (
-              <div className="date_status">
-                <Picker placeholder="Search from" />
-              </div>
-            )}
-            {hideStatusSearch && (
-              <div className="date_status">
-                <Picker placeholder="Search from" />
-              </div>
-            )}
-          </div>
-
+      <div style={{ display: hideStatusSearch ? "flex" : "" }}>
+          <TextField
+          sx={{marginRight:"10px"}}
+            placeholder={searchTextOne}
+            variant="outlined"
+            onChange={(e) => onNameSearch(e.target.value)} // Handle team name search
+            className={styles.textfield}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton>
+                    <SearchDark />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          {hideStatusSearch && (
+            <div className="date_status">
+              <Picker placeholder="Search from" />
+            </div>
+          )}
+          {hideStatusSearch && (
+            <div className="date_status">
+              <Picker placeholder="Search from" />
+            </div>
+          )}
           {!hideJobTitleSearch && (
             <TextField
               placeholder={searchTextTwo}
