@@ -16,6 +16,7 @@ const SearchBar = ({
   onNameSearch,
   onMonthSearch,
   hideJobTitleSearch,
+  hideStatusSearch,
   btn,
   btnText,
   onClick,
@@ -30,21 +31,34 @@ const SearchBar = ({
     >
       <Stack flexDirection="row">
         <div>
-          <TextField
-            placeholder={searchTextOne}
-            variant="outlined"
-            onChange={(e) => onNameSearch(e.target.value)} // Handle team name search
-            className={styles.textfield}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <IconButton>
-                    <SearchDark />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+          <div style={{ display: "flex" }}>
+            <TextField
+              placeholder={searchTextOne}
+              variant="outlined"
+              onChange={(e) => onNameSearch(e.target.value)} // Handle team name search
+              className={styles.textfield}
+              sx={{ marginRight: "10px", height: "40px" }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton>
+                      <SearchDark />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            {hideStatusSearch && (
+              <div className="date_status">
+                <Picker placeholder="Search from" />
+              </div>
+            )}
+            {hideStatusSearch && (
+              <div className="date_status">
+                <Picker placeholder="Search from" />
+              </div>
+            )}
+          </div>
 
           {!hideJobTitleSearch && (
             <TextField
@@ -64,7 +78,6 @@ const SearchBar = ({
               }}
             />
           )}
-         
         </div>
 
         <IconButton className={styles.search_container}>

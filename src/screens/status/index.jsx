@@ -54,15 +54,19 @@ const Status = () => {
   );
 
   return (
-    <div>
-      <SearchBar
-        hideJobTitleSearch
-        onNameSearch={handleNameSearch}
-        searchTextOne="Search by name"
-        searchTextTwo="Search by month"
-        btn={!!isActive}
-        btnText="Add source"
-      />
+    <div style={{ height: "100%" }}>
+      <div style={{ marginBottom: "20px" }}>
+        <SearchBar
+          hideJobTitleSearch
+          hideStatusSearch
+          onNameSearch={handleNameSearch}
+          searchTextOne="Search by name"
+          searchTextTwo="Search by month"
+          btn={!!isActive}
+          btnText="Add source"
+        />
+      </div>
+      <div className={styles.container}>
       {filteredStatus.map((statusItem, index) => (
         <Card
           key={index}
@@ -127,6 +131,7 @@ const Status = () => {
           </CardContent>
         </Card>
       ))}
+      </div>
       <OverviewPopup isOpen={popupOpen} onClose={handlePopupClose} />
     </div>
   );

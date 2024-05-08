@@ -130,6 +130,7 @@ const Sources = () => {
         btn={!!isActive}
         btnText="Add source"
       />
+      <Link to="/status" style={{ textDecoration: "none" }}>
       {sources.map((chunk, chunkIndex) => (
         <Grid container key={chunkIndex} spacing={2}>
           {chunk.map((sources, index) => (
@@ -218,6 +219,7 @@ const Sources = () => {
           ))}
         </Grid>
       ))}
+      </Link>
       <Modal
         open={isAddSourcesOpen}
         onClose={closeAddsourcesPopup}

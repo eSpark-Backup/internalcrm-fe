@@ -40,6 +40,8 @@
   text-transform: capitalize !important;
 }
 
+
+
 @media only screen and (max-width: 1366px) {
   .textfield {
     width: 280px;
