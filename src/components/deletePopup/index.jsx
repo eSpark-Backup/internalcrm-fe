@@ -63,7 +63,7 @@ const DeleteConfirmationPopup = ({
           <Button
             onClick={handleDelete}
             sx={{
-              padding: "7px 45px",
+              padding: "7px 0px",
               color: "#fff",
               background: "#029894 !important",
               textTransform: "capitalize",

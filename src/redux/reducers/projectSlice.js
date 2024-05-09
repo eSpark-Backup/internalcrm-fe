@@ -84,8 +84,8 @@ const projectSlice = createSlice({
 
       if (findPrevProjectCard === -1) {
         state.allProjectCards = [
-          { ...action.payload, tasks: [] },
           ...state.allProjectCards,
+          { ...action.payload, tasks: [] },
         ];
       } else {
         state.allProjectCards[findPrevProjectCard] = {

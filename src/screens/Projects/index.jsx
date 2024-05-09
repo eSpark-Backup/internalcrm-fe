@@ -223,7 +223,10 @@ const Projects = () => {
                             hoveredCards[index * 3] ? styles.show_icon : ""
                           }`}
                         >
-                          <Link to="/cards" state={project}>
+                          <Link
+                            to={`/projects/cards/${project.name}`}
+                            state={project}
+                          >
                             <LaunchRoundedIcon
                               style={{
                                 fontSize: "40px",

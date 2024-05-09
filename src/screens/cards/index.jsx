@@ -64,10 +64,14 @@ const Cards = () => {
   };
 
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       <div className={styles.header_container}>
         <div className={styles.action_button_container}>
-          <Link to="/assets" style={{ textDecoration: "none" }} state={state}>
+          <Link
+            to="/projects/assets"
+            style={{ textDecoration: "none" }}
+            state={state}
+          >
             <Button>Assets</Button>
           </Link>
 
@@ -81,7 +85,7 @@ const Cards = () => {
         <Button onClick={handleAddMembers}>Add Members</Button>
       </div>
 
-      <Tasks projectId={state.id} />
+      <Tasks projectId={state.id} state={state} />
 
       <AddMembersPopup
         isOpen={isPopupOpen}

@@ -9,13 +9,17 @@ import Label from "../common/inputLabel";
 import Calender from "../../assets/logos/calender.svg?react";
 
 const Picker = (props) => {
-  const { label, placeholder, normalFont, onChange } = props;
+  const { label, placeholder, normalFont, onChange, marginBottom } = props;
 
   const datePickerRef = useRef(null);
 
   return (
     <>
-      <Label label={label} normalFont={normalFont} />
+      <Label
+        label={label}
+        normalFont={normalFont}
+        marginBottom={marginBottom}
+      />
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker

@@ -131,7 +131,7 @@ const Teams = () => {
                     <div className={styles.button_container}>
                       <Button
                         component={Link}
-                        to="/team-details"
+                        to="/teams/team-details"
                         className="view_button"
                         variant="contained"
                         sx={buttonStyles}

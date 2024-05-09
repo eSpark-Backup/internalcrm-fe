@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -19,8 +20,10 @@ import { updateProjectCardDetails } from "../../api/projects/projectCards/update
 
 import styles from "./style.module.css";
 
-const Tasks = ({ projectId }) => {
+const Tasks = ({ projectId, state }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const allProjectCards = useSelector(
     (state) => state.projects.allProjectCards
@@ -159,7 +162,7 @@ const Tasks = ({ projectId }) => {
           width:
             allProjectCards && allProjectCards?.length > 2 ? "100vw" : "100%",
           overflowX: "auto",
-          height: "100%",
+          height: "90%",
         }}
       >
         <div>
@@ -223,7 +226,16 @@ const Tasks = ({ projectId }) => {
                       }}
                     >
                       {card.tasks.length === 0 ? (
-                        <Typography variant="body2">No tasks</Typography>
+                        <Typography
+                          variant="body2"
+                          onClick={() =>
+                            navigate(`${location.pathname}/task`, {
+                              state: { projectDetail: state, cardDetail: card },
+                            })
+                          }
+                        >
+                          No tasks
+                        </Typography>
                       ) : (
                         card.tasks.map((task, taskIndex) => (
                           <div key={taskIndex}>
@@ -255,6 +267,14 @@ const Tasks = ({ projectId }) => {
               </div>
             ))}
       </div>
+
+      {allProjectCards?.length > 2 && (
+        <div className={styles.add_card_container}>
+          <Button className="inter-medium" onClick={handleOpen}>
+            Add Card
+          </Button>
+        </div>
+      )}
 
       {/* Create Card Modal */}
       <AppDialog

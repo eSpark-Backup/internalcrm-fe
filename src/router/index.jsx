@@ -17,6 +17,7 @@ import Assets from "../screens/assets";
 import TeamDetail from "../screens/teamDetail";
 import Sources from "../screens/sources";
 import Status from "../screens/status";
+import TaskDetail from "../screens/taskDetail";
 
 const AppRoutes = ({ setIsWhiteBg }) => {
   let routes = useRoutes([
@@ -31,10 +32,11 @@ const AppRoutes = ({ setIsWhiteBg }) => {
           element: <AddEditMember setIsWhiteBg={setIsWhiteBg} />,
         },
         { path: "/teams", element: <Teams /> },
-        { path: "projects", element: <Projects /> },
-        { path: "/cards", element: <Cards /> },
-        { path: "/assets", element: <Assets /> },
-        { path: "/team-details", element: <TeamDetail /> },
+        { path: "/projects", element: <Projects /> },
+        { path: "/projects/cards/:projectName", element: <Cards /> },
+        { path: "/projects/cards/:projectName/task", element: <TaskDetail /> },
+        { path: "/projects/assets", element: <Assets /> },
+        { path: "/teams/team-details", element: <TeamDetail /> },
         { path: "/lead-sources", element: <Sources /> },
         { path: "/status", element: <Status /> },
       ],

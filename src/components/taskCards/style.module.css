@@ -5,7 +5,7 @@
   height: 55vh;
   width: 100%;
   margin-top: 40px;
-  padding: 20px;
+  padding: 20px 20px 0px;
   overflow: auto;
 }
 
@@ -20,4 +20,22 @@
   color: #595959 !important;
   line-height: 17px !important;
   text-align: center;
+}
+
+.add_card_container {
+  text-align: end;
+  position: absolute;
+  bottom: 20px;
+  right: 11px;
+}
+
+.add_card_container button {
+  border: 1px solid #e4e4e4;
+  border-radius: 5px;
+  width: 270px;
+  font-size: 16px;
+  line-height: 19px;
+  color: #029e9c;
+  padding: 10px 0px;
+  text-transform: capitalize;
 }

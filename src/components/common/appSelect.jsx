@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import Select from "react-select";
 
-import InputLabel from "@mui/material/InputLabel";
+import Label from "./inputLabel";
 
 import ArrowDropdown from "../../assets/logos/arrow-dropdown.svg?react";
 
@@ -19,14 +19,10 @@ const selectStyles = (isMenuOpen, normalFont) => {
     }),
     control: (baseStyles) => ({
       ...baseStyles,
-      padding: "10px 12px",
+      padding: "7px 12px",
       borderColor: isMenuOpen ? "#068987 !important" : "#E4E4E4 !important",
       boxShadow: "none",
       borderRadius: isMenuOpen ? "5px 5px 0px 0px" : "5px",
-
-      "@media only screen and (max-width: 1536px)": {
-        padding: "9px 12px",
-      },
 
       "@media only screen and (max-width: 1366px)": {
         padding: "7px 10px",
@@ -37,7 +33,7 @@ const selectStyles = (isMenuOpen, normalFont) => {
       padding: "3px 0px",
     }),
     indicatorsContainer: () => ({
-      display: "none",
+      // display: "none",
     }),
     indicatorSeparator: () => ({
       display: "none",
@@ -111,7 +107,15 @@ const CustomDropdownButton = ({ isMenuOpen }) => {
 };
 
 const AppSelect = (props) => {
-  const { onChange, label, value, list, normalFont, placeholder } = props;
+  const {
+    onChange,
+    label,
+    value,
+    list,
+    normalFont,
+    placeholder,
+    marginBottom,
+  } = props;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -125,13 +129,7 @@ const AppSelect = (props) => {
 
   return (
     <>
-      <InputLabel
-        id="label"
-        className={`inter-medium ${styles.input_label}`}
-        sx={{ fontSize: normalFont ? "16px !important" : "14px !important" }}
-      >
-        {label}
-      </InputLabel>
+      <Label label={label} marginBottom={marginBottom} />
 
       <Select
         value={value}
