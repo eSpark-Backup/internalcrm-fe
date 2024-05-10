@@ -32,6 +32,7 @@ const Sources = () => {
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const [editedSourceName, setEditedSourceName] = useState("");
   const [currentIndex, setCurrentIndex] = useState(null);
+  const [isActive, setIsActive] = React.useState(true);
 
   const [sourceData, setSourceData] = useState([
     { name: "Bark", date: "5" },
@@ -120,48 +121,16 @@ const Sources = () => {
 
   return (
     <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "40px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-          }}
-        >
-          <SearchBar
-            hideJobTitleSearch
-            onNameSearch={handleNameSearch}
-            onMonthSearch={handleMonthSearch}
-            searchTextOne="Search by name"
-            searchTextTwo="Search by month"
-          />
-        </div>
-        <Button
-          onClick={openAddsourcesPopup}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            borderRadius: "4px",
-            padding: "20px 40px",
-            height: "43px",
-            backgroundColor: "#029894",
-          }}
-        >
-          <span
-            style={{
-              color: "#fff",
-              textTransform: "capitalize",
-              fontFamily: "Inter",
-            }}
-          >
-            Add source
-          </span>
-        </Button>
-      </div>
+      <SearchBar
+        hideJobTitleSearch
+        onNameSearch={handleNameSearch}
+        onMonthSearch={handleMonthSearch}
+        searchTextOne="Search by name"
+        searchTextTwo="Search by month"
+        btn={!!isActive}
+        btnText="Add source"
+      />
+      <Link to="/status" style={{ textDecoration: "none" }}>
       {sources.map((chunk, chunkIndex) => (
         <Grid container key={chunkIndex} spacing={2}>
           {chunk.map((sources, index) => (
@@ -250,6 +219,7 @@ const Sources = () => {
           ))}
         </Grid>
       ))}
+      </Link>
       <Modal
         open={isAddSourcesOpen}
         onClose={closeAddsourcesPopup}

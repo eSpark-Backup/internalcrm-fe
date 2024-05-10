@@ -17,7 +17,6 @@ import { CopyIcon } from "../../components/svg/copyIcon";
 import { DeleteIcon } from "../../components/svg/deleteIcon";
 import { UploadIcon } from "../../components/svg/uploadIcon";
 
-
 import styles from "./style.module.css";
 
 const Assets = () => {

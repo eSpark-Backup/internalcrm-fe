@@ -25,6 +25,7 @@ const Projects = () => {
   const [searchNameValue, setSearchNameValue] = useState("");
   const [searchMonthValue, setSearchMonthValue] = useState("");
   const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
+  const [isActive, setIsActive] = React.useState(true);
 
   const handleNameSearch = (value) => {
     setSearchNameValue(value);
@@ -92,40 +93,16 @@ const Projects = () => {
 
   return (
     <div style={{ height: "100%" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "40px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-          }}
-        >
-          <SearchBar
-            onNameSearch={handleNameSearch}
-            onMonthSearch={handleMonthSearch}
-            searchTextOne="Search by name"
-            searchTextTwo="Search by month"
-          />
-        </div>
-        <Button
+      <div style={{ marginBottom: "40px" }}>
+        <SearchBar
+          onNameSearch={handleNameSearch}
+          onMonthSearch={handleMonthSearch}
+          searchTextOne="Search by name"
+          searchTextTwo="Search by month"
+          btn={!!isActive}
+          btnText="Add Project"
           onClick={openAddProjectPopup}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            borderRadius: "4px",
-            padding: "20px 40px",
-            height: "43px",
-            backgroundColor: "#029894",
-          }}
-        >
-          <span style={{ color: "#fff", textTransform: "capitalize" }}>
-            Add Project
-          </span>
-        </Button>
+        />
       </div>
       <div className={styles.container}>
         {teamsChunks.map((chunk, chunkIndex) => (

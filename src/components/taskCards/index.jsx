@@ -183,19 +183,7 @@ const Tasks = () => {
         ))}
       </div>
       <Modal open={open} onClose={handleClose}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 450,
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: "30px 20px",
-            borderRadius: "7px",
-          }}
-        >
+        <Box className={styles.create_card_popup}>
           <Typography
             id="add-project-modal-title"
             variant="h6"

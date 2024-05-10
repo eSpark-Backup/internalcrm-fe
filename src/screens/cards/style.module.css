@@ -15,3 +15,21 @@
   margin-bottom: 20px;
 }
  */
+
+.cards_button {
+  display: flex !important;
+  align-items: center !important;
+  border-radius: 4px !important;
+  width: 160px !important;
+  height: 40px !important;
+  background-color: #029894 !important;
+  color: #fff !important;
+  font-size: 15px !important;
+  font-family: Inter !important;
+  text-transform: capitalize !important;
+}
+
+.manage_members{
+  display: flex;
+  justify-content: right;
+}
