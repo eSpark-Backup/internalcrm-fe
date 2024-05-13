@@ -18,13 +18,14 @@ import Edit from "../../assets/logos/edit.svg?react";
 // import Delete from "../../assets/logos/delete.svg?react";
 import DeleteColored from "../../assets/logos/delete-colored.svg?react";
 
+import { statusList } from "../../constants/statusList";
+
 import styles from "./style.module.css";
 
-const DetailForm = () => {
+const DetailForm = ({ taskDetail }) => {
   const [editState, setEditState] = useState({
-    name: "UX/UI",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    name: taskDetail?.name,
+    description: taskDetail?.description,
     comment: "",
     editTitle: false,
     editDescription: false,
@@ -105,7 +106,7 @@ const DetailForm = () => {
                 ) : (
                   <div className={styles.title_view}>
                     <Typography variant="h6" className="inter-medium">
-                      UX/UI
+                      {taskDetail?.name}
                     </Typography>
                   </div>
                 )}
@@ -158,8 +159,7 @@ const DetailForm = () => {
                 ) : (
                   <div className={styles.description_view}>
                     <Typography variant="h6" className="inter-medium">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor
+                      {taskDetail?.description}
                     </Typography>
                   </div>
                 )}
@@ -247,6 +247,7 @@ const DetailForm = () => {
                   label="Change task status"
                   marginBottom="6px"
                   placeholder="Select"
+                  list={statusList}
                 />
               </div>
 

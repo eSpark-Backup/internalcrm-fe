@@ -5,8 +5,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Typography, Button } from "@mui/material";
 
 import AppDialog from "../../components/common/appDialog";
-
+import CustomizedSnackbars from "../../components/toast";
 import DetailForm from "./detailForm";
+
+import { deleteProjectTask } from "../../api/projects/projectTasks/deleteProjectTask";
 
 import { storeChildData } from "../../redux/reducers/headerSlice";
 
@@ -35,15 +37,30 @@ const TaskDetail = () => {
   }, []);
 
   const [deleteTask, setDeleteTask] = useState(false);
-  const [cardLoading, setCardLoading] = useState(false);
+  const [deletingTask, setDeletingTask] = useState(false);
+  // Snackbar State
+  const [message, setMessage] = useState("");
+  const [snackbarState, setSnackbarState] = useState(false);
+  const [severity, setSeverity] = useState("");
 
   const handleClose = () => {
     setDeleteTask(false);
   };
 
   const confirmDelete = () => {
-    setCardLoading(false);
-    setDeleteTask(false);
+    setDeletingTask(true);
+    const taskId = state?.taskDetail?.id;
+
+    deleteProjectTask(
+      taskId,
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setDeletingTask,
+      handleClose,
+      handleClick
+    );
   };
 
   return (
@@ -61,7 +78,7 @@ const TaskDetail = () => {
         </Button>
       </div>
 
-      <DetailForm taskDetail={state.cardDetail} />
+      <DetailForm taskDetail={state.taskDetail} />
 
       {/* Delete Task Modal */}
       <AppDialog
@@ -78,7 +95,14 @@ const TaskDetail = () => {
         margin="47px 0px"
         handleClose={handleClose}
         onClick={confirmDelete}
-        loader={cardLoading}
+        loader={deletingTask}
+      />
+
+      <CustomizedSnackbars
+        message={message}
+        open={snackbarState}
+        setOpen={setSnackbarState}
+        severity={severity}
       />
     </div>
   );

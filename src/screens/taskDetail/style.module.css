@@ -111,6 +111,7 @@
   font-size: 18px !important;
   line-height: 22px !important;
   color: #ffffff;
+  text-transform: capitalize;
 }
 
 .comment,
@@ -130,6 +131,10 @@
 .title_view h6,
 .description_view h6 {
   color: #595959;
+}
+
+.comment h6 {
+  text-transform: none;
 }
 
 .editor {
