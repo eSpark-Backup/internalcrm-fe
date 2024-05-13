@@ -1,7 +1,7 @@
 import axiosInstance from "../../axiosInstance";
 import API_ENDPOINTS from "../../endpoints";
 
-// import { createUpdateProjectTask } from "../../../redux/reducers/projectSlice";
+import { createUpdateProjectTask } from "../../../redux/reducers/projectSlice";
 
 export const createProjectTask = async (
   body,
@@ -25,10 +25,8 @@ export const createProjectTask = async (
       }
     );
 
-    console.log(response);
-
     if (response.status === 201 || response.status === 200) {
-      // dispatch(createUpdateProjectTask(response.data.data));
+      dispatch(createUpdateProjectTask(response.data.data));
 
       setSnackbarState(true);
       setMessage(response?.data?.message);

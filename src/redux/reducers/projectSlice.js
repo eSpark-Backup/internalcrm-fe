@@ -78,20 +78,21 @@ const projectSlice = createSlice({
       state.allProjectCards = action.payload.data;
     },
     createUpdateProjectCard: (state, action) => {
-      const findPrevProjectCard = state.allProjectCards?.findIndex(
-        (card) => card.id === action.payload.id
+      const cardIndex = state.allProjectCards?.findIndex(
+        (card) => card.id === action.payload?.cardId?.id
       );
 
-      if (findPrevProjectCard === -1) {
-        state.allProjectCards = [
-          ...state.allProjectCards,
-          { ...action.payload, tasks: [] },
-        ];
+      const findPrevProjectCard = state.allProjectCards?.find(
+        (card) => card.id === action.payload?.cardId?.id
+      );
+      const findPrevTask = findPrevProjectCard?.tasks?.findIndex(
+        (task) => task.id === action.payload?.id
+      );
+
+      if (findPrevTask === -1) {
+        state.allProjectCards[cardIndex].tasks.push(action.payload);
       } else {
-        state.allProjectCards[findPrevProjectCard] = {
-          ...action.payload,
-          tasks: [],
-        };
+        state.allProjectCards[cardIndex].tasks[findPrevTask] = action.payload;
       }
     },
     deleteProjectCardReducer: (state, action) => {
@@ -112,18 +113,29 @@ const projectSlice = createSlice({
       state.allProjectTasks = action.payload.data;
     },
     createUpdateProjectTask: (state, action) => {
-      const findPrevProjectTask = state.allProjectTasks?.findIndex(
-        (asset) => asset.id === action.payload.id
-      );
-
-      if (findPrevProjectTask === -1) {
-        state.allProjectTasks = [
-          { ...action.payload },
-          ...state.allProjectTasks,
-        ];
-      } else {
-        state.allProjectTasks[findPrevProjectTask] = action.payload;
-      }
+      state.allProjectCards = state.allProjectCards.map((card) => {
+        if (card.id === action.payload.cardId?.id) {
+          const existingTaskIndex = card.tasks.findIndex(
+            (task) => task.id === action.payload.id
+          );
+          if (existingTaskIndex === -1) {
+            // Task doesn't exist, add it
+            return {
+              ...card,
+              tasks: [...card.tasks, action.payload],
+            };
+          } else {
+            // Task exists, update it
+            return {
+              ...card,
+              tasks: card.tasks.map((task, index) =>
+                index === existingTaskIndex ? action.payload : task
+              ),
+            };
+          }
+        }
+        return card;
+      });
     },
     deleteProjectTaskReducer: (state, action) => {
       const findPrevProjectTask = state.allProjectTasks?.filter(

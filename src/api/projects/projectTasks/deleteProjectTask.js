@@ -1,7 +1,7 @@
 import axiosInstance from "../../axiosInstance";
 import API_ENDPOINTS from "../../endpoints";
 
-import { deleteProjectTaskReducer } from "../../../redux/reducers/projectSlice";
+// import { deleteProjectTaskReducer } from "../../../redux/reducers/projectSlice";
 
 export const deleteProjectTask = async (
   taskId,
@@ -9,8 +9,9 @@ export const deleteProjectTask = async (
   setMessage,
   setSnackbarState,
   setSeverity,
-  setCardLoading,
-  handleClose
+  setDeletingTask,
+  handleClose,
+  handleClick
 ) => {
   try {
     const token = localStorage.getItem("token");
@@ -25,14 +26,16 @@ export const deleteProjectTask = async (
     );
 
     if (response.status === 200) {
-      dispatch(deleteProjectTaskReducer(taskId));
+      // dispatch(deleteProjectTaskReducer(taskId));
 
       setSnackbarState(true);
       setMessage(response?.data?.message);
       setSeverity("success");
 
-      setCardLoading(false);
+      setDeletingTask(false);
       handleClose();
+
+      handleClick();
     }
 
     return response;
@@ -40,7 +43,7 @@ export const deleteProjectTask = async (
     setSnackbarState(true);
     setMessage(error.response?.data?.message);
     setSeverity("error");
-    setCardLoading(false);
+    setDeletingTask(false);
 
     return error.response;
   }

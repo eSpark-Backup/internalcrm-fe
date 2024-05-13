@@ -13,6 +13,8 @@ import DynamicCard from "../../components/card";
 import AppDialog from "../common/appDialog";
 import CustomizedSnackbars from "../toast";
 
+import IndividualTaskCard from "./card";
+
 import { getAllProjectCards } from "../../api/projects/projectCards/getAllProjectCards";
 import { createProjectCard } from "../../api/projects/projectCards/createProjectCard";
 import { deleteProjectCard } from "../../api/projects/projectCards/deleteProjectCard";
@@ -184,88 +186,80 @@ const Tasks = ({ projectId, state }) => {
               <Skeleton key={index} height="230px" variant="rounded" />
             ))
           : allProjectCards &&
-            allProjectCards?.map((card, index) => (
-              <div key={index}>
-                <DynamicCard member={true} card_style="card_style">
-                  <div className={styles.card_content}>
-                    <Typography
-                      variant="h5"
-                      sx={{
-                        color: "#595959",
-                        marginTop: "5px",
-                        fontWeight: "600",
-                      }}
-                    >
-                      {card.name}
-                    </Typography>
+            allProjectCards?.map((card) => {
+              return (
+                <div key={card.id}>
+                  <DynamicCard member={true} card_style="card_style">
+                    <div className={styles.card_content}>
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          color: "#595959",
+                          marginTop: "5px",
+                          fontWeight: "600",
+                        }}
+                      >
+                        {card.name}
+                      </Typography>
 
-                    <MoreVertIcon
-                      onClick={(event) => handleMenuOpen(event, card.id)}
-                      sx={{ cursor: "pointer" }}
-                    />
+                      <MoreVertIcon
+                        onClick={(event) => handleMenuOpen(event, card.id)}
+                        sx={{ cursor: "pointer" }}
+                      />
 
-                    <Menu
-                      anchorEl={anchorEl}
-                      open={Boolean(anchorEl && cardId === card.id)}
-                      onClose={handleMenuClose}
-                    >
-                      <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                      <MenuItem onClick={handleDelete}>Delete</MenuItem>
-                    </Menu>
-                  </div>
+                      <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl && cardId === card.id)}
+                        onClose={handleMenuClose}
+                      >
+                        <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+                      </Menu>
+                    </div>
 
-                  <div>
-                    <div
-                      style={{
-                        padding: "20px",
-                        border: "1px solid #EBEBEB",
-                        borderRadius: "10px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
+                    <div>
                       {card.tasks.length === 0 ? (
-                        <Typography
-                          variant="body2"
-                          onClick={() =>
-                            navigate(`${location.pathname}/task`, {
-                              state: { projectDetail: state, cardDetail: card },
-                            })
-                          }
+                        <div
+                          className={`d-flex-center ${styles.task_card_container}`}
                         >
-                          No tasks
-                        </Typography>
+                          <Typography variant="body2">No tasks</Typography>
+                        </div>
                       ) : (
-                        card.tasks.map((task, taskIndex) => (
-                          <div key={taskIndex}>
-                            <Typography variant="body2">{task}</Typography>
+                        card.tasks.map((task) => (
+                          <div
+                            className={`${styles.task_card_container} ${styles.tasks_container}`}
+                            key={task.id}
+                          >
+                            <IndividualTaskCard
+                              onClick={() =>
+                                navigate(`${location.pathname}/task`, {
+                                  state: {
+                                    projectDetail: state,
+                                    cardDetail: card,
+                                    taskDetail: task,
+                                  },
+                                })
+                              }
+                              {...task}
+                            />
                           </div>
                         ))
                       )}
-                    </div>
 
-                    <div style={{ padding: "20px" }}>
-                      <Button
-                        onClick={() => handleAddTaskClick(card.id)}
-                        variant="outlined"
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          backgroundColor: "#029E9C !important",
-                          color: "#fff",
-                          width: "100%",
-                          marginTop: "15px",
-                          marginBottom: "-20px",
-                        }}
-                      >
-                        Add Task
-                      </Button>
+                      <div style={{ padding: "20px" }}>
+                        <Button
+                          onClick={() => handleAddTaskClick(card.id)}
+                          variant="outlined"
+                          className={`inter-medium ${styles.add_task}`}
+                        >
+                          Add Task
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                </DynamicCard>
-              </div>
-            ))}
+                  </DynamicCard>
+                </div>
+              );
+            })}
       </div>
 
       {allProjectCards?.length > 2 && (

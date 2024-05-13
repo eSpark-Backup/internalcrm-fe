@@ -39,3 +39,58 @@
   padding: 10px 0px;
   text-transform: capitalize;
 }
+
+.task_card_container {
+  padding: 20px;
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+}
+
+.add_task {
+  background-color: #029e9c !important;
+  color: #fff !important;
+  width: 100% !important;
+  margin-top: 15px !important;
+  margin-bottom: -20px !important;
+  text-transform: capitalize !important;
+  font-size: 16px !important;
+  line-height: 19px !important;
+  color: #ffffff !important;
+  padding: 11px 0px !important;
+  border: none !important;
+}
+
+.task_name {
+  font-size: 16px !important;
+  line-height: 19px !important;
+  color: #595959;
+  text-transform: uppercase !important;
+}
+
+.task_status {
+  font-size: 12px !important;
+  line-height: 15px !important;
+  text-decoration-line: underline;
+  color: #49ace1;
+  text-transform: capitalize;
+}
+
+.view_container {
+  width: 30px;
+  height: 30px;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 50px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.task_description {
+  font-size: 14px !important;
+  line-height: 17px !important;
+  color: #595959;
+}
+
+.tasks_container {
+  margin-top: 10px;
+}
