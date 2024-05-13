@@ -3,11 +3,23 @@ import { Typography, Card, CardContent, IconButton } from "@mui/material";
 import Copy from "../../assets/logos/copy.svg?react";
 import Download from "../../assets/logos/download.svg?react";
 import DeleteLight from "../../assets/logos/delete-light.svg?react";
+import CopyLight from "../../assets/logos/copy-light.svg?react";
+import DownloadLight from "../../assets/logos/download-light.svg?react";
 
 import { formatDate } from "../../utils/formatdate";
 
+import styles from "./style.module.css";
+
 const AssetCard = (props) => {
-  const { asset, deleteAssetHandler } = props;
+  const {
+    asset,
+    deleteAssetHandler,
+    handleCopy,
+    handleDownload,
+    copyLink,
+    downloadDocument,
+    assetId,
+  } = props;
 
   return (
     <Card
@@ -34,31 +46,25 @@ const AssetCard = (props) => {
           {formatDate(asset?.createdAt)}
         </Typography>
 
-        <div>
-          <IconButton
-            aria-label="copy"
-            sx={{
-              backgroundColor: "#068987",
-              padding: "10px",
-              marginRight: "20px",
-              "&:hover": {
-                backgroundColor: "#068987",
-              },
-            }}
-          >
-            {asset?.type === "link" ? <Copy /> : <Download />}
-          </IconButton>
+        <div className="d-flex-center">
+          {(copyLink || downloadDocument) && asset.id === assetId ? (
+            <CommonButtonLight
+              asset={asset}
+              handleCopy={handleCopy}
+              handleDownload={handleDownload}
+              isVisible={copyLink || downloadDocument}
+            />
+          ) : (
+            <CommonButtonDark
+              asset={asset}
+              handleCopy={handleCopy}
+              handleDownload={handleDownload}
+            />
+          )}
 
           <IconButton
             aria-label="delete"
-            sx={{
-              backgroundColor: "#FF0000",
-              padding: "11px",
-              marginRight: "-30px",
-              "&:hover": {
-                backgroundColor: "#FF0000",
-              },
-            }}
+            className={`${styles.delete} ${styles.common}`}
             onClick={() => deleteAssetHandler(asset?.id)}
           >
             <DeleteLight />
@@ -66,6 +72,36 @@ const AssetCard = (props) => {
         </div>
       </CardContent>
     </Card>
+  );
+};
+
+const CommonButtonDark = ({ asset, handleCopy, handleDownload }) => {
+  return (
+    <IconButton
+      aria-label={asset?.type}
+      className={`${styles.common_button_dark} ${styles.common}`}
+      onClick={() =>
+        asset?.type === "link" ? handleCopy(asset) : handleDownload(asset)
+      }
+    >
+      {asset?.type === "link" ? <Copy /> : <Download />}
+    </IconButton>
+  );
+};
+
+const CommonButtonLight = ({ asset }) => {
+  return (
+    <div className={`${styles.after_action}`}>
+      <IconButton
+        aria-label={asset?.type}
+        className={`${styles.common_button_light} ${styles.common}`}
+      >
+        {asset?.type === "link" ? <CopyLight /> : <DownloadLight />}
+      </IconButton>
+      <span className={`${styles.text} inter-regular`}>
+        {asset?.type === "link" ? "Copied!" : "Downloaded!"}
+      </span>
+    </div>
   );
 };
 

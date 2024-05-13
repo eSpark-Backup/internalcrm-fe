@@ -27,6 +27,38 @@
   box-shadow: none !important;
 }
 
+.after_action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px !important;
+}
+
+.common {
+  width: 40px;
+  height: 40px;
+}
+
+.common_button_dark {
+  background-color: #068987 !important;
+  margin-right: 20px !important;
+}
+
+.common_button_light {
+  background-color: #e4e4e4 !important;
+  border: 1px solid #e4e4e4 !important;
+}
+
+.delete {
+  background-color: #ff0000 !important;
+}
+
+.text {
+  font-size: 12px;
+  line-height: 15px;
+  color: #595959;
+}
+
 @media only screen and (max-width: 1366px) {
   .container {
     height: 100%;

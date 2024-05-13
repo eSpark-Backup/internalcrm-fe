@@ -20,10 +20,15 @@ import { SelectedTick } from "../svg/selectedTick";
 import { UserIcon } from "../svg/userIcon";
 import CustomLoader from "../loading";
 
-import { addProjectMembers } from "../../api/projects/projectMembers/addProjectMember";
-import { deleteProjectMember } from "../../api/projects/projectMembers/deleteProjectMember";
+// import { addProjectMembers } from "../../api/projects/projectMembers/addProjectMember";
+// import { deleteProjectMember } from "../../api/projects/projectMembers/deleteProjectMember";
 
-const AddMembersPopup = ({ isOpen, onClose, addingMember, projectId }) => {
+const AddMembersPopup = ({
+  isOpen,
+  onClose,
+  addingMember,
+  // projectId
+}) => {
   const [showPopup, setShowPopup] = useState(false);
 
   // Handle Add/Remove Members
@@ -35,39 +40,53 @@ const AddMembersPopup = ({ isOpen, onClose, addingMember, projectId }) => {
   const addMembersToProject = () => {
     setIsAdding(true);
 
-    addProjectMembers({ projectId, userIds }).then((res) => {
-      if (res) {
-        if (res.status === 200) {
-          setIsAdding(false);
-          setUserIds([]);
-          setShowPopup(true);
-          onClose();
-        }
+    setTimeout(() => {
+      setIsAdding(false);
+      setUserIds([]);
+      setShowPopup(true);
+      onClose();
+    }, [2000]);
 
-        if (res.status === 400 || res?.data?.error !== "") {
-          setIsAdding(false);
-        }
-      }
-    });
+    // addProjectMembers({ projectId, userIds }).then((res) => {
+    //   if (res) {
+    //     if (res.status === 200) {
+    //       setIsAdding(false);
+    //       setUserIds([]);
+    //       setShowPopup(true);
+    //       onClose();
+    //     }
+
+    //     if (res.status === 400 || res?.data?.error !== "") {
+    //       setIsAdding(false);
+    //     }
+    //   }
+    // });
   };
 
   const removeMembersFromProject = () => {
     setIsRemoving(true);
 
-    deleteProjectMember(projectId, userIds).then((res) => {
-      if (res) {
-        if (res.status === 200) {
-          setIsRemoving(false);
-          setUserIds([]);
-          setShowPopup(true);
-          onClose();
-        }
+    setTimeout(() => {
+      setIsRemoving(false);
+      setUserIds([]);
+      setShowPopup(true);
+      onClose();
+    }, [2000]);
 
-        if (res.status === 400 || res?.data?.error !== "") {
-          setIsRemoving(false);
-        }
-      }
-    });
+    // deleteProjectMember(projectId, userIds).then((res) => {
+    //   if (res) {
+    //     if (res.status === 200) {
+    //       setIsRemoving(false);
+    //       setUserIds([]);
+    //       setShowPopup(true);
+    //       onClose();
+    //     }
+
+    //     if (res.status === 400 || res?.data?.error !== "") {
+    //       setIsRemoving(false);
+    //     }
+    //   }
+    // });
   };
 
   // Dummy data for members, replace with actual data from your application
@@ -165,139 +184,147 @@ const AddMembersPopup = ({ isOpen, onClose, addingMember, projectId }) => {
   };
 
   return (
-    <div
-      style={{
-        display: isOpen ? "flex" : "none",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        zIndex: 1200,
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "#fff",
-          borderRadius: "15px",
-          maxWidth: "70%",
-          width: "60%",
-          height: "520px",
-          boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.5)",
-          overflow: "hidden",
-          padding: "15px 25px 75px 25px",
-          position: "relative",
-          zIndex: 1400,
+    <>
+      <Modal
+        open={isOpen}
+        onClose={onClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{
+          "& .MuiModal-backdrop": {
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+          },
         }}
       >
-        <div style={{ overflowY: "scroll", height: "100%" }}>
-          <Table>
-            <TableHead
-              style={{
-                backgroundColor: "#F6F6F6",
-                position: "sticky",
-                top: 0,
-                zIndex: "2",
-              }}
-            >
-              {/* Sticky header */}
-              <TableRow>
-                <TableCell sx={headCellStyle}>
-                  <UserIcon />
-                </TableCell>
-                <TableCell sx={headCellStyle}>Name</TableCell>
-                <TableCell sx={headCellStyle}>ID</TableCell>
-                <TableCell sx={headCellStyle}>Gender</TableCell>
-                <TableCell sx={headCellStyle}>Job Title</TableCell>
-                <TableCell sx={headCellStyle}>Action</TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody style={{ height: "400px", overflowY: "scroll" }}>
-              {membersData.map((member) => (
-                <TableRow key={member.id}>
-                  <TableCell sx={contentCellStyle}>
-                    <img
-                      src={member.imageUrl}
-                      style={{
-                        width: 30,
-                        height: 30,
-                        borderRadius: "50%",
-                        marginTop: "5px",
-                      }}
-                    />
-                  </TableCell>
-
-                  <TableCell sx={contentCellStyle}>{member.name}</TableCell>
-                  <TableCell sx={contentCellStyle}>{member.id}</TableCell>
-                  <TableCell sx={contentCellStyle}>{member.gender}</TableCell>
-                  <TableCell sx={contentCellStyle}>{member.jobTitle}</TableCell>
-
-                  <TableCell sx={contentCellStyle}>
-                    <IconButton
-                      sx={{ padding: "0" }}
-                      onClick={() => handleMemberSelect(member.id)}
-                    >
-                      {addingMember ? (
-                        userIds.includes(member.id) ? (
-                          <UnselectedTick />
-                        ) : (
-                          <SelectedTick />
-                        )
-                      ) : userIds.includes(member.id) ? (
-                        <DeleteMarked />
-                      ) : (
-                        <DeleteUnmarked />
-                      )}
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-
-        <Button
-          onClick={() => {
-            if (addingMember) {
-              addMembersToProject();
-            } else {
-              removeMembersFromProject;
-            }
-          }}
+        <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            borderRadius: "4px",
-            padding: "10px 50px",
-            height: "40px",
-            backgroundColor: "#029894",
-            color: "#fff",
-            textTransform: "capitalize",
-            fontSize: "16px",
-            "&:hover": {
-              backgroundColor: "#029894",
-            },
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "60%",
+            height: "520px",
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            padding: "15px 25px 75px 25px",
+            borderRadius: "15px",
+            maxWidth: "70%",
+            overflow: "hidden",
           }}
         >
-          {isAdding || isRemoving ? (
-            <CustomLoader />
-          ) : addingMember ? (
-            "Add"
-          ) : (
-            "Remove"
-          )}
-        </Button>
-      </div>
+          <div style={{ overflowY: "scroll", height: "100%" }}>
+            <Table>
+              <TableHead
+                style={{
+                  backgroundColor: "#F6F6F6",
+                  position: "sticky",
+                  top: 0,
+                  zIndex: "2",
+                }}
+              >
+                {/* Sticky header */}
+                <TableRow>
+                  <TableCell sx={headCellStyle}>
+                    <UserIcon />
+                  </TableCell>
+                  <TableCell sx={headCellStyle}>Name</TableCell>
+                  <TableCell sx={headCellStyle}>ID</TableCell>
+                  <TableCell sx={headCellStyle}>Gender</TableCell>
+                  <TableCell sx={headCellStyle}>Job Title</TableCell>
+                  <TableCell sx={headCellStyle}>Action</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody style={{ height: "400px", overflowY: "scroll" }}>
+                {membersData.map((member) => (
+                  <TableRow key={member.id}>
+                    <TableCell sx={contentCellStyle}>
+                      <img
+                        src={member.imageUrl}
+                        style={{
+                          width: 30,
+                          height: 30,
+                          borderRadius: "50%",
+                          marginTop: "5px",
+                        }}
+                      />
+                    </TableCell>
+
+                    <TableCell sx={contentCellStyle}>{member.name}</TableCell>
+                    <TableCell sx={contentCellStyle}>{member.id}</TableCell>
+                    <TableCell sx={contentCellStyle}>{member.gender}</TableCell>
+                    <TableCell sx={contentCellStyle}>
+                      {member.jobTitle}
+                    </TableCell>
+
+                    <TableCell sx={contentCellStyle}>
+                      <IconButton
+                        sx={{ padding: "0" }}
+                        onClick={() => handleMemberSelect(member.id)}
+                      >
+                        {addingMember ? (
+                          userIds.includes(member.id) ? (
+                            <UnselectedTick />
+                          ) : (
+                            <SelectedTick />
+                          )
+                        ) : userIds.includes(member.id) ? (
+                          <DeleteMarked />
+                        ) : (
+                          <DeleteUnmarked />
+                        )}
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
+          <Button
+            onClick={() => {
+              if (addingMember) {
+                addMembersToProject();
+              } else {
+                removeMembersFromProject();
+              }
+            }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              borderRadius: "4px",
+              padding: "10px 50px",
+              height: "40px",
+              backgroundColor: "#029894",
+              color: "#fff",
+              textTransform: "capitalize",
+              fontSize: "16px",
+              "&:hover": {
+                backgroundColor: "#029894",
+              },
+            }}
+          >
+            {isAdding || isRemoving ? (
+              <CustomLoader />
+            ) : addingMember ? (
+              "Add"
+            ) : (
+              "Remove"
+            )}
+          </Button>
+        </Box>
+      </Modal>
 
       <Modal
         open={showPopup}
         onClose={() => setShowPopup(false)}
         aria-labelledby="popup-ok-modal"
         aria-describedby="modal-to-confirm-addition"
+        sx={{
+          "& .MuiModal-backdrop": {
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+          },
+        }}
       >
         <Box
           sx={{
@@ -324,7 +351,7 @@ const AddMembersPopup = ({ isOpen, onClose, addingMember, projectId }) => {
               marginBottom: "40px",
             }}
           >
-            Successfully Added
+            Successfully {addingMember ? "Added" : "Removed"}
           </Typography>
 
           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -336,7 +363,7 @@ const AddMembersPopup = ({ isOpen, onClose, addingMember, projectId }) => {
               sx={{
                 padding: "7px 45px",
                 color: "#fff",
-                background: "#029894",
+                background: "#029894 !important",
                 textTransform: "capitalize",
                 marginTop: "20px",
                 fontWeight: "bold",
@@ -347,7 +374,7 @@ const AddMembersPopup = ({ isOpen, onClose, addingMember, projectId }) => {
           </div>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 };
 

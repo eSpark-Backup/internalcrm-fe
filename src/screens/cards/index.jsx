@@ -60,7 +60,6 @@ const Cards = () => {
 
   const handlePopupClose = () => {
     setPopupOpen(false);
-    setAddingMember(false);
   };
 
   return (

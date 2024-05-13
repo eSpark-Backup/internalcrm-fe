@@ -15,6 +15,7 @@ import CustomizedSnackbars from "../../components/toast";
 import { uploadProjectAsset } from "../../api/projects/projectAssets/uploadProjectAsset";
 import { deleteProjectAsset } from "../../api/projects/projectAssets/deleteProjectAsset";
 import { getAllProjectAssets } from "../../api/projects/projectAssets/getAllProjectAssets";
+import { downloadProjectAsset } from "../../api/projects/projectAssets/downloadProjectAsset";
 
 import { storeChildData } from "../../redux/reducers/headerSlice";
 
@@ -65,6 +66,9 @@ const Assets = () => {
   // Deleteing Asset Modal
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [isDeletingAsset, setIsDeletingAsset] = useState(false);
+  // Copy / Download State
+  const [copyLink, setCopyLink] = useState(false);
+  const [downloadDocument, setDownloadDocument] = useState(false);
 
   useEffect(() => {
     if (activeButton === "Links") {
@@ -146,6 +150,39 @@ const Assets = () => {
   const deleteAssetHandler = (assetId) => {
     setAssetId(assetId);
     setDeleteModalOpen(true);
+  };
+
+  const handleCopy = (asset) => {
+    setAssetId(asset.id);
+    setCopyLink(true);
+
+    navigator.clipboard.writeText(asset.resource).then(() => {
+      setMessage("Link copied successfully");
+      setSnackbarState(true);
+      setSeverity("success");
+
+      setTimeout(() => {
+        setCopyLink(false);
+      }, 3000);
+    });
+  };
+
+  const handleDownload = (asset) => {
+    setDownloadDocument(true);
+
+    const assetId = asset.id;
+    const assetType = asset.resource;
+
+    setAssetId(assetId);
+
+    downloadProjectAsset(
+      assetId,
+      assetType,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setDownloadDocument
+    );
   };
 
   return (
@@ -267,6 +304,11 @@ const Assets = () => {
                   asset={asset}
                   activeButton={activeButton}
                   deleteAssetHandler={deleteAssetHandler}
+                  handleCopy={handleCopy}
+                  handleDownload={handleDownload}
+                  copyLink={copyLink}
+                  downloadDocument={downloadDocument}
+                  assetId={assetId}
                 />
               ))}
         </Grid>
