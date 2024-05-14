@@ -47,6 +47,7 @@ const Picker = (props) => {
                   fontFamily: "Inter, sans-serif",
                   fontWeight: 400,
                   borderRadius: "5px",
+                  backgroundColor:"white",
 
                   "&.Mui-focused": {
                     "& .MuiOutlinedInput-notchedOutline": {

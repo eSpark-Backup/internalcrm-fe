@@ -18,6 +18,7 @@ import TeamDetail from "../screens/teamDetail";
 import Sources from "../screens/sources";
 import Status from "../screens/status";
 import TaskDetail from "../screens/taskDetail";
+import Table from "../screens/statusTable";
 
 const AppRoutes = ({ setIsWhiteBg }) => {
   let routes = useRoutes([
@@ -39,6 +40,7 @@ const AppRoutes = ({ setIsWhiteBg }) => {
         { path: "/teams/team-details", element: <TeamDetail /> },
         { path: "/lead-sources", element: <Sources /> },
         { path: "/status", element: <Status /> },
+        { path: "/status-table", element: <Table /> },
       ],
     },
   ]);

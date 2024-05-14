@@ -39,6 +39,7 @@ const Projects = () => {
   // eslint-disable-next-line no-unused-vars
   const [searchMonthValue, setSearchMonthValue] = useState("");
   const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
+  const [isActive, setIsActive] = useState(true);
 
   // Snackbar States
   const [snackbarState, setSnackbarState] = useState(false);
@@ -125,41 +126,16 @@ const Projects = () => {
 
   return (
     <div style={{ height: "100%" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "40px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-          }}
-        >
-          <SearchBar
-            onNameSearch={handleNameSearch}
-            onMonthSearch={handleMonthSearch}
-            searchTextOne="Search by name"
-            searchTextTwo="Search by month"
-          />
-        </div>
-
-        <Button
+      <div style={{ marginBottom: "40px" }}>
+        <SearchBar
+          onNameSearch={handleNameSearch}
+          onMonthSearch={handleMonthSearch}
+          searchTextOne="Search by name"
+          searchTextTwo="Search by month"
+          btn={!!isActive}
+          btnText="Add Project"
           onClick={openAddProjectPopup}
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            borderRadius: "4px",
-            padding: "20px 40px",
-            height: "43px",
-            backgroundColor: "#029894 !important",
-          }}
-        >
-          <span style={{ color: "#fff", textTransform: "capitalize" }}>
-            Add Project
-          </span>
-        </Button>
+        />
       </div>
 
       <div className={styles.container}>
