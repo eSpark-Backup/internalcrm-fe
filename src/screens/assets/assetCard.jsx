@@ -46,7 +46,7 @@ const AssetCard = (props) => {
           {formatDate(asset?.createdAt)}
         </Typography>
 
-        <div className="d-flex-center">
+        <div className="flex-center">
           {(copyLink || downloadDocument) && asset.id === assetId ? (
             <CommonButtonLight
               asset={asset}

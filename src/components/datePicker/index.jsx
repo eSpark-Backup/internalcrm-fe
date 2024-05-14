@@ -9,7 +9,8 @@ import Label from "../common/inputLabel";
 import Calender from "../../assets/logos/calender.svg?react";
 
 const Picker = (props) => {
-  const { label, placeholder, normalFont, onChange, marginBottom } = props;
+  const { label, placeholder, normalFont, onChange, marginBottom, padding } =
+    props;
 
   const datePickerRef = useRef(null);
 
@@ -47,7 +48,7 @@ const Picker = (props) => {
                   fontFamily: "Inter, sans-serif",
                   fontWeight: 400,
                   borderRadius: "5px",
-                  backgroundColor:"white",
+                  backgroundColor: "white",
 
                   "&.Mui-focused": {
                     "& .MuiOutlinedInput-notchedOutline": {
@@ -65,7 +66,7 @@ const Picker = (props) => {
                   fontSize: normalFont ? "16px" : "14px",
                   lineHeight: "17px",
                   color: "#888888",
-                  padding: "14px 12px",
+                  padding: padding ? `${padding} !important` : "14px 12px",
                   height: "auto",
 
                   "&::placeholder": {

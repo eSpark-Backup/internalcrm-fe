@@ -67,6 +67,10 @@ function ResponsiveDrawer(props) {
               className={`${styles.item_button} ${
                 location?.pathname.includes(Text.route)
                   ? styles.active_link
+                  : Text.route.includes("lead-sources") &&
+                    (location.pathname.includes("lead") ||
+                      location.pathname.includes("status"))
+                  ? styles.active_link
                   : ""
               }`}
             >

@@ -220,7 +220,7 @@ const Tasks = ({ projectId, state }) => {
                     <div>
                       {card.tasks.length === 0 ? (
                         <div
-                          className={`d-flex-center ${styles.task_card_container}`}
+                          className={`flex-center ${styles.task_card_container}`}
                         >
                           <Typography variant="body2">No tasks</Typography>
                         </div>

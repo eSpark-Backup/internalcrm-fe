@@ -29,7 +29,7 @@ const AppRoutes = ({ setIsWhiteBg }) => {
         { path: "/dashboard", element: <Dashboard /> },
         { path: "/members", element: <Members /> },
         {
-          path: "/members/addMember",
+          path: "/members/add-member",
           element: <AddEditMember setIsWhiteBg={setIsWhiteBg} />,
         },
         { path: "/teams", element: <Teams /> },
@@ -39,7 +39,7 @@ const AppRoutes = ({ setIsWhiteBg }) => {
         { path: "/projects/assets", element: <Assets /> },
         { path: "/teams/team-details", element: <TeamDetail /> },
         { path: "/lead-sources", element: <Sources /> },
-        { path: "/status", element: <Status /> },
+        { path: "/lead-status", element: <Status /> },
         { path: "/status-table", element: <Table /> },
       ],
     },

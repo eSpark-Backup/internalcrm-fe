@@ -20,7 +20,7 @@ const IndividualTaskCard = (props) => {
           </Typography>
 
           <div
-            className={`${styles.view_container} d-flex-center`}
+            className={`${styles.view_container} flex-center`}
             onClick={onClick}
           >
             <View />
