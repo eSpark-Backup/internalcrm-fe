@@ -77,7 +77,7 @@ const Members = () => {
   }, []);
 
   const onClick = () => {
-    navigate(`${locationUrl}/addMember`);
+    navigate(`${locationUrl}/add-member`);
   };
 
   const requestHandler = () => {
@@ -97,7 +97,7 @@ const Members = () => {
   };
 
   const onEdit = (data) => {
-    navigate(`${locationUrl}/addMember`, { state: { data, edit: true } });
+    navigate(`${locationUrl}/add-member`, { state: { data, edit: true } });
   };
 
   const IOSSwitch = styled((props) => (
