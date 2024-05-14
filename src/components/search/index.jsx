@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Stack,
   IconButton,
@@ -6,10 +5,13 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import SearchDark from "../../assets/logos/search-dark.svg?react";
-import styles from "./style.module.css";
 import { Search } from "@mui/icons-material";
-import Picker from "../datePicker/index";
+
+import Picker from "../datePicker";
+
+import SearchDark from "../../assets/logos/search-dark.svg?react";
+
+import styles from "./style.module.css";
 
 const SearchBar = ({
   onNameSearch,
@@ -29,9 +31,9 @@ const SearchBar = ({
       sx={{ display: { xs: "block", lg: "flex" } }}
     >
       <Stack flexDirection="row">
-      <div style={{ display: hideStatusSearch ? "flex" : "" }}>
+        <div style={{ display: hideStatusSearch ? "flex" : "" }}>
           <TextField
-          sx={{marginRight:"10px"}}
+            sx={{ marginRight: "10px" }}
             placeholder={searchTextOne}
             variant="outlined"
             onChange={(e) => onNameSearch(e.target.value)} // Handle team name search
@@ -46,16 +48,19 @@ const SearchBar = ({
               ),
             }}
           />
+
           {hideStatusSearch && (
             <div className="date_status">
-              <Picker placeholder="Search from" />
+              <Picker placeholder="Search from" padding="13px 0px 13px 11px" />
             </div>
           )}
+
           {hideStatusSearch && (
             <div className="date_status">
-              <Picker placeholder="Search from" />
+              <Picker placeholder="Search to" padding="13px 0px 13px 11px" />
             </div>
           )}
+
           {!hideJobTitleSearch && (
             <TextField
               placeholder={searchTextTwo}
@@ -80,6 +85,7 @@ const SearchBar = ({
           <Search style={{ color: "white" }} />
         </IconButton>
       </Stack>
+
       {btn && (
         <div className={styles.btn_container}>
           <Button
