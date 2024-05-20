@@ -153,19 +153,9 @@ const Tasks = ({ projectId, state }) => {
   return (
     <div className={styles.cards_container}>
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns:
-            allProjectCards && allProjectCards?.length > 2
-              ? "repeat(auto-fit, minmax(200px, 1fr))"
-              : "1fr 1fr 1fr",
-          gridAutoFlow: "column",
-          gap: "10px",
-          width:
-            allProjectCards && allProjectCards?.length > 2 ? "100vw" : "100%",
-          overflowX: "auto",
-          height: "90%",
-        }}
+        className={`${styles.grid_container} ${
+          allProjectCards && allProjectCards?.length > 2 && styles.overflow_grid
+        }`}
       >
         <div>
           <DynamicCard member={true} card_style="card_style">
@@ -176,7 +166,10 @@ const Tasks = ({ projectId, state }) => {
               >
                 Create Card
               </Typography>
-              <AddIcon className="plus_icon" onClick={handleOpen} />
+              <AddIcon
+                className={`plus_icon ${styles.add_icon}`}
+                onClick={handleOpen}
+              />
             </div>
           </DynamicCard>
         </div>
@@ -188,7 +181,7 @@ const Tasks = ({ projectId, state }) => {
           : allProjectCards &&
             allProjectCards?.map((card) => {
               return (
-                <div key={card.id}>
+                <div key={card.id} className={styles.task_list}>
                   <DynamicCard member={true} card_style="card_style">
                     <div className={styles.card_content}>
                       <Typography
@@ -246,7 +239,7 @@ const Tasks = ({ projectId, state }) => {
                         ))
                       )}
 
-                      <div style={{ padding: "20px" }}>
+                      <div style={{ padding: "20px" }} className={styles.add}>
                         <Button
                           onClick={() => handleAddTaskClick(card.id)}
                           variant="outlined"

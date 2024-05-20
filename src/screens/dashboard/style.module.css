@@ -1,15 +1,13 @@
-.status_style {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .card_container {
-    display: flex;
-    flex: 1; /* Stretch the container to fill available space */
-  }
-  
+.card_item {
+  margin-right: 20px;
+  background: #ffffff;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+@media only screen and (max-width: 600px) {
   .card_item {
-    flex: 1; /* Each card takes equal space */
-    margin-right: 20px;
+    margin-right: 0px;
+    margin-bottom: 20px;
   }
-  
+}

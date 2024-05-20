@@ -96,6 +96,10 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .main_comp {
+    margin-top: 15px;
+  }
+
   .inner_header_container {
     padding-left: 15px;
     padding-right: 15px;

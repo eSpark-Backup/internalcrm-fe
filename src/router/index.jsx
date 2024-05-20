@@ -1,5 +1,9 @@
-import { useState } from "react";
-import { BrowserRouter as Router, useRoutes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  useLocation,
+  useRoutes,
+} from "react-router-dom";
 
 import ProtectRoute from "./protectRoute";
 import PublicRoute from "./publicRoute";
@@ -21,16 +25,31 @@ import TaskDetail from "../screens/taskDetail";
 import Table from "../screens/statusTable";
 
 const AppRoutes = ({ setIsWhiteBg }) => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const whiteBgPath = ["/dashboard", "/members/add-member"];
+
+    if (whiteBgPath.includes(pathname)) {
+      setIsWhiteBg(true);
+    } else {
+      setIsWhiteBg(false);
+    }
+  }, [pathname, setIsWhiteBg]);
+
   let routes = useRoutes([
     { element: <PublicRoute />, children: [{ path: "/", element: <Login /> }] },
     {
       element: <ProtectRoute />,
       children: [
-        { path: "/dashboard", element: <Dashboard /> },
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
+        },
         { path: "/members", element: <Members /> },
         {
           path: "/members/add-member",
-          element: <AddEditMember setIsWhiteBg={setIsWhiteBg} />,
+          element: <AddEditMember />,
         },
         { path: "/teams", element: <Teams /> },
         { path: "/projects", element: <Projects /> },

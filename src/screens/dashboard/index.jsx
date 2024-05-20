@@ -1,5 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+
+import { Grid } from "@mui/material";
 
 import DynamicCard from "../../components/card";
 import CircularProgressBar from "../../components/circularProgressBar";
@@ -20,22 +22,22 @@ const Dashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <div className={styles.status_style}>
-      <div className={styles.card_container}>
-        <div className={styles.card_item}>
-          <DynamicCard title="Ticket Status">
-            <CircularProgressBar value={90} />
-          </DynamicCard>
-        </div>
+  const [status] = useState([90, 90]);
 
-        <div className={styles.card_item}>
-          <DynamicCard title="Project status">
-            <CircularProgressBar value={90} />
-          </DynamicCard>
-        </div>
-      </div>
-    </div>
+  return (
+    <Grid container>
+      {status?.map((elem, index) => {
+        return (
+          <Grid xs={12} sm={6} key={index}>
+            <div className={styles.card_item}>
+              <DynamicCard title="Ticket Status">
+                <CircularProgressBar value={elem} />
+              </DynamicCard>
+            </div>
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 };
 

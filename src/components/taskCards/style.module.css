@@ -9,6 +9,25 @@
   overflow: auto;
 }
 
+.grid_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-flow: column;
+  gap: 10px;
+  width: 100%;
+  overflow-x: auto;
+  height: 90%;
+}
+
+.overflow_grid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  width: 100vw;
+}
+
+.task_list {
+  overflow-y: auto;
+}
+
 .card_content {
   display: flex;
   justify-content: space-between;
@@ -93,4 +112,88 @@
 
 .tasks_container {
   margin-top: 10px;
+}
+
+@media only screen and (max-width: 1600px) {
+  .cards_container {
+    height: 53vh;
+    margin-top: 26px;
+  }
+
+  .grid_container {
+    height: 85%;
+  }
+
+  .add_card_container {
+    bottom: 15px;
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .cards_container {
+    height: 51vh;
+    margin-top: 20px;
+  }
+
+  .grid_container {
+    height: 87%;
+  }
+
+  .card_content {
+    margin-bottom: 12px;
+  }
+
+  .card_content h5 {
+    font-size: 1.2rem;
+  }
+
+  .add_icon {
+    width: 22px;
+  }
+
+  .task_card_container {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .task_name {
+    line-height: 17px;
+    font-size: 15px;
+  }
+
+  .view_container {
+    width: 25px;
+    height: 25px;
+  }
+
+  .add_task {
+    margin-top: 0px !important;
+    padding: 8px 0px !important;
+  }
+
+  .add_card_container button {
+    width: 240px;
+    line-height: 17px;
+    padding: 7px 0px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .add_card_container {
+    bottom: 35px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .cards_container {
+    height: 58vh;
+  }
+
+  .add_card_container {
+    bottom: 0px;
+  }
+
+  .add {
+    padding: 0px !important;
+  }
 }

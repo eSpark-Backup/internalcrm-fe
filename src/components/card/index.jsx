@@ -1,5 +1,7 @@
 import { Card, CardContent, Typography } from "@mui/material";
 
+import styles from "./style.module.css";
+
 const DynamicCard = (props) => {
   const {
     title,
@@ -17,8 +19,7 @@ const DynamicCard = (props) => {
       variant="outlined"
       sx={{
         width: "100%",
-        boxShadow: 3,
-        borderRadius: "8px",
+        borderRadius: "10px",
         boxShadow: "none",
         "&.MuiCard-root": card,
         "&:hover": { boxShadow: "0px 0px 15px 5px rgba(128, 128, 128, 0.5)" },
@@ -32,14 +33,7 @@ const DynamicCard = (props) => {
           <Typography
             variant="h6"
             component="div"
-            sx={{
-              fontFamily: "Inter",
-              fontWeight: "600",
-              color: "#595959",
-              textAlign: "left",
-              padding: "0",
-              fontSize: "25px",
-            }}
+            className={`${styles.title} inter-semibold`}
           >
             {title}
           </Typography>

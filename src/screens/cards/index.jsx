@@ -63,13 +63,13 @@ const Cards = () => {
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", height: "100%" }}>
       <Grid
         container
         justifyContent="space-between"
         alignItems="center"
         spacing={2}
-        style={{ marginTop: "20px", marginBottom: "20px" }}
+        // style={{ marginTop: "20px", marginBottom: "20px" }}
       >
         <Grid item xs={12} sm={6}>
           <Grid container spacing={2} alignItems="center">
