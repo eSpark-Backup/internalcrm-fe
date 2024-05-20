@@ -14,6 +14,7 @@ const projectSlice = createSlice({
     fetchAllProjects: (state, action) => {
       state.allProjects = action.payload.data;
     },
+
     createUpdateProject: (state, action) => {
       const findPrevProject = state.allProjects?.findIndex(
         (project) => project.id === action.payload.id
@@ -25,6 +26,7 @@ const projectSlice = createSlice({
         state.allProjects[findPrevProject] = action.payload;
       }
     },
+
     deleteProjectReducer: (state, action) => {
       const findPrevProject = state.allProjects?.filter(
         (project) => project.id !== action.payload
@@ -46,6 +48,7 @@ const projectSlice = createSlice({
     fetchAllProjectAssets: (state, action) => {
       state.allProjectAssets = action.payload.data;
     },
+
     createUpdateProjectAsset: (state, action) => {
       const findPrevProjectAsset = state.allProjectAssets?.findIndex(
         (asset) => asset.id === action.payload.id
@@ -60,6 +63,7 @@ const projectSlice = createSlice({
         state.allProjectAssets[findPrevProjectAsset] = action.payload;
       }
     },
+
     deleteProjectAssetReducer: (state, action) => {
       const findPrevProjectAsset = state.allProjectAssets?.filter(
         (asset) => asset.id !== action.payload
@@ -77,6 +81,7 @@ const projectSlice = createSlice({
     fetchAllProjectCards: (state, action) => {
       state.allProjectCards = action.payload.data;
     },
+
     createUpdateProjectCard: (state, action) => {
       const cardIndex = state.allProjectCards?.findIndex(
         (card) => card.id === action.payload?.cardId?.id
@@ -95,6 +100,7 @@ const projectSlice = createSlice({
         state.allProjectCards[cardIndex].tasks[findPrevTask] = action.payload;
       }
     },
+
     deleteProjectCardReducer: (state, action) => {
       const findPrevProjectCard = state.allProjectCards?.filter(
         (card) => card.id !== action.payload
@@ -112,6 +118,7 @@ const projectSlice = createSlice({
     fetchAllProjectTasks: (state, action) => {
       state.allProjectTasks = action.payload.data;
     },
+
     createUpdateProjectTask: (state, action) => {
       state.allProjectCards = state.allProjectCards.map((card) => {
         if (card.id === action.payload.cardId?.id) {
@@ -137,6 +144,7 @@ const projectSlice = createSlice({
         return card;
       });
     },
+
     deleteProjectTaskReducer: (state, action) => {
       const findPrevProjectTask = state.allProjectTasks?.filter(
         (asset) => asset.id !== action.payload
