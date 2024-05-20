@@ -15,6 +15,8 @@ const API_ENDPOINTS = {
     TASKS: "tasks",
     GET_TASKS_BY_CARD: "tasks/card",
   },
+  LEAD_SOURCES: "lead-sources",
+  LEADS: "leads",
 };
 
 export default API_ENDPOINTS;
