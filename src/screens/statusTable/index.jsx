@@ -18,14 +18,12 @@ import styles from "./style.module.css";
 const MyTable = () => {
   return (
     <div style={{ height: "100%" }}>
-      <div style={{ marginBottom: "50px" }}>
-        <SearchBar
-          hideJobTitleSearch
-          searchTextOne="Search by name"
-          btn={true}
-          btnText="Delete"
-        />
-      </div>
+      <SearchBar
+        hideJobTitleSearch
+        searchTextOne="Search by name"
+        btn={true}
+        btnText="Delete"
+      />
 
       <div className={styles.container}>
         <Grid className={styles.tableContainer}>

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { Button, Typography, Grid, Skeleton } from "@mui/material";
+import { Typography, Grid, Skeleton, Stack } from "@mui/material";
 import LaunchRoundedIcon from "@mui/icons-material/LaunchRounded";
 
 import DynamicCard from "../../components/card";
@@ -39,7 +39,6 @@ const Projects = () => {
   // eslint-disable-next-line no-unused-vars
   const [searchMonthValue, setSearchMonthValue] = useState("");
   const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
-  const [isActive, setIsActive] = useState(true);
 
   // Snackbar States
   const [snackbarState, setSnackbarState] = useState(false);
@@ -126,17 +125,17 @@ const Projects = () => {
 
   return (
     <div style={{ height: "100%" }}>
-      <div style={{ marginBottom: "40px" }}>
+      <Stack sx={{ marginBottom: { xs: "25px", md: "40px" } }}>
         <SearchBar
           onNameSearch={handleNameSearch}
           onMonthSearch={handleMonthSearch}
           searchTextOne="Search by name"
           searchTextTwo="Search by month"
-          btn={!!isActive}
+          btn={true}
           btnText="Add Project"
           onClick={openAddProjectPopup}
         />
-      </div>
+      </Stack>
 
       <div className={styles.container}>
         <Grid container spacing={2}>

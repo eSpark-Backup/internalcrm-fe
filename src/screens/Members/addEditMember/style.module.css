@@ -1,10 +1,19 @@
 .container {
-  height: calc(100% + 112px);
+  flex: 1;
+  display: flex;
+  overflow-y: auto;
+  height: 100%;
+  width: calc(100% - 78px);
+  margin: 0px auto 107px;
   border: 1px solid #e4e4e4;
   border-radius: 10px;
-  overflow-y: auto;
   background-color: #ffffff;
   padding-bottom: 112px;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .add_member_form {
@@ -150,7 +159,7 @@
 @media only screen and (max-width: 900px) {
   .container {
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
   }
 }
 

@@ -26,11 +26,7 @@ import { storeChildData } from "../../../redux/reducers/headerSlice";
 
 import styles from "./style.module.css";
 
-const AddEditMember = ({ setIsWhiteBg }) => {
-  useEffect(() => {
-    setIsWhiteBg(true);
-  }, [setIsWhiteBg]);
-
+const AddEditMember = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -90,7 +86,11 @@ const AddEditMember = ({ setIsWhiteBg }) => {
   }, []);
 
   return (
-    <Stack className={styles.container}>
+    <Stack
+      className={`${styles.container} ${
+        activeStep !== 0 ? styles.fit_content : ""
+      }`}
+    >
       <Stack className={styles.add_member_form}>
         <CustomizedSteppers activeStep={activeStep} />
 

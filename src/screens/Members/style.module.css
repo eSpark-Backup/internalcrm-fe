@@ -1,9 +1,9 @@
 .container_style {
   margin-top: 40px !important;
   width: 100% !important;
-  height: 100%;
-  overflow: scroll;
-  padding-bottom: 70px;
+  /* height: 100%; */
+  /* overflow: auto; */
+  /* padding-bottom: 70px; */
   padding-top: 40px;
 }
 
@@ -116,7 +116,8 @@
 @media only screen and (max-width: 1199px) {
   .container_style {
     margin-top: 25px !important;
-    padding-top: 25px;
+    /* padding-top: 25px; */
+    padding-bottom: 90px;
   }
 
   .grid_item {
@@ -135,5 +136,11 @@
     font-size: 23px !important;
     line-height: 28px !important;
     margin-top: 6px !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .container_style {
+    padding-bottom: 120px;
   }
 }
