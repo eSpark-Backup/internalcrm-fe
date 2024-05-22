@@ -11,11 +11,6 @@
   margin-bottom: 35px;
 }
 
-.button_container {
-  display: flex;
-  justify-content: center;
-}
-
 .teams_search {
   padding: 12px 60px;
   border: 1px solid #e4e4e4;
@@ -25,10 +20,39 @@
   border-radius: 5px;
 }
 
-.grid_style{
+.grid_style {
   padding-top: 0 !important;
   margin-top: 30px !important;
   padding-left: 32px !important;
+}
+
+.team_name {
+  font-size: 25px !important;
+  line-height: 30px !important;
+  color: #595959;
+  margin-bottom: 8px !important;
+}
+
+.team_description {
+  font-size: 16px !important;
+  line-height: 19px !important;
+  color: #595959;
+}
+
+.button_container {
+  display: flex;
+  justify-content: center;
+}
+
+.button_container a {
+  font-size: 12px !important;
+  line-height: 15px !important;
+  width: 120px;
+  border: 1px solid #068987 !important;
+  border-radius: 50px;
+  box-shadow: none;
+  margin-top: 8px;
+  padding: 7px 0px;
 }
 
 @media only screen and (max-width: 1366px) {
