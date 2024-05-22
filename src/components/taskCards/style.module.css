@@ -114,6 +114,18 @@
   margin-top: 10px;
 }
 
+.create_card {
+  font-size: 25px !important;
+  line-height: 30px !important;
+  color: #595959;
+}
+
+.no_task {
+  font-size: 16px !important;
+  line-height: 19px !important;
+  color: #595959;
+}
+
 @media only screen and (max-width: 1600px) {
   .cards_container {
     height: 53vh;
@@ -187,6 +199,19 @@
 @media only screen and (max-width: 900px) {
   .cards_container {
     height: 58vh;
+    padding: 0px 0px 3px 4px;
+  }
+
+  .grid_container {
+    height: 100%;
+    width: 100%;
+    grid-template-columns: none;
+    padding: 10px 10px 0px;
+  }
+
+  .create_btn,
+  .task_list {
+    width: 300px;
   }
 
   .add_card_container {
@@ -195,5 +220,11 @@
 
   .add {
     padding: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .cards_container {
+    height: 60vh;
   }
 }

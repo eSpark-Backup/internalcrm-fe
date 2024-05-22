@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -150,19 +150,39 @@ const Tasks = ({ projectId, state }) => {
     );
   };
 
+  const scrollableRef = useRef(null);
+  const lastItemRef = useRef(null);
+
+  useEffect(() => {
+    const scrollToLastItem = () => {
+      const lastItemElement = lastItemRef.current;
+      if (lastItemElement) {
+        lastItemElement.scrollIntoView({ behavior: "smooth", inline: "end" });
+      }
+    };
+
+    // Use setTimeout to wait for the DOM to fully update
+    const timer = setTimeout(() => {
+      // Use requestAnimationFrame to ensure the scroll happens at the right time
+      requestAnimationFrame(scrollToLastItem);
+    }, 0);
+
+    return () => clearTimeout(timer); // Clean up the timer
+  }, [allProjectCards]);
+
   return (
-    <div className={styles.cards_container}>
+    <div className={styles.cards_container} ref={scrollableRef}>
       <div
         className={`${styles.grid_container} ${
           allProjectCards && allProjectCards?.length > 2 && styles.overflow_grid
         }`}
       >
-        <div>
+        <div className={styles.create_btn}>
           <DynamicCard member={true} card_style="card_style">
             <div className={styles.card_content}>
               <Typography
                 variant="h5"
-                sx={{ color: "#595959", marginTop: "5px", fontWeight: "600" }}
+                className={`${styles.create_card} inter-semibold`}
               >
                 Create Card
               </Typography>
@@ -176,12 +196,23 @@ const Tasks = ({ projectId, state }) => {
 
         {isLoading
           ? Array.from({ length: 2 }).map((_, index) => (
-              <Skeleton key={index} height="230px" variant="rounded" />
+              <Skeleton
+                key={index}
+                height="230px"
+                sx={{ width: { xs: "300px", md: "100%" } }}
+                variant="rounded"
+              />
             ))
           : allProjectCards &&
-            allProjectCards?.map((card) => {
+            allProjectCards?.map((card, index) => {
               return (
-                <div key={card.id} className={styles.task_list}>
+                <div
+                  key={card.id}
+                  className={styles.task_list}
+                  ref={
+                    index === allProjectCards.length - 1 ? lastItemRef : null
+                  }
+                >
                   <DynamicCard member={true} card_style="card_style">
                     <div className={styles.card_content}>
                       <Typography
@@ -215,7 +246,12 @@ const Tasks = ({ projectId, state }) => {
                         <div
                           className={`flex-center ${styles.task_card_container}`}
                         >
-                          <Typography variant="body2">No tasks</Typography>
+                          <Typography
+                            variant="body2"
+                            className={`${styles.no_task} inter-regular`}
+                          >
+                            No tasks
+                          </Typography>
                         </div>
                       ) : (
                         card.tasks.map((task) => (

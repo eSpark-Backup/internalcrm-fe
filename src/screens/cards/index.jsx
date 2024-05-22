@@ -71,7 +71,7 @@ const Cards = () => {
         spacing={2}
         // style={{ marginTop: "20px", marginBottom: "20px" }}
       >
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={allProjectMembers?.length ? 12 : 6} sm={6}>
           <Grid container spacing={2} alignItems="center">
             <Grid item>
               <Link to="/projects/assets" style={{ textDecoration: "none" }}>
@@ -82,7 +82,7 @@ const Cards = () => {
             </Grid>
 
             {allProjectMembers?.length ? (
-              <Grid item>
+              <Grid item xs={12} sm={6}>
                 <Button
                   variant="contained"
                   className={styles.cards_button}
@@ -97,7 +97,7 @@ const Cards = () => {
 
         <Grid
           item
-          xs={12}
+          xs={allProjectMembers?.length ? 12 : 6}
           sm={6}
           sx={{
             display: { sm: "flex", xs: "block" },

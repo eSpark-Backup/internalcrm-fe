@@ -47,6 +47,26 @@
   margin-left: 5px;
 }
 
+.name {
+  font-size: 25px !important;
+  line-height: 30px !important;
+  color: #595959;
+}
+
+.created {
+  font-size: 16px !important;
+  line-height: 19px !important;
+  color: #595959;
+  margin-top: 8px !important;
+}
+
+.launch_icon {
+  font-size: 40px !important;
+  margin-left: 4px;
+  margin-top: 5px;
+  color: rgb(59, 180, 178);
+}
+
 @media only screen and (max-width: 400px) {
   .container {
     padding-bottom: 120px;

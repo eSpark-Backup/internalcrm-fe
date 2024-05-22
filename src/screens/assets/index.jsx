@@ -266,21 +266,8 @@ const Assets = () => {
         </div>
 
         <Button
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            borderRadius: "4px",
-            padding: "20px 50px",
-            height: "35px",
-            backgroundColor: "#029894",
-            color: "#fff",
-            textTransform: "capitalize",
-            fontSize: "16px",
-            "&:hover": {
-              backgroundColor: "#029894",
-            },
-          }}
           onClick={handleAseetModal}
+          className={`inter-semibold ${styles.attach}`}
         >
           {activeButton === "Links" ? "Attach " : "Upload"}
         </Button>

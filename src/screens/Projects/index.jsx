@@ -148,11 +148,10 @@ const Projects = () => {
                   key={index}
                   className={styles.grid_style}
                 >
-                  <Skeleton
-                    variant="rounded"
-                    height={110}
-                    sx={{ borderRadius: 2.5 }}
-                  />
+                  <DynamicCard member={true} card_style="card_style">
+                    <Skeleton variant="text" height="40px" />
+                    <Skeleton variant="text" height="40px" />
+                  </DynamicCard>
                 </Grid>
               ))
             : filteredProjects?.map((project, index) => (
@@ -177,19 +176,18 @@ const Projects = () => {
                         <div>
                           <Typography
                             variant="h5"
-                            sx={{ color: "#595959", fontWeight: "bold" }}
+                            className={`${styles.name} inter-semibold`}
                           >
                             {project.name}
                           </Typography>
+
                           <Typography
-                            sx={{
-                              color: "#595959",
-                              fontSize: "18px",
-                              marginTop: "5px",
-                            }}
+                            className={`${styles.created} inter-regular`}
                           >
                             Created on:{" "}
-                            <strong>{formatDate(project?.startingDate)}</strong>
+                            <span className="inter-medium">
+                              {formatDate(project?.startingDate)}
+                            </span>
                           </Typography>
                         </div>
 
@@ -202,14 +200,7 @@ const Projects = () => {
                             to={`/projects/cards/${project.name}`}
                             state={project}
                           >
-                            <LaunchRoundedIcon
-                              style={{
-                                fontSize: "40px",
-                                marginLeft: "4px",
-                                marginTop: "5px",
-                                color: "#3BB4B2",
-                              }}
-                            />
+                            <LaunchRoundedIcon className={styles.launch_icon} />
                           </Link>
                         </div>
                       </div>

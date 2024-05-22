@@ -1,6 +1,22 @@
 .title {
-  font-size: 25px;
-  line-height: 30px;
+  font-size: 25px !important;
+  line-height: 30px !important;
   color: #595959;
-  margin-bottom: 20px;
+  margin-bottom: 20px !important;
+}
+
+@media only screen and (max-width: 1500px) {
+  .title {
+    font-size: 22px !important;
+    line-height: 26px !important;
+    margin-bottom: 16px !important;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .title {
+    font-size: 20px !important;
+    line-height: 24px !important;
+    margin-bottom: 10px !important;
+  }
 }

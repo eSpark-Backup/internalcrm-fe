@@ -28,7 +28,7 @@ const Dashboard = () => {
     <Grid container>
       {status?.map((elem, index) => {
         return (
-          <Grid xs={12} sm={6} key={index}>
+          <Grid item xs={12} sm={6} key={index}>
             <div className={styles.card_item}>
               <DynamicCard title="Ticket Status">
                 <CircularProgressBar value={elem} />
