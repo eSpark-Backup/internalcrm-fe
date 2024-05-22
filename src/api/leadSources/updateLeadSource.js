@@ -1,17 +1,18 @@
 import axiosInstance from "../axiosInstance";
 import API_ENDPOINTS from "../endpoints";
 
-import { createUpdateSource } from "../../redux/reducers/leadSourcesSlice";
+// import { createUpdateSource } from "../../redux/reducers/leadSourcesSlice";
 
 export const updateLeadSource = async (
   sourceId,
   body,
-  dispatch,
+  // dispatch,
   setMessage,
   setSnackbarState,
   setSeverity,
-  setCardLoading,
-  handleClose
+  setIsDoingAction,
+  closeSourcePopup,
+  refetch
 ) => {
   try {
     const token = localStorage.getItem("token");
@@ -26,29 +27,24 @@ export const updateLeadSource = async (
       }
     );
 
-    console.log(response);
-
     if (response.status === 200) {
-      dispatch(createUpdateSource(response.data.data));
+      // dispatch(createUpdateSource(sourceId));
 
       setSnackbarState(true);
       setMessage(response?.data?.message);
       setSeverity("success");
 
-      setCardLoading(false);
-      handleClose();
+      setIsDoingAction(false);
+      closeSourcePopup();
+      refetch();
     }
 
     return response;
   } catch (error) {
-    console.log(error);
-    console.log(error.response);
-    console.log(error.response?.data);
-
     setSnackbarState(true);
     setMessage(error.response?.data?.message);
     setSeverity("error");
-    setCardLoading(false);
+    setIsDoingAction(false);
 
     return error.response;
   }

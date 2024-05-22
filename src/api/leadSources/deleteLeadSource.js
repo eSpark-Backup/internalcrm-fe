@@ -9,8 +9,8 @@ export const deleteLeadSource = async (
   setMessage,
   setSnackbarState,
   setSeverity,
-  setCardLoading,
-  handleClose
+  setIsDoingAction,
+  closeSourcePopup
 ) => {
   try {
     const token = localStorage.getItem("token");
@@ -31,22 +31,16 @@ export const deleteLeadSource = async (
       setMessage(response?.data?.message);
       setSeverity("success");
 
-      setCardLoading(false);
-      handleClose();
+      setIsDoingAction(false);
+      closeSourcePopup();
     }
-
-    console.log(response);
 
     return response;
   } catch (error) {
-    console.log(error);
-    console.log(error.response);
-    console.log(error.response?.data);
-
     setSnackbarState(true);
     setMessage(error.response?.data?.message);
     setSeverity("error");
-    setCardLoading(false);
+    setIsDoingAction(false);
 
     return error.response;
   }

@@ -18,17 +18,11 @@ export const getAllLeadSources = async (
       },
     });
 
-    console.log(response);
-
     if (response.status === 200) {
       dispatch(fetchAllSources(response.data));
     }
     return response.data;
   } catch (error) {
-    console.log(error);
-    console.log(error.response);
-    console.log(error.response?.data);
-
     setSnackbarState(true);
     setMessage(error.response?.data?.message);
     setSeverity("error");
