@@ -8,6 +8,7 @@ const projectSlice = createSlice({
     allProjectAssets: [],
     allProjectCards: [],
     allProjectTasks: [],
+    allProjectTaskComments: [],
   },
   reducers: {
     // Project Reducers
@@ -157,6 +158,13 @@ const projectSlice = createSlice({
       }
     },
     // Ends Project Tasks Reducers
+
+    // Project Task Comments Reducers
+    fetchAllProjectTaskComments: (state, action) => {
+      state.allProjectTaskComments = action.payload.data;
+    },
+
+    // Ends Project Task Comments Reducers
   },
 });
 
@@ -186,6 +194,10 @@ export const {
   createUpdateProjectTask,
   deleteProjectTaskReducer,
   // Ends Project Tasks Reducers
+
+  // Project Task Comments Reducers
+  allProjectTaskComments,
+  // Ends Project Task Comments Reducers
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

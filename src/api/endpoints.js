@@ -13,6 +13,7 @@ const API_ENDPOINTS = {
     DELETE_PROJECT_MEMBER: "projects",
     CARDS: "cards",
     TASKS: "tasks",
+    ADD_TASKS_COMMENTS: "tasks/comments",
     GET_TASKS_BY_CARD: "tasks/card",
   },
   LEAD_SOURCES: "lead-sources",
