@@ -21,10 +21,11 @@ import CustomizedSnackbars from "../../components/toast";
 import AppDialog from "../../components/common/appDialog";
 
 import { getAllTeams } from "../../api/teams/getAllTeams";
+import { createTeam } from "../../api/teams/createTeam";
+import { updateTeamDetails } from "../../api/teams/updateTeam";
+import { deleteTeam } from "../../api/teams/deleteTeam";
 
 import { storeChildData } from "../../redux/reducers/headerSlice";
-
-import { teamsData } from "../../constants/teams";
 
 import styles from "./style.module.css";
 
@@ -59,6 +60,12 @@ const popup_styles = {
   },
 };
 
+const initialState = {
+  name: "",
+  description: "no required field",
+  head: 0,
+};
+
 const Teams = () => {
   const dispatch = useDispatch();
   const allTeams = useSelector((state) => state.teams.allTeams);
@@ -77,11 +84,12 @@ const Teams = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [teamId, setTeamId] = useState(null);
-  const [name, setName] = useState("");
+  const [state, setState] = useState(initialState);
   // Dialog States
   const [openTeamPopup, setOpenTeamPopup] = useState(false);
   const [isEditingTeam, setIsEditingTeam] = useState(false);
   const [deleteTeamPopup, setDeleteTeamPopup] = useState(false);
+  const [isDoingAction, setIsDoingAction] = useState(false);
   // Snackbar States
   const [snackbarState, setSnackbarState] = useState(false);
   const [message, setMessage] = useState("");
@@ -92,6 +100,10 @@ const Teams = () => {
       getAllTeams(dispatch, setMessage, setSnackbarState, setSeverity),
   });
 
+  const handleInputChange = (key, value) => {
+    setState((state) => ({ ...state, [key]: value }));
+  };
+
   const handleSearchTeam = (value) => {
     setSearchTeam(value);
   };
@@ -100,7 +112,6 @@ const Teams = () => {
     setSearchJobTitle(value);
   };
 
-  // eslint-disable-next-line no-unused-vars
   const filteredTeams = allTeams?.filter((team) => {
     return (
       team.name.toLowerCase().includes(searchTeam.toLowerCase()) &&
@@ -108,10 +119,52 @@ const Teams = () => {
     );
   });
 
-  const onAddTeam = () => {};
-  const addTeam = () => {};
-  const editTeam = () => {};
-  const handleClose = () => {};
+  const onAddTeam = () => {
+    setOpenTeamPopup(true);
+  };
+
+  const addTeam = () => {
+    setIsDoingAction(true);
+
+    createTeam(
+      state,
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setIsDoingAction,
+      handleClose
+    );
+  };
+
+  const editTeam = () => {
+    setIsDoingAction(true);
+
+    updateTeamDetails(
+      teamId,
+      state,
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setIsDoingAction,
+      handleClose
+    );
+  };
+
+  const confirmDelete = () => {
+    setIsDoingAction(true);
+
+    deleteTeam(
+      teamId,
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setIsDoingAction,
+      handleClose
+    );
+  };
 
   const handleMenuOpen = (event, id) => {
     setTeamId(id);
@@ -123,12 +176,27 @@ const Teams = () => {
     setTeamId(null);
   };
 
-  const handleEdit = () => {
+  const onEdit = () => {
     handleMenuClose();
+    setIsEditingTeam(true);
+    setOpenTeamPopup(true);
   };
 
-  const handleDelete = () => {
+  const onDelete = () => {
     handleMenuClose();
+    setDeleteTeamPopup(true);
+  };
+
+  const handleClose = () => {
+    setOpenTeamPopup(false);
+    setDeleteTeamPopup(false);
+    setTeamId(null);
+    setAnchorEl(null);
+
+    setTimeout(() => {
+      setIsEditingTeam(false);
+      setState(initialState);
+    }, 500);
   };
 
   return (
@@ -164,7 +232,7 @@ const Teams = () => {
                   </DynamicCard>
                 </Grid>
               ))
-            : teamsData?.map((team, index) => (
+            : filteredTeams?.map((team, index) => (
                 <Grid
                   key={index}
                   item
@@ -236,16 +304,10 @@ const Teams = () => {
                           },
                         ]}
                       >
-                        <MenuItem
-                          onClick={handleEdit}
-                          className="inter-regular"
-                        >
+                        <MenuItem onClick={onEdit} className="inter-regular">
                           Edit
                         </MenuItem>
-                        <MenuItem
-                          onClick={handleDelete}
-                          className="inter-regular"
-                        >
+                        <MenuItem onClick={onDelete} className="inter-regular">
                           Delete
                         </MenuItem>
                       </Menu>
@@ -295,16 +357,16 @@ const Teams = () => {
         onClick={() => {
           isEditingTeam ? editTeam() : addTeam();
         }}
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Enter source name"
-        id="project name"
+        value={state.name}
+        onChange={(e) => handleInputChange("name", e.target.value)}
+        placeholder="Enter team name"
+        id="team name"
         type="text"
         sx={{
           marginBottom: "12px",
         }}
         paddingLeft="21px"
-        // loader={isDoingAction}
+        loader={isDoingAction}
       />
 
       <AppDialog
@@ -320,8 +382,8 @@ const Teams = () => {
         weight="regular"
         margin="47px 0px"
         handleClose={() => setDeleteTeamPopup(false)}
-        // onClick={confirmDelete}
-        // loader={isDoingAction}
+        onClick={confirmDelete}
+        loader={isDoingAction}
       />
 
       <CustomizedSnackbars

@@ -15,10 +15,13 @@ import RichEditor from "./richEditor";
 import AppDialog from "../../components/common/appDialog";
 
 import Edit from "../../assets/logos/edit.svg?react";
+import Close from "../../assets/logos/close.svg?react";
 // import Delete from "../../assets/logos/delete.svg?react";
 import DeleteColored from "../../assets/logos/delete-colored.svg?react";
 
 import { statusList } from "../../constants/statusList";
+
+import { capitalizeString } from "../../utils/capitalizeFirstLetter";
 
 import styles from "./style.module.css";
 
@@ -27,9 +30,15 @@ const DetailForm = ({ taskDetail }) => {
     name: taskDetail?.name,
     description: taskDetail?.description,
     comment: "",
+    status: {
+      label: capitalizeString(taskDetail?.status),
+      value: taskDetail?.status,
+    },
     editTitle: false,
     editDescription: false,
     startComment: false,
+    performAction: true,
+    editDropdown: true,
   });
 
   const [modalState, setModalState] = useState({
@@ -70,12 +79,31 @@ const DetailForm = ({ taskDetail }) => {
                     Title
                   </Typography>
 
-                  <div
-                    className={styles.icon_container}
-                    onClick={() => updateEditState({ editTitle: true })}
-                  >
-                    <Edit />
-                  </div>
+                  {editState?.editTitle ? (
+                    <div
+                      className={`${styles.icon_container} ${styles.icon_container_close}`}
+                      onClick={() =>
+                        updateEditState({
+                          editTitle: false,
+                          performAction: true,
+                        })
+                      }
+                    >
+                      <Close />
+                    </div>
+                  ) : (
+                    <div
+                      className={styles.icon_container}
+                      onClick={() =>
+                        updateEditState({
+                          editTitle: true,
+                          performAction: false,
+                        })
+                      }
+                    >
+                      <Edit />
+                    </div>
+                  )}
                 </div>
 
                 {editState.editTitle ? (
@@ -90,10 +118,10 @@ const DetailForm = ({ taskDetail }) => {
                       />
                     </FormControl>
 
-                    <div className={styles.btn_container}>
-                      {/* <div className={styles.outlined_container}>
+                    {/* <div className={styles.btn_container}>
+                      <div className={styles.outlined_container}>
                         <DeleteColored />
-                      </div> */}
+                      </div>
 
                       <Button
                         className="inter-semibold"
@@ -101,10 +129,14 @@ const DetailForm = ({ taskDetail }) => {
                       >
                         Save
                       </Button>
-                    </div>
+                    </div> */}
                   </>
                 ) : (
-                  <div className={styles.title_view}>
+                  <div
+                    className={`${styles.title_view} ${
+                      !editState.editTitle ? "disabled-background" : ""
+                    }`}
+                  >
                     <Typography variant="h6" className="inter-medium">
                       {taskDetail?.name}
                     </Typography>
@@ -121,12 +153,31 @@ const DetailForm = ({ taskDetail }) => {
                     Description
                   </Typography>
 
-                  <div
-                    className={styles.icon_container}
-                    onClick={() => updateEditState({ editDescription: true })}
-                  >
-                    <Edit />
-                  </div>
+                  {editState?.editDescription ? (
+                    <div
+                      className={`${styles.icon_container} ${styles.icon_container_close}`}
+                      onClick={() =>
+                        updateEditState({
+                          editDescription: false,
+                          performAction: true,
+                        })
+                      }
+                    >
+                      <Close />
+                    </div>
+                  ) : (
+                    <div
+                      className={styles.icon_container}
+                      onClick={() =>
+                        updateEditState({
+                          editDescription: true,
+                          performAction: false,
+                        })
+                      }
+                    >
+                      <Edit />
+                    </div>
+                  )}
                 </div>
 
                 {editState.editDescription ? (
@@ -141,10 +192,10 @@ const DetailForm = ({ taskDetail }) => {
                       />
                     </FormControl>
 
-                    <div className={styles.btn_container}>
-                      {/* <div className={styles.outlined_container}>
+                    {/* <div className={styles.btn_container}>
+                      <div className={styles.outlined_container}>
                         <DeleteColored />
-                      </div> */}
+                      </div>
 
                       <Button
                         className="inter-semibold"
@@ -154,10 +205,14 @@ const DetailForm = ({ taskDetail }) => {
                       >
                         Save
                       </Button>
-                    </div>
+                    </div> */}
                   </>
                 ) : (
-                  <div className={styles.description_view}>
+                  <div
+                    className={`${styles.description_view} ${
+                      !editState.editDescription ? "disabled-background" : ""
+                    }`}
+                  >
                     <Typography variant="h6" className="inter-medium">
                       {taskDetail?.description}
                     </Typography>
@@ -234,11 +289,37 @@ const DetailForm = ({ taskDetail }) => {
 
           <Grid item lg={2} xs={12}>
             <Stack className={styles.dropdown_container}>
+              {!editState?.editDropdown ? (
+                <div
+                  className={`${styles.icon_container} ${styles.icon_container_close} ${styles.icon_container_dropdown}`}
+                  onClick={() =>
+                    updateEditState({
+                      editDropdown: true,
+                      performAction: true,
+                    })
+                  }
+                >
+                  <Close />
+                </div>
+              ) : (
+                <div
+                  className={`${styles.icon_container} ${styles.icon_container_dropdown}`}
+                  onClick={() =>
+                    updateEditState({
+                      editDropdown: false,
+                      performAction: false,
+                    })
+                  }
+                >
+                  <Edit />
+                </div>
+              )}
               <div className={styles.right_item_container}>
                 <AppSelect
                   label="Assigned to:"
                   marginBottom="6px"
                   placeholder="Select"
+                  isDisabled={editState?.editDropdown}
                 />
               </div>
 
@@ -248,6 +329,9 @@ const DetailForm = ({ taskDetail }) => {
                   marginBottom="6px"
                   placeholder="Select"
                   list={statusList}
+                  value={editState.status}
+                  onChange={(e) => updateEditState({ status: e })}
+                  isDisabled={editState?.editDropdown}
                 />
               </div>
 
@@ -256,13 +340,32 @@ const DetailForm = ({ taskDetail }) => {
                   label="Move task to"
                   marginBottom="6px"
                   placeholder="Select"
+                  isDisabled={editState?.editDropdown}
                 />
               </div>
 
               <div className={styles.right_item_container}>
-                <Picker label="Due date" marginBottom="6px" />
+                <Picker
+                  label="Due date"
+                  marginBottom="6px"
+                  disabled={editState?.editDropdown}
+                />
               </div>
             </Stack>
+          </Grid>
+
+          <Grid item xs={12}>
+            <div className={styles.btn_container}>
+              <Button
+                className={`inter-semibold ${
+                  editState.performAction ? styles.disabled : ""
+                }`}
+                onClick={() => console.log("save")}
+                disabled={editState.performAction}
+              >
+                Save
+              </Button>
+            </div>
           </Grid>
         </Grid>
       </form>
