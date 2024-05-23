@@ -22,12 +22,14 @@ export default function CustomizedSnackbars({
       onClose={handleClose}
       key={`top right`}
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      sx={{ zIndex: 100000 }}
     >
       <Alert
         onClose={handleClose}
         severity={severity}
         variant="filled"
         sx={{ width: "100%" }}
+        className={`inter-medium`}
       >
         {message}
       </Alert>

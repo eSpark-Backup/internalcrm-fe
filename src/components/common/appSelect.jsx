@@ -115,6 +115,7 @@ const AppSelect = (props) => {
     normalFont,
     placeholder,
     marginBottom,
+    isDisabled,
   } = props;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -145,6 +146,7 @@ const AppSelect = (props) => {
         onMenuClose={handleMenuClose}
         menuIsOpen={isMenuOpen}
         placeholder={placeholder}
+        isDisabled={isDisabled}
       />
     </>
   );

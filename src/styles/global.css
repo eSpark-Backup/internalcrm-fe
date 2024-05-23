@@ -149,6 +149,10 @@ body,
   justify-content: space-between !important;
 }
 
+.disabled-background {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 /* Menu Items Styles Start */
 .menu_item {
   padding-left: 10px !important;

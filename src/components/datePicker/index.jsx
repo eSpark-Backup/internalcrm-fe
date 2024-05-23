@@ -9,8 +9,15 @@ import Label from "../common/inputLabel";
 import Calender from "../../assets/logos/calender.svg?react";
 
 const Picker = (props) => {
-  const { label, placeholder, normalFont, onChange, marginBottom, padding } =
-    props;
+  const {
+    label,
+    placeholder,
+    normalFont,
+    onChange,
+    marginBottom,
+    padding,
+    disabled,
+  } = props;
 
   const datePickerRef = useRef(null);
 
@@ -34,6 +41,7 @@ const Picker = (props) => {
             return date.format("dd");
           }}
           format="DD/MM/YYYY"
+          disabled={disabled}
           ref={datePickerRef}
           onChange={onChange}
           disableFuture
