@@ -1,6 +1,7 @@
-import { fecthAllTeams } from "../../redux/reducers/teamSlice";
 import axiosInstance from "../axiosInstance";
 import API_ENDPOINTS from "../endpoints";
+
+import { fetchAllTeams } from "../../redux/reducers/teamSlice";
 
 export const getAllTeams = async (
   dispatch,
@@ -18,7 +19,7 @@ export const getAllTeams = async (
     });
 
     if (response.status === 200) {
-      dispatch(fecthAllTeams(response.data));
+      dispatch(fetchAllTeams(response.data));
     }
 
     return response.data;

@@ -1,7 +1,17 @@
 import axiosInstance from "../axiosInstance";
 import API_ENDPOINTS from "../endpoints";
 
-export const createTeam = async (body) => {
+import { createUpdateTeam } from "../../redux/reducers/teamSlice";
+
+export const createTeam = async (
+  body,
+  dispatch,
+  setMessage,
+  setSnackbarState,
+  setSeverity,
+  setIsDoingAction,
+  handleClose
+) => {
   try {
     const token = localStorage.getItem("token");
 
@@ -13,8 +23,24 @@ export const createTeam = async (body) => {
 
     console.log(response);
 
+    if (response.status === 201 || response.status === 200) {
+      dispatch(createUpdateTeam(response.data.data));
+
+      setSnackbarState(true);
+      setMessage(response?.data?.message);
+      setSeverity("success");
+
+      setIsDoingAction(false);
+      handleClose();
+    }
+
     return response;
   } catch (error) {
-    console.log(error);
+    setIsDoingAction(false);
+    setSnackbarState(true);
+    setMessage(error.response?.data?.message);
+    setSeverity("error");
+
+    return error.response;
   }
 };
