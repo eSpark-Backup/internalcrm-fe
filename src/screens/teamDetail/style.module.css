@@ -55,40 +55,10 @@
   color: #595959;
 }
 
-.header_cell {
-  text-align: center !important;
-  padding: 12px 0px 16px !important;
-  font-size: 14px !important;
-  line-height: 17px !important;
-  color: #595959 !important;
-  border-bottom: none !important;
-  background-color: #f4f6f9 !important;
-}
-
-.table_body {
-  background-color: #ffffff !important;
-  overflow-y: auto !important;
-  height: 100% !important;
-}
-
-.body_cell {
-  text-align: center !important;
-  font-size: 12px !important;
-  line-height: 15px !important;
-  color: #595959 !important;
-  border-bottom: none !important;
-  padding: 12px 0px 13px !important;
-}
-
-.body_cell img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-
 .request {
-  text-decoration-line: underline;
+  text-decoration-line: underline !important;
   color: #49ace1 !important;
+  text-transform: capitalize !important;
 }
 
 .request span {
@@ -133,14 +103,6 @@
 
   .total_members {
     line-height: 20px !important;
-  }
-
-  .header_cell {
-    padding: 10px 0px 12px !important;
-  }
-
-  .body_cell {
-    padding: 10px 0px 10px !important;
   }
 }
 

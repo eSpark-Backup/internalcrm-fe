@@ -1,20 +1,11 @@
 import { useState } from "react";
 
-import {
-  Typography,
-  Grid,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TableContainer,
-} from "@mui/material";
+import { Typography, Grid, Button } from "@mui/material";
 
 import SearchBar from "../../components/search";
 import AppDialog from "../../components/common/appDialog";
+import TeamTable from "../../components/table";
 
-import User from "../../assets/logos/change-password.svg?react";
 import Head from "../../assets/logos/head-image.svg?react";
 
 import { header, membersData } from "../../constants/teamDetails";
@@ -37,6 +28,15 @@ const TeamDetail = () => {
   const handleRequestDialog = () => {
     setRequestDialog(true);
   };
+
+  const renderAction = (row, rowIndex) => (
+    <Button
+      onClick={() => handleRequestDialog(row, rowIndex)}
+      className={`inter-regular ${styles.request}`}
+    >
+      Request
+    </Button>
+  );
 
   return (
     <>
@@ -117,66 +117,15 @@ const TeamDetail = () => {
             </Typography>
           </div>
 
-          <TableContainer
+          <TeamTable
+            headers={header}
+            data={membersData}
+            objectType="teamDetails"
+            renderActions={renderAction}
             sx={{
               maxHeight: { lg: "calc(100% - 113px)", md: "42vh" },
             }}
-          >
-            <Table
-              stickyHeader
-              aria-label="sticky table"
-              sx={{ height: "100%" }}
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell className={styles.header_cell}>
-                    <User />
-                  </TableCell>
-
-                  {header?.map((item) => (
-                    <TableCell
-                      key={item}
-                      className={`${styles.header_cell} inter-medium`}
-                    >
-                      {item}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-
-              <TableBody className={styles.table_body}>
-                {membersData.map((member) => (
-                  <TableRow key={member.id}>
-                    <TableCell className={`${styles.body_cell} inter-regular`}>
-                      <img src={member.imageUrl} />
-                    </TableCell>
-
-                    <TableCell className={`${styles.body_cell} inter-regular`}>
-                      {member.name}
-                    </TableCell>
-
-                    <TableCell className={`${styles.body_cell} inter-regular`}>
-                      {member.id}
-                    </TableCell>
-
-                    <TableCell className={`${styles.body_cell} inter-regular`}>
-                      {member.jobTitle}
-                    </TableCell>
-
-                    <TableCell className={`${styles.body_cell} inter-regular`}>
-                      {member.role}
-                    </TableCell>
-
-                    <TableCell
-                      className={`${styles.body_cell} inter-regular ${styles.request}`}
-                    >
-                      <span onClick={handleRequestDialog}>Request</span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          />
         </Grid>
       </Grid>
 
