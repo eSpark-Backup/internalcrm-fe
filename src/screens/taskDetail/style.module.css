@@ -59,7 +59,7 @@
 .outlined_container {
   height: 35px;
   width: 35px;
-  border-radius: 50%;
+  border-radius: 50% !important;
   background-color: #068987;
   display: flex;
   align-items: center;
@@ -80,6 +80,10 @@
   border: 1px solid #e4e4e4 !important;
   border-radius: 10px;
   padding: 15.5px 36px !important;
+}
+
+.form_control input {
+  text-transform: capitalize;
 }
 
 .form_container input,
@@ -110,10 +114,11 @@
   height: 40px;
 }
 
-.comment_by,
+.comment_by_av,
 .comment h6,
 .title_view h6,
-.description_view h6 {
+.description_view h6,
+.show_comment h6 {
   font-size: 18px !important;
   line-height: 22px !important;
   color: #ffffff;
@@ -122,7 +127,8 @@
 
 .comment,
 .title_view,
-.description_view {
+.description_view,
+.show_comment {
   width: 100%;
   border: 1px solid #e4e4e4 !important;
   border-radius: 10px;
@@ -135,7 +141,8 @@
 
 .comment h6,
 .title_view h6,
-.description_view h6 {
+.description_view h6,
+.show_comment h6 {
   color: #595959;
 }
 
@@ -155,13 +162,12 @@
 }
 
 .outlined_container {
-  background: #ffffff;
-  border: 1px solid #029e9c;
-  border-radius: 50px;
-  width: 30px;
-  height: 30px;
-  margin-right: 17px;
-  cursor: pointer;
+  background: #ffffff !important;
+  border: 1px solid #029e9c !important;
+  border-radius: 50px !important;
+  width: 30px !important;
+  height: 30px !important;
+  margin-right: 17px !important;
 }
 
 .btn_container button {
@@ -197,9 +203,60 @@
   width: 16px;
 }
 
+.save_comment.Mui-disabled {
+  background-color: rgba(0, 0, 0, 0.16) !important;
+  border: 1px solid rgba(0, 0, 0, 0.26) !important;
+}
+
+.comment_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 13px;
+}
+
+.comment_by {
+  display: flex;
+  align-items: center;
+}
+
+.comment_header h5 {
+  font-size: 18px;
+  line-height: 22px;
+  color: #595959;
+}
+
+.comment_header .date {
+  font-size: 14px;
+  line-height: 17px;
+  margin-left: 12px;
+}
+
+@media only screen and (max-width: 1366px) {
+  .avatar_container {
+    width: 35px;
+    height: 35px;
+  }
+
+  .comment_by_av {
+    font-size: 16px !important;
+    line-height: 20px !important;
+  }
+}
+
 @media only screen and (max-width: 1199px) {
   .title {
     font-size: 23px !important;
     line-height: 28px !important;
+  }
+
+  .avatar_container {
+    width: 30px;
+    height: 30px;
+  }
+
+  .comment_by_av {
+    font-size: 14px !important;
+    line-height: 18px !important;
   }
 }

@@ -78,7 +78,12 @@ const TaskDetail = () => {
         </Button>
       </div>
 
-      <DetailForm taskDetail={state.taskDetail} />
+      <DetailForm
+        taskDetail={state.taskDetail}
+        setMessage={setMessage}
+        setSnackbarState={setSnackbarState}
+        setSeverity={setSeverity}
+      />
 
       {/* Delete Task Modal */}
       <AppDialog

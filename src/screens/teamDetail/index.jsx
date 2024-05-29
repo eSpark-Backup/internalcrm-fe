@@ -1,20 +1,28 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
-import { Typography, Grid, Button } from "@mui/material";
+import { Typography, Grid, Button, IconButton } from "@mui/material";
 
 import SearchBar from "../../components/search";
 import AppDialog from "../../components/common/appDialog";
 import TeamTable from "../../components/table";
+import AddMembersPopup from "../../components/addMemberPopup";
 
 import Head from "../../assets/logos/head-image.svg?react";
+import Edit from "../../assets/logos/small-white-edit.svg?react";
+import View from "../../assets/logos/small-eye.svg?react";
 
 import { header, membersData } from "../../constants/teamDetails";
 
 import styles from "./style.module.css";
 
 const TeamDetail = () => {
+  const { state } = useLocation();
+
   const [requestDialog, setRequestDialog] = useState(false);
   const [requested, setRequested] = useState(false);
+  // Magae Lead States
+  const [isPopupOpen, setPopupOpen] = useState(false);
 
   const onClick = () => {
     handleClose();
@@ -29,20 +37,31 @@ const TeamDetail = () => {
     setRequestDialog(true);
   };
 
-  const renderAction = (row, rowIndex) => (
-    <Button
-      onClick={() => handleRequestDialog(row, rowIndex)}
-      className={`inter-regular ${styles.request}`}
-    >
-      Request
-    </Button>
-  );
+  const handlePopupClose = () => {
+    setPopupOpen(false);
+  };
+
+  const renderAction = (row, rowIndex) =>
+    state.role === "admin" ? (
+      <IconButton onClick={() => console.log(row)} className={`${styles.view}`}>
+        <View />
+      </IconButton>
+    ) : (
+      <Button
+        onClick={() => handleRequestDialog(row, rowIndex)}
+        className={`inter-regular ${styles.request}`}
+      >
+        Request
+      </Button>
+    );
 
   return (
     <>
       <SearchBar
         searchTextOne="Search by name"
         searchTextTwo="Search by job title"
+        btn={true}
+        btnText="Add member "
       />
 
       <Grid container className={styles.grid_container}>
@@ -56,12 +75,32 @@ const TeamDetail = () => {
           }}
         >
           <div className={styles.head_style}>
-            <Typography variant="h5" className={`${styles.head} inter-bold`}>
-              Head
-            </Typography>
+            <div className={styles.header_style}>
+              <Typography variant="h5" className={`${styles.head} inter-bold`}>
+                Head
+              </Typography>
 
-            <div className={styles.head_image}>
-              <Head />
+              {state.role === "admin" && (
+                <IconButton className={`${styles.edit}`}>
+                  <Edit />
+                </IconButton>
+              )}
+            </div>
+
+            <div className={styles.head_change_styles}>
+              {state.role === "admin" && (
+                <Typography
+                  component={Button}
+                  className={`inter-regular ${styles.change}`}
+                  onClick={() => setPopupOpen(true)}
+                >
+                  Change
+                </Typography>
+              )}
+
+              <div className={styles.head_image}>
+                <Head />
+              </div>
             </div>
 
             <div>
@@ -147,6 +186,15 @@ const TeamDetail = () => {
         margin="47px 0px"
         handleClose={handleClose}
         onClick={onClick}
+      />
+
+      <AddMembersPopup
+        isOpen={isPopupOpen}
+        onClose={handlePopupClose}
+        projectId={state?.id}
+        successfullText="Promoted"
+        buttonText="Make TL"
+        check={true}
       />
     </>
   );

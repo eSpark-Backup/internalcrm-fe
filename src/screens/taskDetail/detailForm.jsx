@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useQuery } from "@tanstack/react-query";
 
 import {
   Grid,
@@ -7,6 +10,8 @@ import {
   InputBase,
   Stack,
   Button,
+  IconButton,
+  Skeleton,
 } from "@mui/material";
 
 import AppSelect from "../../components/common/appSelect";
@@ -19,13 +24,37 @@ import Close from "../../assets/logos/close.svg?react";
 // import Delete from "../../assets/logos/delete.svg?react";
 import DeleteColored from "../../assets/logos/delete-colored.svg?react";
 
-import { statusList } from "../../constants/statusList";
+import { createProjectTaskComment } from "../../api/projects/projectTaskComments/createProjectTaskComment";
+import { getAllProjectTaskComments } from "../../api/projects/projectTaskComments/getAllProjectTaskComments";
+import { updateProjectTaskComment } from "../../api/projects/projectTaskComments/updateProjectTaskComment";
+import { deleteProjectTaskComment } from "../../api/projects/projectTaskComments/deleteProjectTaskComment";
 
 import { capitalizeString } from "../../utils/capitalizeFirstLetter";
+import { convertDate } from "../../utils/formatdate";
+
+import { statusList } from "../../constants/statusList";
 
 import styles from "./style.module.css";
 
-const DetailForm = ({ taskDetail }) => {
+const DetailForm = (props) => {
+  const { taskDetail, setMessage, setSnackbarState, setSeverity } = props;
+
+  const dispatch = useDispatch();
+  const allProjectTaskComments = useSelector(
+    (state) => state.projects.allProjectTaskComments
+  );
+
+  const { isLoading, refetch } = useQuery({
+    queryFn: () =>
+      getAllProjectTaskComments(
+        taskDetail.id,
+        dispatch,
+        setMessage,
+        setSnackbarState,
+        setSeverity
+      ),
+  });
+
   const [editState, setEditState] = useState({
     name: taskDetail?.name,
     description: taskDetail?.description,
@@ -36,15 +65,18 @@ const DetailForm = ({ taskDetail }) => {
     },
     editTitle: false,
     editDescription: false,
-    startComment: false,
+    editComment: false,
     performAction: true,
     editDropdown: true,
+    startComment: false,
+    onComment: false,
   });
 
   const [modalState, setModalState] = useState({
     deleteComment: false,
     cardLoading: false,
   });
+  const [commentId, setCommentId] = useState(null);
 
   const handleClose = () => {
     setModalState({
@@ -53,15 +85,68 @@ const DetailForm = ({ taskDetail }) => {
     });
   };
 
-  const confirmDelete = () => {
-    setModalState({
-      deleteComment: false,
-      cardLoading: false,
-    });
-  };
-
   const updateEditState = (newState) => {
     setEditState((prevState) => ({ ...prevState, ...newState }));
+  };
+
+  const onSaveComment = () => {
+    updateEditState({ onComment: true });
+
+    const body = {
+      taskId: taskDetail?.id,
+      comment: editState.comment,
+    };
+
+    createProjectTaskComment(
+      body,
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      updateEditState,
+      refetch
+    );
+  };
+
+  const onEditComment = () => {
+    updateEditState({ onComment: true });
+
+    const body = {
+      comment: editState.comment,
+    };
+
+    updateProjectTaskComment(
+      commentId,
+      body,
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setCommentId,
+      updateEditState,
+      refetch
+    );
+  };
+
+  const confirmDelete = () => {
+    setModalState((prevState) => ({ ...prevState, cardLoading: true }));
+    updateEditState({ editComment: true });
+
+    deleteProjectTaskComment(
+      commentId,
+      dispatch,
+      setMessage,
+      setSnackbarState,
+      setSeverity,
+      setModalState,
+      updateEditState
+    );
+  };
+
+  const extractTextFromHtml = (htmlString) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, "text/html");
+    return doc.body.textContent || "";
   };
 
   return (
@@ -132,11 +217,7 @@ const DetailForm = ({ taskDetail }) => {
                     </div> */}
                   </>
                 ) : (
-                  <div
-                    className={`${styles.title_view} ${
-                      !editState.editTitle ? "disabled-background" : ""
-                    }`}
-                  >
+                  <div className={`${styles.title_view}`}>
                     <Typography variant="h6" className="inter-medium">
                       {taskDetail?.name}
                     </Typography>
@@ -208,11 +289,7 @@ const DetailForm = ({ taskDetail }) => {
                     </div> */}
                   </>
                 ) : (
-                  <div
-                    className={`${styles.description_view} ${
-                      !editState.editDescription ? "disabled-background" : ""
-                    }`}
-                  >
+                  <div className={`${styles.description_view}`}>
                     <Typography variant="h6" className="inter-medium">
                       {taskDetail?.description}
                     </Typography>
@@ -231,20 +308,113 @@ const DetailForm = ({ taskDetail }) => {
                 </div>
 
                 <Grid container alignItems={"center"}>
-                  <Grid item xs={0.6}>
+                  <Grid item xl={0.6} lg={0.8} xs={1.6}>
                     <div className={styles.avatar_container}>
                       <Typography
-                        className={`${styles.comment_by} inter-medium`}
+                        className={`${styles.comment_by_av} inter-medium`}
                       >
                         AN
                       </Typography>
                     </div>
                   </Grid>
 
-                  <Grid item xs={11.4}>
-                    {editState.startComment ? (
-                      <RichEditor />
+                  <Grid item xl={11.4} lg={11.2} xs={10.4}>
+                    {isLoading ? (
+                      <Skeleton height="100px" />
+                    ) : editState.startComment ? (
+                      // Show Editor If There is no Comment, And Want To Add Comment
+                      <RichEditor
+                        handleChange={(html) =>
+                          updateEditState({ comment: html })
+                        }
+                        comment={editState.comment}
+                      />
+                    ) : allProjectTaskComments?.length ? (
+                      //  Show Comment If There Is A Comment
+                      <div>
+                        {allProjectTaskComments?.map((comment) => (
+                          <div key={comment?.id}>
+                            <div className={styles.comment_header}>
+                              {/* <div
+                                dangerouslySetInnerHTML={{
+                                  __html: comment.comment,
+                                }}
+                              /> */}
+
+                              <div className={styles.comment_by}>
+                                <Typography
+                                  variant="h5"
+                                  className="inter-medium"
+                                  textTransform={"capitalize"}
+                                >
+                                  {comment.userId.firstName}
+                                </Typography>
+
+                                <Typography
+                                  variant="h5"
+                                  className={`${styles.date} inter-medium`}
+                                >
+                                  {convertDate(comment.createdAt)}
+                                </Typography>
+                              </div>
+
+                              {editState?.editComment ? (
+                                <div
+                                  className={`${styles.icon_container} ${styles.icon_container_close}`}
+                                  onClick={() => {
+                                    setCommentId(null);
+
+                                    updateEditState({
+                                      editComment: false,
+                                    });
+                                  }}
+                                >
+                                  <Close />
+                                </div>
+                              ) : (
+                                <div
+                                  className={styles.icon_container}
+                                  onClick={() => {
+                                    setCommentId(comment.id);
+
+                                    updateEditState({
+                                      editComment: true,
+                                      comment: extractTextFromHtml(
+                                        comment.comment
+                                      ),
+                                    });
+                                  }}
+                                >
+                                  <Edit />
+                                </div>
+                              )}
+                            </div>
+
+                            {editState.editComment ? (
+                              <FormControl className={styles.form_control}>
+                                <InputBase
+                                  placeholder="Comment"
+                                  value={editState.comment}
+                                  onChange={(e) =>
+                                    updateEditState({ comment: e.target.value })
+                                  }
+                                />
+                              </FormControl>
+                            ) : (
+                              <div className={`${styles.show_comment}`}>
+                                <Typography
+                                  variant="h6"
+                                  className="inter-medium"
+                                >
+                                  {extractTextFromHtml(comment.comment)}
+                                </Typography>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     ) : (
+                      // If There Is No Comment, Show Placeholder
                       <div
                         className={styles.comment}
                         onClick={() => updateEditState({ startComment: true })}
@@ -256,26 +426,34 @@ const DetailForm = ({ taskDetail }) => {
                     )}
                   </Grid>
 
-                  {editState.startComment && (
+                  {(editState.startComment || editState.editComment) && (
                     <Grid item xs={12}>
                       <div className={styles.btn_container}>
-                        <div
-                          className={styles.outlined_container}
-                          onClick={() =>
-                            setModalState((prevState) => ({
-                              ...prevState,
-                              deleteComment: true,
-                            }))
-                          }
-                        >
-                          <DeleteColored />
-                        </div>
+                        {editState.editComment && (
+                          <IconButton
+                            className={styles.outlined_container}
+                            onClick={() => {
+                              setModalState((prevState) => ({
+                                ...prevState,
+                                deleteComment: true,
+                              }));
+                            }}
+                            disabled={editState.onComment}
+                          >
+                            <DeleteColored />
+                          </IconButton>
+                        )}
 
                         <Button
-                          className="inter-semibold"
-                          onClick={() =>
-                            updateEditState({ startComment: false })
+                          className={`inter-semibold ${
+                            editState.onComment ? styles.disabled : ""
+                          }`}
+                          onClick={
+                            editState.editComment
+                              ? onEditComment
+                              : onSaveComment
                           }
+                          disabled={editState.onComment}
                         >
                           Save
                         </Button>

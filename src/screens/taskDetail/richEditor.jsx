@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -30,8 +28,9 @@ icons["color"] = Color;
 icons["image"] = Image;
 icons["link"] = Link;
 
-const RichTextEditor = () => {
-  const [text, setText] = useState("");
+const RichTextEditor = (props) => {
+  const { handleChange, comment } = props;
+
   // const [customEditor, setCustomEditor] = useState({
   //   textLeft: false,
   //   textRight: false,
@@ -43,10 +42,6 @@ const RichTextEditor = () => {
   // const updateState = (value) => {
   //   setCustomEditor((prevState) => ({ ...prevState, openCardModal: value }));
   // };
-
-  const handleChange = (html) => {
-    setText(html);
-  };
 
   const modules = {
     toolbar: {
@@ -87,7 +82,7 @@ const RichTextEditor = () => {
       </div>
 
       <ReactQuill
-        value={text}
+        value={comment}
         onChange={handleChange}
         modules={modules}
         placeholder="Write a comment"
