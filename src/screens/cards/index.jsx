@@ -119,8 +119,10 @@ const Cards = () => {
       <AddMembersPopup
         isOpen={isPopupOpen}
         onClose={handlePopupClose}
-        addingMember={addingMember}
+        check={addingMember === true}
         projectId={state?.id}
+        successfullText={addingMember ? "Added" : "Removed"}
+        buttonText={addingMember ? "Add" : "Remove"}
       />
     </div>
   );

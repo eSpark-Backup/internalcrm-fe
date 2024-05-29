@@ -12,10 +12,11 @@ import { renderObject } from "./customTableData";
 import styles from "./style.module.css";
 
 const TeamTable = (props) => {
-  const { headers, data, renderActions, objectType, sx } = props;
+  const { headers, data, renderActions, objectType, sx, container_classname } =
+    props;
 
   return (
-    <TableContainer sx={sx}>
+    <TableContainer sx={sx} className={container_classname}>
       <Table stickyHeader aria-label="sticky table" sx={{ height: "100%" }}>
         <TableHead>
           <TableRow>

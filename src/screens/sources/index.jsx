@@ -204,7 +204,7 @@ const Sources = () => {
                 <div
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={() => handleMouseLeave(index)}
-                  onClick={() => navigate("/lead-status")}
+                  onClick={() => navigate("/lead-status", { state: sources })}
                   style={{ cursor: "pointer" }}
                 >
                   <DynamicCard member={true} card_style="card_style">

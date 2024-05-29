@@ -27,6 +27,9 @@ const AddMembersPopup = ({
   isOpen,
   onClose,
   addingMember,
+  successfullText,
+  buttonText,
+  check,
   // projectId
 }) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -262,7 +265,7 @@ const AddMembersPopup = ({
                         sx={{ padding: "0" }}
                         onClick={() => handleMemberSelect(member.id)}
                       >
-                        {addingMember ? (
+                        {check ? (
                           userIds.includes(member.id) ? (
                             <UnselectedTick />
                           ) : (
@@ -304,13 +307,7 @@ const AddMembersPopup = ({
               },
             }}
           >
-            {isAdding || isRemoving ? (
-              <CustomLoader />
-            ) : addingMember ? (
-              "Add"
-            ) : (
-              "Remove"
-            )}
+            {isAdding || isRemoving ? <CustomLoader /> : buttonText}
           </Button>
         </Box>
       </Modal>
@@ -351,7 +348,7 @@ const AddMembersPopup = ({
               marginBottom: "40px",
             }}
           >
-            Successfully {addingMember ? "Added" : "Removed"}
+            Successfully {successfullText}
           </Typography>
 
           <div style={{ display: "flex", justifyContent: "center" }}>
