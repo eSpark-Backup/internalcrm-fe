@@ -1,7 +1,7 @@
 import axiosInstance from "../../axiosInstance";
 import API_ENDPOINTS from "../../endpoints";
 
-import { createUpdateProjectTaskComment } from "../../../redux/reducers/projectSlice";
+// import { createUpdateProjectTaskComment } from "../../../redux/reducers/projectSlice";
 
 export const createProjectTaskComment = async (
   body,
@@ -9,8 +9,8 @@ export const createProjectTaskComment = async (
   setMessage,
   setSnackbarState,
   setSeverity,
-  setIsCreating,
-  handleClose
+  updateEditState,
+  refetch
 ) => {
   try {
     const token = localStorage.getItem("token");
@@ -26,22 +26,23 @@ export const createProjectTaskComment = async (
     );
 
     if (response.status === 201 || response.status === 200) {
-      dispatch(createUpdateProjectTaskComment(response.data.data));
+      // dispatch(createUpdateProjectTaskComment(response.data.data));
+      refetch();
 
       setSnackbarState(true);
       setMessage(response?.data?.message);
       setSeverity("success");
 
-      setIsCreating(false);
-      handleClose();
+      updateEditState({ onComment: false, startComment: false });
     }
 
     return response;
   } catch (error) {
+    updateEditState({ onComment: false });
+
     setSnackbarState(true);
     setMessage(error.response?.data?.message);
     setSeverity("error");
-    setIsCreating(false);
 
     return error.response;
   }

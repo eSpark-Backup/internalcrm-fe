@@ -164,6 +164,33 @@ const projectSlice = createSlice({
       state.allProjectTaskComments = action.payload.data;
     },
 
+    createUpdateProjectTaskComment: (state, action) => {
+      const findPrevTaskComment = state.allProjectTaskComments?.findIndex(
+        (comment) => comment.id === action.payload.id
+      );
+
+      if (findPrevTaskComment === -1) {
+        state.allProjectTaskComments = [
+          ...state.allProjectTaskComments,
+          { ...action.payload },
+        ];
+      } else {
+        state.allProjectTaskComments[findPrevTaskComment] = action.payload;
+      }
+    },
+
+    deleteProjectTaskCommentReducer: (state, action) => {
+      const findPrevProjectTaskComment = state.allProjectTaskComments?.filter(
+        (asset) => asset.id !== action.payload
+      );
+
+      if (findPrevProjectTaskComment.length) {
+        state.allProjectTaskComments = findPrevProjectTaskComment;
+      } else {
+        state.allProjectTaskComments = [];
+      }
+    },
+
     // Ends Project Task Comments Reducers
   },
 });
@@ -196,7 +223,9 @@ export const {
   // Ends Project Tasks Reducers
 
   // Project Task Comments Reducers
-  allProjectTaskComments,
+  fetchAllProjectTaskComments,
+  createUpdateProjectTaskComment,
+  deleteProjectTaskCommentReducer,
   // Ends Project Task Comments Reducers
 } = projectSlice.actions;
 

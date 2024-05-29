@@ -1,9 +1,9 @@
 import axiosInstance from "../../axiosInstance";
 import API_ENDPOINTS from "../../endpoints";
 
-import { allProjectTaskComments } from "../../../redux/reducers/projectSlice";
+import { fetchAllProjectTaskComments } from "../../../redux/reducers/projectSlice";
 
-export const getAllProjectTasks = async (
+export const getAllProjectTaskComments = async (
   taskId,
   dispatch,
   setMessage,
@@ -22,10 +22,8 @@ export const getAllProjectTasks = async (
       }
     );
 
-    console.log(response);
-
     if (response.status === 200) {
-      dispatch(allProjectTaskComments(response.data));
+      dispatch(fetchAllProjectTaskComments(response.data));
     }
 
     return response.data;

@@ -1,23 +1,24 @@
 import axiosInstance from "../../axiosInstance";
 import API_ENDPOINTS from "../../endpoints";
 
-import { createUpdateProjectTask } from "../../../redux/reducers/projectSlice";
+// import { createUpdateProjectTaskComment } from "../../../redux/reducers/projectSlice";
 
-export const updateProjectTask = async (
-  taskId,
+export const updateProjectTaskComment = async (
+  commentId,
   body,
   dispatch,
   setMessage,
   setSnackbarState,
   setSeverity,
-  setCardLoading,
-  handleClose
+  setCommentId,
+  updateEditState,
+  refetch
 ) => {
   try {
     const token = localStorage.getItem("token");
 
     const response = await axiosInstance.patch(
-      `${API_ENDPOINTS.PROJECTS.TASKS}/${taskId}`,
+      `${API_ENDPOINTS.PROJECTS.ADD_TASKS_COMMENTS}/${commentId}`,
       body,
       {
         headers: {
@@ -27,22 +28,25 @@ export const updateProjectTask = async (
     );
 
     if (response.status === 200) {
-      dispatch(createUpdateProjectTask(response.data.data));
+      // dispatch(createUpdateProjectTaskComment(response.data.data));
+      refetch();
 
       setSnackbarState(true);
       setMessage(response?.data?.message);
       setSeverity("success");
 
-      setCardLoading(false);
-      handleClose();
+      setCommentId(null);
+
+      updateEditState({ onComment: false, editComment: false });
     }
 
     return response;
   } catch (error) {
+    updateEditState({ onComment: false });
+
     setSnackbarState(true);
     setMessage(error.response?.data?.message);
     setSeverity("error");
-    setCardLoading(false);
 
     return error.response;
   }

@@ -1,23 +1,22 @@
 import axiosInstance from "../../axiosInstance";
 import API_ENDPOINTS from "../../endpoints";
 
-// import { deleteProjectTaskReducer } from "../../../redux/reducers/projectSlice";
+import { deleteProjectTaskCommentReducer } from "../../../redux/reducers/projectSlice";
 
-export const deleteProjectTask = async (
-  taskId,
+export const deleteProjectTaskComment = async (
+  commentId,
   dispatch,
   setMessage,
   setSnackbarState,
   setSeverity,
-  setDeletingTask,
-  handleClose,
-  handleClick
+  setModalState,
+  updateEditState
 ) => {
   try {
     const token = localStorage.getItem("token");
 
     const response = await axiosInstance.delete(
-      `${API_ENDPOINTS.PROJECTS.TASKS}/${taskId}`,
+      `${API_ENDPOINTS.PROJECTS.ADD_TASKS_COMMENTS}/${commentId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -25,25 +24,27 @@ export const deleteProjectTask = async (
       }
     );
 
+    console.log(response);
+
     if (response.status === 200) {
-      // dispatch(deleteProjectTaskReducer(taskId));
+      dispatch(deleteProjectTaskCommentReducer(commentId));
 
       setSnackbarState(true);
       setMessage(response?.data?.message);
       setSeverity("success");
 
-      setDeletingTask(false);
-      handleClose();
-
-      handleClick();
+      setModalState({ cardLoading: false, deleteComment: false });
+      updateEditState({ editComment: false });
     }
 
     return response;
   } catch (error) {
+    setModalState({ cardLoading: false });
+    updateEditState({ editComment: false });
+
     setSnackbarState(true);
     setMessage(error.response?.data?.message);
     setSeverity("error");
-    setDeletingTask(false);
 
     return error.response;
   }
