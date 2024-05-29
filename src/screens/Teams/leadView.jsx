@@ -57,6 +57,7 @@ const LeadView = (props) => {
     handleMenuClose,
     onEdit,
     onDelete,
+    role,
   } = props;
 
   return (
@@ -141,7 +142,10 @@ const LeadView = (props) => {
                       },
                     ]}
                   >
-                    <MenuItem onClick={onEdit} className="inter-regular">
+                    <MenuItem
+                      onClick={() => onEdit(team)}
+                      className="inter-regular"
+                    >
                       Edit
                     </MenuItem>
                     <MenuItem onClick={onDelete} className="inter-regular">
@@ -167,6 +171,7 @@ const LeadView = (props) => {
                   <Button
                     component={Link}
                     to="/teams/team-details"
+                    state={{ role: role }}
                     className="view_button inter-medium"
                     variant="contained"
                     sx={buttonStyles}

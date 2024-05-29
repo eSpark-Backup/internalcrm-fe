@@ -438,7 +438,7 @@ body,
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
   border-top: 1px solid #e4e4e4 !important;
-  height: 100px;
+  height: 200px;
 }
 
 .ql-editor {
@@ -462,6 +462,12 @@ body,
   font-size: 18px;
   line-height: 22px;
   color: #838383;
+}
+
+.ql-editor img {
+  width: 35%;
+  height: 100px;
+  object-fit: cover;
 }
 
 .ql-editor.ql-blank::before {

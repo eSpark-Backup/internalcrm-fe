@@ -20,6 +20,7 @@ import { storeChildData } from "../../redux/reducers/headerSlice";
 import { teamLeadView } from "../../constants/teams";
 
 import styles from "./style.module.css";
+import AdminTeamView from "./adminView";
 
 const initialState = {
   name: "",
@@ -39,6 +40,8 @@ const Teams = () => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const [role] = useState("lead");
 
   const [searchTeam, setSearchTeam] = useState("");
   const [searchJobTitle, setSearchJobTitle] = useState("");
@@ -138,7 +141,9 @@ const Teams = () => {
     setTeamId(null);
   };
 
-  const onEdit = () => {
+  const onEdit = (team) => {
+    handleInputChange("name", team.name);
+
     handleMenuClose();
     setIsEditingTeam(true);
     setOpenTeamPopup(true);
@@ -166,7 +171,6 @@ const Teams = () => {
       <Grid item xs={12}>
         <SearchBar
           onNameSearch={handleSearchTeam}
-          l
           onMonthSearch={handleSearchJobTitle}
           searchTextOne="Search by name"
           searchTextTwo="Search by job title"
@@ -176,19 +180,31 @@ const Teams = () => {
         />
       </Grid>
 
-      <div className={styles.container}>
-        <LeadView
-          isLoading={isLoading}
-          teamLeadView={teamLeadView}
-          setTeamId={setTeamId}
-          teamId={teamId}
-          handleMenuOpen={handleMenuOpen}
-          anchorEl={anchorEl}
-          handleMenuClose={handleMenuClose}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
-      </div>
+      {role === "admin" ? (
+        <div className={`${styles.container} ${styles.table_view_container}`}>
+          <AdminTeamView
+            onEdit={onEdit}
+            onDelete={onDelete}
+            setTeamId={setTeamId}
+            role={role}
+          />
+        </div>
+      ) : (
+        <div className={styles.container}>
+          <LeadView
+            isLoading={isLoading}
+            teamLeadView={teamLeadView}
+            setTeamId={setTeamId}
+            teamId={teamId}
+            handleMenuOpen={handleMenuOpen}
+            anchorEl={anchorEl}
+            handleMenuClose={handleMenuClose}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            role={role}
+          />
+        </div>
+      )}
 
       <AppDialog
         open={openTeamPopup}

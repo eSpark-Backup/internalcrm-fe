@@ -6,6 +6,14 @@
   margin-top: 40px;
 }
 
+.table_view_container {
+  padding-bottom: 0px !important;
+}
+
+.container_classname {
+  height: 50vh;
+}
+
 .container_style {
   display: flex;
   margin-bottom: 35px;
@@ -24,6 +32,10 @@
   padding-top: 0 !important;
   margin-top: 30px !important;
   padding-left: 32px !important;
+}
+
+.text_class {
+  text-align: center;
 }
 
 .team_name {
@@ -55,15 +67,94 @@
   padding: 7px 0px;
 }
 
+.total_team_members {
+  font-size: 20px !important;
+  line-height: 24px !important;
+  color: #595959 !important;
+}
+
+.team_div {
+  background-color: #ffffff;
+  padding: 20px 33px 29px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.edit,
+.delete,
+.view {
+  width: 25px;
+  height: 25px;
+  padding: 0px !important;
+}
+
+.edit {
+  background-color: #068987 !important;
+}
+
+.delete,
+.view {
+  background-color: #ffffff !important;
+  border: 1px solid #e4e4e4 !important;
+}
+
+.delete {
+  margin: 0px 5px !important;
+}
+
+@media only screen and (max-width: 1600px) {
+  .table_view_container {
+    margin-top: 32px;
+  }
+
+  .container_classname {
+    height: 40vh;
+  }
+
+  .team_div {
+    padding: 20px 29px 25px;
+  }
+}
+
 @media only screen and (max-width: 1366px) {
   .container {
     margin-top: 30px;
     padding-bottom: 30px;
   }
+
+  .container_classname {
+    height: 38vh;
+  }
+
+  .team_div {
+    padding: 18px 29px 20px;
+  }
 }
 
-@media only screen and (max-width: 1199px) {
+@media only screen and (max-width: 1200px) {
   .container {
     margin-top: 25px;
+  }
+
+  .container_classname {
+    height: 34vh;
+  }
+
+  .total_team_members {
+    font-size: 18px !important;
+    line-height: 22px !important;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .container_classname {
+    height: 100%;
+    margin-bottom: 100px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .container_classname {
+    height: 100%;
+    margin-bottom: 150px;
   }
 }

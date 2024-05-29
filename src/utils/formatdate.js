@@ -10,3 +10,11 @@ export const formatDate = (dateString) => {
 
   return formattedDate;
 };
+
+export const convertDate = (dateString) => {
+  const date = dayjs(dateString);
+
+  const formattedDate = date.format("DD MMM [at] HH:mm");
+
+  return formattedDate;
+};
